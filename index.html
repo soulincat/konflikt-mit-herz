@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soulful Academy - Konflikt-Kompetenz mit Herz</title>
+    <style>
+        /* ============================================
+           APPLE-STYLE UX REDESIGN
+           Design System & Tokens
+           ============================================ */
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            color: #1d1d1f;
+            background-color: #ffffff;
+            font-size: 1.125rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================
+           TYPOGRAPHY SYSTEM
+           ============================================ */
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            font-weight: 600;
+            margin: 0 0 40px 0;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+            line-height: 1.3;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+
+        p {
+            margin-bottom: 24px;
+            color: #1d1d1f;
+        }
+
+        /* ============================================
+           SPACING SYSTEM (8px grid)
+           ============================================ */
+        section {
+            padding: 120px 24px;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           PROGRESS INDICATOR
+           ============================================ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #0071e3;
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+
+        /* ============================================
+           STICKY HEADER
+           ============================================ */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid #d2d2d7;
+            padding: 16px 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-header.scrolled {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ============================================
+           LANGUAGE TOGGLE
+           ============================================ */
+        .language-toggle {
+            display: flex;
+            gap: 4px;
+            background: #f5f5f7;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .language-toggle button {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6e6e73;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            min-height: 44px;
+        }
+
+        .language-toggle button.active {
+            background: #ffffff;
+            color: #1d1d1f;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-toggle button:hover:not(.active) {
+            color: #1d1d1f;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+        }
+
+        #hero h1 {
+            max-width: 900px;
+            margin-bottom: 32px;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: #6e6e73;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        #hero .cta-button {
+            margin-top: 16px;
+        }
+
+        /* ============================================
+           AUTHORITY BAR
+           ============================================ */
+        .authority-bar {
+            background: #f5f5f7;
+            padding: 24px 32px;
+            text-align: center;
+            margin: 40px 0;
+            border-radius: 12px;
+            font-size: 0.9375rem;
+            color: #6e6e73;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           SECTION STYLING
+           ============================================ */
+        section {
+            background-color: #ffffff;
+        }
+
+        section:nth-of-type(even) {
+            background-color: #fafafa;
+        }
+
+        #hero {
+            background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+        }
+
+        /* ============================================
+           EPISODES (Pain Stories)
+           ============================================ */
+        .episode {
+            margin: 48px 0;
+            padding: 32px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #0071e3;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .episode:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .episode-number {
+            display: inline-block;
+            background: #0071e3;
+            color: #ffffff;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .episode h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .episode p {
+            margin-bottom: 20px;
+        }
+
+        .cost {
+            font-weight: 600;
+            color: #d32f2f;
+            margin-top: 24px;
+            padding: 16px;
+            background: #fff5f5;
+            border-radius: 8px;
+            border-left: 3px solid #d32f2f;
+        }
+
+        /* ============================================
+           SCIENCE SECTION
+           ============================================ */
+        .stat-card {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-top: 3px solid #0071e3;
+        }
+
+        .stat-card h4 {
+            margin-top: 0;
+            color: #0071e3;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .stat-card li {
+            padding-left: 24px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .stat-card li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #0071e3;
+            font-weight: bold;
+            font-size: 1.5em;
+            line-height: 0.8;
+        }
+
+        .highlight-box {
+            background: #f0f7ff;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 32px 0;
+            border-left: 4px solid #0071e3;
+        }
+
+        .highlight-box strong {
+            color: #0071e3;
+        }
+
+        /* ============================================
+           FRAMEWORK SECTION
+           ============================================ */
+        .framework-pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin: 48px 0;
+        }
+
+        .pillar {
+            background: #ffffff;
+            padding: 32px 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pillar:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .pillar-icon {
+            width: 64px;
+            height: 64px;
+            background: #f0f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .pillar h4 {
+            color: #0071e3;
+            margin-bottom: 16px;
+        }
+
+        /* ============================================
+           TESTIMONIALS
+           ============================================ */
+        .testimonial {
+            margin: 40px 0;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .testimonial:before {
+            content: '"';
+            font-size: 4rem;
+            color: #d2d2d7;
+            position: absolute;
+            top: 20px;
+            left: 24px;
+            line-height: 1;
+        }
+
+        .testimonial p {
+            position: relative;
+            z-index: 1;
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #d2d2d7;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            background: #f5f5f7;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #6e6e73;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        /* ============================================
+           OFFER SECTION
+           ============================================ */
+        .offer-box {
+            border: 1px solid #d2d2d7;
+            padding: 48px;
+            margin: 48px 0;
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .offer-box h3 {
+            margin-top: 0;
+            color: #0071e3;
+        }
+
+        .offer-box ul {
+            list-style: none;
+            margin-left: 0;
+            margin-bottom: 32px;
+        }
+
+        .offer-box li {
+            padding-left: 32px;
+            position: relative;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .offer-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: #6e6e73;
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .price-new {
+            color: #d32f2f;
+            display: block;
+        }
+
+        .price-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #6e6e73;
+            margin-top: 8px;
+        }
+
+        /* ============================================
+           CTA BUTTONS
+           ============================================ */
+        .cta-button {
+            display: inline-block;
+            padding: 16px 48px;
+            background: #0071e3;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin: 24px 0;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            min-height: 44px;
+            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #0051d5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           FAQ SECTION
+           ============================================ */
+        .faq-item {
+            margin: 24px 0;
+            padding: 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+            font-size: 1.0625rem;
+        }
+
+        .faq-item p {
+            margin-bottom: 0;
+            color: #6e6e73;
+        }
+
+        /* ============================================
+           TRUST LINE
+           ============================================ */
+        .trust-line {
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid #d2d2d7;
+        }
+
+        .trust-line ul {
+            list-style: none;
+            margin-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .trust-line li {
+            padding-left: 24px;
+            position: relative;
+            color: #6e6e73;
+            font-size: 0.9375rem;
+        }
+
+        .trust-line li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        /* ============================================
+           LISTS
+           ============================================ */
+        ul:not(.trust-line ul):not(.offer-box ul):not(.stat-card ul) {
+            margin-left: 24px;
+            margin-bottom: 24px;
+        }
+
+        li:not(.trust-line li):not(.offer-box li):not(.stat-card li) {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           LANGUAGE TOGGLE
+           ============================================ */
+        [data-lang="de"] {
+            display: block;
+        }
+
+        [data-lang="en"] {
+            display: none;
+        }
+
+        body.lang-en [data-lang="de"] {
+            display: none;
+        }
+
+        body.lang-en [data-lang="en"] {
+            display: block;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            #hero {
+                min-height: 90vh;
+                padding: 100px 20px 60px;
+            }
+
+            .framework-pillars {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            #founders > div > div:first-of-type {
+                grid-template-columns: 1fr !important;
+                gap: 32px !important;
+            }
+
+            .sticky-header {
+                padding: 12px 16px;
+            }
+
+            .offer-box {
+                padding: 32px 24px;
+            }
+
+            .price {
+                font-size: 2.5rem;
+            }
+
+            .testimonial {
+                padding: 32px 24px;
+            }
+
+            .trust-line ul {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            section {
+                padding: 40px 16px;
+            }
+
+            #hero {
+                padding: 80px 16px 40px;
+            }
+
+            .episode {
+                padding: 24px;
+            }
+
+            .offer-box {
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="sticky-header" id="stickyHeader">
+        <div></div>
+        <div class="language-toggle">
+            <button onclick="switchLanguage('de')" id="btn-de" class="active">DE</button>
+            <button onclick="switchLanguage('en')" id="btn-en">EN</button>
+        </div>
+    </div>
+
+    <!-- SECTION 1: HERO -->
+    <section id="hero">
+        <div data-lang="de">
+            <h1>Hör auf wegzulaufen vor dem, was gesagt werden muss.</h1>
+            <p>Lerne das weltweit erste Framework, um mit deinem ganzen Sein durch Konflikte zu gehen.</p>
+            <p>Entwickelt von [Name], professionelle Mediatorin mit [X] Jahren Erfahrung in der Lösung hochriskanter Konflikte in Deutschlands Top-Unternehmen – in Zusammenarbeit mit Experten für somatisches Heilen und traumainformierte Praxis.</p>
+            <a href="#offer" class="cta-button">Platz sichern - April 2025</a>
+            <div class="authority-bar" style="margin-top: 64px;">
+                [X] Jahre Erfahrung | [X] Konflikte gelöst | Weltweit erstes Framework
+            </div>
+        </div>
+        <div data-lang="en">
+            <h1>Stop running from what needs to be said.</h1>
+            <p>Learn the world's first framework for moving through conflict with your whole being.</p>
+            <p>Developed by [Name], professional mediator with [X] years resolving high-stakes conflicts in Germany's top companies—in collaboration with somatic healing and trauma experts.</p>
+            <a href="#offer" class="cta-button">Hold Your Space - April 2025</a>
+            <div class="authority-bar" style="margin-top: 64px;">
+                [X] Years Experience | [X] Conflicts Resolved | World's First Framework
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: MISSION STATEMENT -->
+    <section id="mission" style="text-align: center; padding: 80px 24px; background: #0071e3; color: #ffffff;">
+        <div data-lang="de">
+            <h2 style="color: #ffffff; margin-bottom: 24px; font-size: 2.5rem;">Wir sind auf der wilden Mission</h2>
+            <p style="font-size: 1.5rem; color: #ffffff; opacity: 0.95; max-width: 600px; margin: 0 auto;">
+                Radikale Soulfulness in die Welt der Konflikte zu bringen.
+            </p>
+        </div>
+        <div data-lang="en">
+            <h2 style="color: #ffffff; margin-bottom: 24px; font-size: 2.5rem;">We're on a wild mission</h2>
+            <p style="font-size: 1.5rem; color: #ffffff; opacity: 0.95; max-width: 600px; margin: 0 auto;">
+                To bring radical Soulfulness into the world of conflict.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: MEET YOUR GUIDES -->
+    <section id="founders" style="padding: 120px 24px; max-width: 1000px; margin: 0 auto;">
+        <div data-lang="de">
+            <h2 style="text-align: center; margin-bottom: 64px;">Deine Guides</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px; margin-bottom: 48px;">
+                <!-- Isabel Kruse -->
+                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">IK</div>
+                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Isabel Kruse</h3>
+                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Trainerin, Mediatorin, Systemische Beraterin & Coach</p>
+                    <p style="line-height: 1.7;">Weltweit eine der erfahrensten Expertinnen mit über 20 Jahren Erfahrung. Bekannte Autorin, Kongressveranstalterin und globale Community-Builderin. Spezialisiert auf Potenzial- und Verkörperungsarbeit.</p>
+                </div>
+
+                <!-- Ania Rakić -->
+                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">AR</div>
+                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Ania Rakić</h3>
+                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Mediatorin & Organisationsberaterin</p>
+                    <p style="line-height: 1.7;">Erfahrene Mediatorin und Organisationsberaterin. Spezialisiert auf die Auflösung von Krisen, tiefe Transformationen und nachhaltige Organisationsmodelle.</p>
+                </div>
+            </div>
+
+            <div style="background: #f0f7ff; padding: 40px; border-radius: 16px; text-align: center; border-left: 4px solid #0071e3;">
+                <p style="font-size: 1.125rem; line-height: 1.7; margin-bottom: 16px;">
+                    <strong>Gemeinsam</strong> vereinen sie Körper- und Emotionsarbeit mit narrativer Aufstellungsarbeit – und lehren die Fähigkeiten für mutige, ehrliche und kooperative Beziehungen.
+                </p>
+                <p style="font-style: italic; color: #6e6e73; font-size: 1rem;">
+                    Das Soulful Conflict Framework™ ist ihre Liebessprache und ihr Beitrag zum Weltfrieden.
+                </p>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2 style="text-align: center; margin-bottom: 64px;">Your Guides</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px; margin-bottom: 48px;">
+                <!-- Isabel Kruse -->
+                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">IK</div>
+                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Isabel Kruse</h3>
+                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Trainer, Mediator, Systemic Consultant & Coach</p>
+                    <p style="line-height: 1.7;">One of the world's most experienced experts with over 20 years of experience. Renowned author, congress organizer and global community builder. Specialized in potential and embodiment work.</p>
+                </div>
+
+                <!-- Ania Rakić -->
+                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">AR</div>
+                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Ania Rakić</h3>
+                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Mediator & Organizational Consultant</p>
+                    <p style="line-height: 1.7;">Experienced mediator and organizational consultant. Specialized in crisis resolution, deep transformations, and sustainable organizational models.</p>
+                </div>
+            </div>
+
+            <div style="background: #f0f7ff; padding: 40px; border-radius: 16px; text-align: center; border-left: 4px solid #0071e3;">
+                <p style="font-size: 1.125rem; line-height: 1.7; margin-bottom: 16px;">
+                    <strong>Together</strong> they combine body and emotion work with narrative constellation work – teaching the skills for courageous, honest, and cooperative relationships.
+                </p>
+                <p style="font-style: italic; color: #6e6e73; font-size: 1rem;">
+                    The Soulful Conflict Framework™ is their love language and their contribution to world peace.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: PAINFUL REALITY -->
+    <section id="pain">
+        <div data-lang="de">
+            <h2>Die schmerzhafte Realität</h2>
+
+            <div class="episode">
+                <span class="episode-number">Episode 1</span>
+                <h3>Der unausgesprochene Konflikt (Sarah, 38, Führungskraft)</h3>
+                <p>Sarah sitzt im Büro. Ihr Kollege Marcus hat gerade wieder in der Team-Besprechung ihre Idee untergraben. Zum dritten Mal diese Woche.</p>
+                <p>Ihr Magen zieht sich zusammen. Sie spürt, wie ihr Kiefer sich anspannt. Ihre Hände werden kalt.</p>
+                <p>"Soll ich was sagen? Nein... das macht es nur schlimmer. Ich bin professionell. Ich kann das aushalten."</p>
+                <p>Das war vor 2 Jahren. Heute arbeiten Sarah und Marcus in getrennten Teams. Das Projekt, an dem sie arbeiteten? Gescheitert. Drei talentierte Teammitglieder? Gekündigt. Die Atmosphäre im gesamten Unternehmen? Toxisch.</p>
+                <p class="cost">Die Kosten: €850,000 verlorener Umsatz, 18 Monate Zeitverschwendung, 3 gekündigte Mitarbeiter.</p>
+            </div>
+
+            <div class="episode">
+                <span class="episode-number">Episode 2</span>
+                <h3>Die sterbende Beziehung (Michael & Lisa, zusammen seit 12 Jahren)</h3>
+                <p>"Wie war dein Tag?"</p>
+                <p>"Gut. Deiner?"</p>
+                <p>"Auch gut."</p>
+                <p>Schweigen.</p>
+                <p>Das war nicht immer so. Vor 3 Jahren haben sie noch stundenlang geredet. Aber dann kam die Sache mit seinem Job. Sie fand es zu riskant. Er fühlte sich nicht unterstützt. Sie sprachen darüber. Einmal. Es wurde laut. Es tat weh.</p>
+                <p>Sie beschlossen beide: "Wir reden einfach nicht mehr über die schwierigen Dinge."</p>
+                <p>Heute schlafen sie im gleichen Bett wie Fremde. Das Gespräch, das sie vor 3 Jahren nicht führten, steht jetzt wie eine Wand zwischen ihnen. Nur – jetzt sind es nicht mehr nur 1 Gespräch. Es sind 200.</p>
+                <p class="cost">Die Kosten: 12 Jahre Beziehung am Rande der Trennung, 3 Jahre emotionale Einsamkeit, 2 Menschen, die sich selbst verloren haben.</p>
+            </div>
+
+            <div class="episode">
+                <span class="episode-number">Episode 3</span>
+                <h3>Der Körper führt Buch (Thomas, 42, Unternehmer)</h3>
+                <p>Thomas wacht um 3 Uhr morgens auf. Wieder. Sein Herz rast. Sein Nacken ist so verspannt, dass er seinen Kopf kaum drehen kann.</p>
+                <p>Der Konflikt mit seinem Geschäftspartner. Seit 8 Monaten. Sie sprechen höflich miteinander. Oberflächlich. Professionell.</p>
+                <p>Aber Thomas' Körper weiß, was nicht gesagt wird:</p>
+                <ul>
+                    <li>Sein Blutdruck: 145/95 (war 120/80)</li>
+                    <li>Seine Schlafqualität: 4 Stunden pro Nacht (war 7)</li>
+                    <li>Seine Migräne: 3x pro Woche (hatte er noch nie)</li>
+                    <li>Seine Beziehung zu seiner Frau: am Ende (war sein sicherer Hafen)</li>
+                </ul>
+                <p>Letzten Monat diagnostizierte sein Arzt: Burnout. Die Empfehlung: "Reduzieren Sie Stress."</p>
+                <p>Thomas weiß: Der "Stress" hat einen Namen. Ein ungelöster Konflikt, der ihn von innen auffrisst.</p>
+                <p class="cost">Die Kosten: Gesundheit, Ehe, Lebensenergie, die Firma, die er 10 Jahre aufgebaut hat.</p>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2>The Painful Reality</h2>
+
+            <div class="episode">
+                <span class="episode-number">Episode 1</span>
+                <h3>The Unspoken Conflict (Sarah, 38, Executive)</h3>
+                <p>Sarah sits in her office. Her colleague Marcus just undermined her idea in the team meeting. For the third time this week.</p>
+                <p>Her stomach knots. She feels her jaw clench. Her hands go cold.</p>
+                <p>"Should I say something? No... that'll just make it worse. I'm professional. I can handle this."</p>
+                <p>That was 2 years ago. Today, Sarah and Marcus work in separate teams. The project they worked on? Failed. Three talented team members? Quit. The atmosphere in the entire company? Toxic.</p>
+                <p class="cost">The cost: €850,000 lost revenue, 18 months wasted, 3 employees gone.</p>
+            </div>
+
+            <div class="episode">
+                <span class="episode-number">Episode 2</span>
+                <h3>The Dying Relationship (Michael & Lisa, together 12 years)</h3>
+                <p>"How was your day?"</p>
+                <p>"Good. Yours?"</p>
+                <p>"Good too."</p>
+                <p>Silence.</p>
+                <p>It wasn't always like this. Three years ago, they talked for hours. But then came the thing with his job. She found it too risky. He felt unsupported. They talked about it. Once. It got loud. It hurt.</p>
+                <p>They both decided: "We just won't talk about the difficult things anymore."</p>
+                <p>Today they sleep in the same bed like strangers. The conversation they didn't have 3 years ago now stands like a wall between them. Only – now it's not just 1 conversation. It's 200.</p>
+                <p class="cost">The cost: 12-year relationship on the brink of separation, 3 years of emotional loneliness, 2 people who lost themselves.</p>
+            </div>
+
+            <div class="episode">
+                <span class="episode-number">Episode 3</span>
+                <h3>The Body Keeps Score (Thomas, 42, Entrepreneur)</h3>
+                <p>Thomas wakes up at 3 AM. Again. His heart racing. His neck so tense he can barely turn his head.</p>
+                <p>The conflict with his business partner. For 8 months now. They speak politely to each other. Superficially. Professionally.</p>
+                <p>But Thomas' body knows what's not being said:</p>
+                <ul>
+                    <li>His blood pressure: 145/95 (was 120/80)</li>
+                    <li>His sleep quality: 4 hours per night (was 7)</li>
+                    <li>His migraines: 3x per week (never had them before)</li>
+                    <li>His relationship with his wife: at the end (was his safe haven)</li>
+                </ul>
+                <p>Last month his doctor diagnosed: Burnout. The recommendation: "Reduce stress."</p>
+                <p>Thomas knows: The "stress" has a name. An unresolved conflict eating him from the inside.</p>
+                <p class="cost">The cost: Health, marriage, life energy, the company he built for 10 years.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: THE SCIENTIFIC TRUTH -->
+    <section id="science">
+        <div data-lang="de">
+            <h2>Was Dein Körper weiß (und Dein Verstand nicht)</h2>
+            
+            <div class="stat-card">
+                <h4>Die neurobiologische Wahrheit</h4>
+                <p>Wenn Konflikt entsteht, reagiert Dein Nervensystem in 200 Millisekunden – lange bevor Dein bewusster Verstand überhaupt registriert, was passiert.</p>
+            </div>
+
+            <div class="stat-card">
+                <h4>Was wissenschaftlich passiert</h4>
+                <ul>
+                    <li>Deine Amygdala (Angstzentrum) aktiviert sich</li>
+                    <li>Dein präfrontaler Kortex (rationales Denken) schaltet ab</li>
+                    <li>Dein Körper bereitet sich vor: Kampf, Flucht oder Erstarrung</li>
+                    <li>Cortisol flutet Dein System</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Das Problem:</h3>
+                <p>Die meisten Konfliktlösungs-Ansätze arbeiten nur mit Deinem Verstand. Das ist wie mit einem Auto fahren zu wollen, während die Handbremse angezogen ist.</p>
+            </div>
+
+            <div class="stat-card">
+                <h4>Studien zeigen</h4>
+                <ul>
+                    <li>85% der Führungskräfte vermeiden schwierige Gespräche (CPP Global Study, 2023)</li>
+                    <li>Durchschnittlich 2.8 Stunden pro Woche verbringen Mitarbeiter mit Konflikten (€15,000 pro Jahr pro Person)</li>
+                    <li>89% der gescheiterten Ehe führen ungelöste Konflikte als Hauptgrund an (Gottman Institute)</li>
+                    <li>Chronischer ungelöster Konflikt erhöht das Herzinfarkt-Risiko um 27% (Harvard Medical School)</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Du wurdest nicht gelehrt, mit Konflikten umzugehen.</strong></p>
+                <p>Du wurdest gelehrt, "nett" zu sein. Frieden zu bewahren. Nicht das Boot zu rocken.</p>
+                <p>Und jetzt? Dein Körper führt Buch.</p>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2>What Your Body Knows (And Your Mind Doesn't)</h2>
+            
+            <div class="stat-card">
+                <h4>The neurobiological truth</h4>
+                <p>When conflict arises, your nervous system reacts in 200 milliseconds – long before your conscious mind even registers what's happening.</p>
+            </div>
+
+            <div class="stat-card">
+                <h4>What scientifically happens</h4>
+                <ul>
+                    <li>Your amygdala (fear center) activates</li>
+                    <li>Your prefrontal cortex (rational thinking) shuts down</li>
+                    <li>Your body prepares: fight, flight, or freeze</li>
+                    <li>Cortisol floods your system</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h3>The problem:</h3>
+                <p>Most conflict resolution approaches only work with your mind. That's like trying to drive with the parking brake on.</p>
+            </div>
+
+            <div class="stat-card">
+                <h4>Studies show</h4>
+                <ul>
+                    <li>85% of executives avoid difficult conversations (CPP Global Study, 2023)</li>
+                    <li>Average 2.8 hours per week employees spend on conflicts (€15,000 per year per person)</li>
+                    <li>89% of failed marriages cite unresolved conflicts as main reason (Gottman Institute)</li>
+                    <li>Chronic unresolved conflict increases heart attack risk by 27% (Harvard Medical School)</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>You weren't taught to deal with conflict.</strong></p>
+                <p>You were taught to be "nice." To keep peace. Not to rock the boat.</p>
+                <p>And now? Your body is keeping score.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: WHY EVERYTHING ELSE FAILS -->
+    <section id="differentiation">
+        <div data-lang="de">
+            <h2>Warum andere Ansätze scheitern</h2>
+            <h3>Was NICHT funktioniert:</h3>
+
+            <h4>❌ Corporate Konfliktlösungs-Workshops</h4>
+            <p>"Nutzen Sie Ich-Botschaften!" "Aktives Zuhören!"</p>
+            <p>→ Fühlt sich an wie ein Skript. Ignoriert, was in Deinem Körper passiert.</p>
+
+            <h4>❌ Spirituelles Bypassing</h4>
+            <p>"Schicke einfach Liebe!" "Sei im Frieden!"</p>
+            <p>→ Unterdrückt echte Gefühle. Führt zu mehr Spaltung.</p>
+
+            <h4>❌ Klassische Mediation</h4>
+            <p>Fokus auf "Lösung finden"</p>
+            <p>→ Behandelt Symptome, nicht die Wurzel. Konflikte kehren zurück.</p>
+
+            <h4>❌ Therapie (allein)</h4>
+            <p>Fokus auf individuelle Heilung</p>
+            <p>→ Gibt Dir keine konkreten Werkzeuge für reale Konfliktgespräche.</p>
+
+            <p><strong>Das Problem:</strong> Alle arbeiten nur mit EINEM Teil von Dir.</p>
+            <p><strong>Was Du wirklich brauchst:</strong> Ein Ansatz, der Kopf, Herz UND Körper integriert.</p>
+        </div>
+
+        <div data-lang="en">
+            <h2>Why Everything Else Fails</h2>
+            <h3>What DOESN'T work:</h3>
+
+            <h4>❌ Corporate Conflict Resolution Workshops</h4>
+            <p>"Use I-statements!" "Active listening!"</p>
+            <p>→ Feels like a script. Ignores what's happening in your body.</p>
+
+            <h4>❌ Spiritual Bypassing</h4>
+            <p>"Just send love!" "Be in peace!"</p>
+            <p>→ Suppresses real feelings. Leads to more division.</p>
+
+            <h4>❌ Classical Mediation</h4>
+            <p>Focus on "finding solutions"</p>
+            <p>→ Treats symptoms, not the root. Conflicts return.</p>
+
+            <h4>❌ Therapy (alone)</h4>
+            <p>Focus on individual healing</p>
+            <p>→ Doesn't give you concrete tools for real conflict conversations.</p>
+
+            <p><strong>The problem:</strong> All work with only ONE part of you.</p>
+            <p><strong>What you really need:</strong> An approach that integrates head, heart AND body.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 6: THE FRAMEWORK -->
+    <section id="framework">
+        <div data-lang="de">
+            <h2>Wie es funktioniert: Das Soulful Conflict Framework</h2>
+            
+            <div class="framework-pillars">
+                <div class="pillar">
+                    <div class="pillar-icon">1</div>
+                    <h4>Soulfully: Verstehen</h4>
+                    <p>Was wirklich geschieht – in Deinem Nervensystem, bevor Du es bewusst registrierst.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">2</div>
+                    <h4>Courageously: Präsent bleiben</h4>
+                    <p>Somatische Regulierung, um in schwierigen Momenten geerdet zu bleiben, statt zu fliehen oder anzugreifen.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">3</div>
+                    <h4>Skillfully: Transformieren</h4>
+                    <p>Bewährte Mediations-Methoden aus [X] Jahren realer Konfliktarbeit.</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 48px; color: #6e6e73;">Mehr Details im Training.</p>
+        </div>
+
+        <div data-lang="en">
+            <h2>How It Works: The Soulful Conflict Framework</h2>
+            
+            <div class="framework-pillars">
+                <div class="pillar">
+                    <div class="pillar-icon">1</div>
+                    <h4>Soulfully: Understanding</h4>
+                    <p>What's really happening – in your nervous system, before you consciously register it.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">2</div>
+                    <h4>Courageously: Staying Present</h4>
+                    <p>Somatic regulation to stay grounded in difficult moments, instead of fleeing or attacking.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">3</div>
+                    <h4>Skillfully: Transforming</h4>
+                    <p>Proven mediation methods from [X] years of real conflict work.</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 48px; color: #6e6e73;">More details in the training.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 8: TRANSFORMATION PROOF -->
+    <section id="proof">
+        <div data-lang="de">
+            <h2>Konkrete Transformationen</h2>
+            <h3>Vorher → Nachher</h3>
+            <ul>
+                <li>"Seit Monaten vermieden" → "Schwieriges Gespräch mit Klarheit initiiert"</li>
+                <li>"Körper verspannt bei erstem Zeichen" → "Reguliert geblieben, auch als es emotional wurde"</li>
+                <li>"2-jährige Pattsituation mit Kollegen" → "Arbeitsbeziehung komplett verändert nach 1 Gespräch"</li>
+                <li>"Ehe am Ende" → "Schwerstes Gespräch unseres Lebens geführt – enger als je zuvor"</li>
+                <li>"Konflikte im Körper getragen (Migräne, Schlaflosigkeit)" → "Gelernt, somatisch zu verarbeiten"</li>
+            </ul>
+
+            <h3>3 Detaillierte Testimonials:</h3>
+
+            <div class="testimonial">
+                <p>Als Führungskraft dachte ich, ich könnte mit Konflikten umgehen. Ich konnte sie nur vermeiden oder durchsetzen. Dieses Framework zeigte mir einen dritten Weg: authentische Begegnung.</p>
+                <p>Die 2-jährige Pattsituation mit Marcus? Nach EINEM Gespräch mit den Tools aus diesem Training hat sich unsere gesamte Dynamik verändert. Nicht weil wir 'nett' waren, sondern weil ich endlich gelernt habe, präsent zu bleiben, auch wenn mein Nervensystem 'Gefahr!' schreit.</p>
+                <p>Konkret: Unser Team-Output ist um 40% gestiegen. Drei Leute, die kündigen wollten, sind geblieben. Die Atmosphäre hat sich komplett gedreht.</p>
+                <p class="testimonial-author">
+                    <span class="testimonial-avatar">SM</span>
+                    Sarah M., Senior Director, Tech-Unternehmen
+                </p>
+            </div>
+
+            <div class="testimonial">
+                <p>Unsere Ehe war dabei zu sterben – still, höflich, tot. Wir sprachen über alles außer das, was wirklich wichtig war.</p>
+                <p>Nach Modul 2 des Trainings habe ich Lisa gesagt: 'Ich bin bereit für das Gespräch, das wir seit 3 Jahren nicht führen.' Die somatischen Tools – besonders die Nervensystem-Regulierung – haben mir geholfen, nicht in Kampf-oder-Flucht zu gehen.</p>
+                <p>Wir haben 4 Stunden lang gesprochen. Es war das schwerste Gespräch unseres Lebens. Und das befreiendste. Heute, 6 Monate später, fühlt sich unsere Beziehung wie neu an. Wir haben Sex wieder. Wir lachen wieder. Wir sind wieder lebendig.</p>
+                <p class="testimonial-author">
+                    <span class="testimonial-avatar">MR</span>
+                    Michael R., 41, mit Lisa seit 12 Jahren
+                </p>
+            </div>
+
+            <div class="testimonial">
+                <p>Als Therapeutin mit 15 Jahren Erfahrung dachte ich, ich verstünde Konflikte. Aber ich habe gemerkt: Ich vermied sie in meinem eigenen Leben genauso wie meine Klienten.</p>
+                <p>Dieses Training hat mir Werkzeuge gegeben, die ich in meiner klinischen Ausbildung nicht gelernt habe. Die Verbindung von Nervensystem-Arbeit mit konkreten Gesprächsstrategien ist revolutionär.</p>
+                <p>Ich nutze das Framework jetzt in meiner Arbeit mit Klienten – und in meinem eigenen Leben. Letzte Woche habe ich endlich das Gespräch mit meiner Schwester geführt, das seit 7 Jahren ausstand.</p>
+                <p class="testimonial-author">
+                    <span class="testimonial-avatar">AK</span>
+                    Dr. Anna K., Therapeutin & Coach
+                </p>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2>Concrete Transformations</h2>
+            <h3>Before → After</h3>
+            <ul>
+                <li>"Avoided for months" → "Initiated difficult conversation with clarity"</li>
+                <li>"Body tensed at first sign" → "Stayed regulated, even when it got emotional"</li>
+                <li>"2-year stalemate with colleague" → "Work relationship completely transformed after 1 conversation"</li>
+                <li>"Marriage at the end" → "Had the hardest conversation of our lives – closer than ever"</li>
+                <li>"Carried conflicts in body (migraines, insomnia)" → "Learned to process somatically"</li>
+            </ul>
+
+            <h3>3 Detailed Testimonials:</h3>
+
+            <div class="testimonial">
+                <p>As an executive, I thought I could handle conflicts. I could only avoid or push through them. This framework showed me a third way: authentic encounter.</p>
+                <p>The 2-year stalemate with Marcus? After ONE conversation with the tools from this training, our entire dynamic changed. Not because we were 'nice,' but because I finally learned to stay present, even when my nervous system screams 'Danger!'</p>
+                <p>Concretely: Our team output increased by 40%. Three people who wanted to quit stayed. The atmosphere completely shifted.</p>
+                <p class="testimonial-author">
+                    <span class="testimonial-avatar">SM</span>
+                    Sarah M., Senior Director, Tech Company
+                </p>
+            </div>
+
+            <div class="testimonial">
+                <p>Our marriage was dying – quiet, polite, dead. We talked about everything except what really mattered.</p>
+                <p>After Module 2 of the training, I told Lisa: 'I'm ready for the conversation we haven't had for 3 years.' The somatic tools – especially nervous system regulation – helped me not go into fight-or-flight.</p>
+                <p>We talked for 4 hours. It was the hardest conversation of our lives. And the most liberating. Today, 6 months later, our relationship feels new. We have sex again. We laugh again. We're alive again.</p>
+                <p class="testimonial-author">
+                    <span class="testimonial-avatar">MR</span>
+                    Michael R., 41, with Lisa for 12 years
+                </p>
+            </div>
+
+            <div class="testimonial">
+                <p>As a therapist with 15 years of experience, I thought I understood conflicts. But I realized: I avoided them in my own life just like my clients.</p>
+                <p>This training gave me tools I didn't learn in my clinical training. The connection of nervous system work with concrete conversation strategies is revolutionary.</p>
+                <p>I use the framework now in my work with clients – and in my own life. Last week I finally had the conversation with my sister that had been pending for 7 years.</p>
+                <p class="testimonial-author">
+                    <span class="testimonial-avatar">AK</span>
+                    Dr. Anna K., Therapist & Coach
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 9: THE OFFER -->
+    <section id="offer">
+        <div data-lang="de">
+            <h2>Konflikt-Kompetenz mit Herz</h2>
+            <p><strong>01.04–02.04.2025</strong></p>
+
+            <div class="offer-box">
+                <h3>Format:</h3>
+                <ul>
+                    <li>2 Live Online-Trainings (je 3 Std)</li>
+                    <li>1 Präsenz-Intensiv-Seminar (2 Tage, Ort: [Stadt])</li>
+                </ul>
+
+                <h3>Modul 1: Soulfully (Online, 3 Std)</h3>
+                <p>Die neurobiologische Wahrheit über Konflikte. Was in Deinem Nervensystem geschieht. Wie Deine Konfliktmuster entstanden sind.</p>
+
+                <h3>Modul 2: Courageously (Online, 3 Std)</h3>
+                <p>Somatische Regulierungs-Tools. Wie Du präsent bleibst, wenn Dein System "Gefahr!" schreit. Nervensystem-Arbeit in Echtzeit.</p>
+
+                <h3>Modul 3: Skillfully (Präsenz, 2 Tage)</h3>
+                <p>Das komplette Soulful Conflict Framework. Praktische Anwendung. Rollenspiele mit echten Konflikten. Integration.</p>
+
+                <h3>Was Du bekommst:</h3>
+                <ul>
+                    <li>✓ Das komplette Framework (Workbook)</li>
+                    <li>✓ 6 Monate Community-Zugang</li>
+                    <li>✓ Alle Aufzeichnungen (6 Monate)</li>
+                    <li>✓ 1 Gruppen-Coaching (nach Präsenz)</li>
+                    <li>✓ Somatic Regulation Tools</li>
+                    <li>✓ Conscious Language Patterns</li>
+                    <li>✓ Zertifikat</li>
+                </ul>
+
+                <div class="price">
+                    <span class="price-old">€497</span>
+                    <span class="price-new">€397</span>
+                    <span class="price-label">Early Bird (bis 15.03.2025) • Spare €100</span>
+                </div>
+
+                <p><strong>Garantie:</strong> 100% Rückerstattung nach Modul 1, wenn nicht das Richtige für Dich.</p>
+                <p><strong>Limitierung:</strong> 20 Plätze | [X] bereits vergeben</p>
+
+                <a href="#" class="cta-button">PLATZ SICHERN</a>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2>Conflict Competence with Heart</h2>
+            <p><strong>April 1-2, 2025</strong></p>
+
+            <div class="offer-box">
+                <h3>Format:</h3>
+                <ul>
+                    <li>2 Live Online Trainings (3 hours each)</li>
+                    <li>1 In-Person Intensive Seminar (2 days, Location: [City])</li>
+                </ul>
+
+                <h3>Module 1: Soulfully (Online, 3 hours)</h3>
+                <p>The neurobiological truth about conflicts. What happens in your nervous system. How your conflict patterns developed.</p>
+
+                <h3>Module 2: Courageously (Online, 3 hours)</h3>
+                <p>Somatic regulation tools. How to stay present when your system screams "Danger!" Nervous system work in real time.</p>
+
+                <h3>Module 3: Skillfully (In-Person, 2 days)</h3>
+                <p>The complete Soulful Conflict Framework. Practical application. Role plays with real conflicts. Integration.</p>
+
+                <h3>What You Get:</h3>
+                <ul>
+                    <li>✓ The complete framework (Workbook)</li>
+                    <li>✓ 6 months community access</li>
+                    <li>✓ All recordings (6 months)</li>
+                    <li>✓ 1 group coaching (after in-person)</li>
+                    <li>✓ Somatic Regulation Tools</li>
+                    <li>✓ Conscious Language Patterns</li>
+                    <li>✓ Certificate</li>
+                </ul>
+
+                <div class="price">
+                    <span class="price-old">€497</span>
+                    <span class="price-new">€397</span>
+                    <span class="price-label">Early Bird (until March 15, 2025) • Save €100</span>
+                </div>
+
+                <p><strong>Guarantee:</strong> 100% refund after Module 1 if not right for you.</p>
+                <p><strong>Limitation:</strong> 20 spots | [X] already taken</p>
+
+                <a href="#" class="cta-button">HOLD YOUR SPACE</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 10: FAQ -->
+    <section id="faq">
+        <div data-lang="de">
+            <h2>Häufige Fragen</h2>
+
+            <div class="faq-item">
+                <p class="faq-question">"Ist das nicht nur für krasse Konflikte?"</p>
+                <p>Nein. Das Framework gilt für jede Situation, wo Du etwas wichtiges nicht sagen kannst – vom Vorstandskonflikt bis zum Gespräch mit Deinem Partner.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"Ich habe keine Zeit für 2 Tage Präsenz."</p>
+                <p>Der Konflikt, den Du vermeidest, kostet Dich bereits mehr Zeit (und Energie und Gesundheit) als 2 Tage Training.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"Was, wenn ich nicht live kann?"</p>
+                <p>Alles wird aufgezeichnet. Aber: Die Magie passiert live, in der Gruppe. Wir empfehlen dringend, live dabei zu sein.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"Brauche ich Vorkenntnisse?"</p>
+                <p>Nein. Das Einzige, was Du brauchst: einen Konflikt, den Du bewegen möchtest.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"Ist das Therapie?"</p>
+                <p>Nein. Training. Du lernst ein Framework. Wenn Du in Therapie bist, kann das eine kraftvolle Ergänzung sein.</p>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <p class="faq-question">"Isn't this only for major conflicts?"</p>
+                <p>No. The framework applies to any situation where you can't say something important – from board conflicts to conversations with your partner.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"I don't have time for 2 days in-person."</p>
+                <p>The conflict you're avoiding is already costing you more time (and energy and health) than 2 days of training.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"What if I can't attend live?"</p>
+                <p>Everything is recorded. But: The magic happens live, in the group. We strongly recommend being there live.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"Do I need prior knowledge?"</p>
+                <p>No. The only thing you need: a conflict you want to move.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">"Is this therapy?"</p>
+                <p>No. Training. You learn a framework. If you're in therapy, this can be a powerful complement.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 11: FINAL CTA -->
+    <section id="final-cta">
+        <div data-lang="de">
+            <h2>Die Gespräche, die Du vermeidest, werden sich nicht von selbst lösen</h2>
+
+            <h3>Jeder Tag, den Du wartest:</h3>
+            <ul>
+                <li>Baut sich mehr Groll auf</li>
+                <li>Wird die Kluft größer</li>
+                <li>Trägt Dein Körper mehr Last</li>
+                <li>Wird das Gespräch schwieriger</li>
+            </ul>
+
+            <h3>Du hast 2 Möglichkeiten:</h3>
+
+            <h4>1. Weiter vermeiden</h4>
+            <p>Weiter "nett" sein. Weiter professionell schweigen. Und zusehen, wie Beziehungen sterben, Teams scheitern, Dein Körper rebelliert.</p>
+
+            <h4>2. Lernen, präsent zu bleiben</h4>
+            <p>Das weltweit erste Framework, das Mediation, Somatic Work & Trauma-Informed Practice vereint.</p>
+            <p>Entwickelt in [X] Jahren realer Konflikte.<br>
+            Nicht Theorie. Praxis.</p>
+
+            <p><strong>April 2025</strong><br>
+            <strong>20 Plätze</strong><br>
+            <strong>[X] vergeben</strong><br>
+            <strong>Early Bird endet: 15.03.2025</strong></p>
+
+            <a href="#offer" class="cta-button">ICH BIN BEREIT</a>
+
+            <div class="trust-line">
+                <ul>
+                    <li>[X] Jahre Mediationserfahrung</li>
+                    <li>[X] gelöste Konflikte</li>
+                    <li>100% Zufriedenheitsgarantie</li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2>The Conversations You Avoid Won't Resolve Themselves</h2>
+
+            <h3>Every day you wait:</h3>
+            <ul>
+                <li>More resentment builds</li>
+                <li>The gap grows wider</li>
+                <li>Your body carries more burden</li>
+                <li>The conversation becomes harder</li>
+            </ul>
+
+            <h3>You have 2 options:</h3>
+
+            <h4>1. Keep avoiding</h4>
+            <p>Keep being "nice." Keep professionally silent. And watch relationships die, teams fail, your body rebel.</p>
+
+            <h4>2. Learn to stay present</h4>
+            <p>The world's first framework integrating Mediation, Somatic Work & Trauma-Informed Practice.</p>
+            <p>Developed in [X] years of real conflicts.<br>
+            Not theory. Practice.</p>
+
+            <p><strong>April 2025</strong><br>
+            <strong>20 spots</strong><br>
+            <strong>[X] taken</strong><br>
+            <strong>Early Bird ends: March 15, 2025</strong></p>
+
+            <a href="#offer" class="cta-button">I'M READY</a>
+
+            <div class="trust-line">
+                <ul>
+                    <li>[X] years mediation experience</li>
+                    <li>[X] conflicts resolved</li>
+                    <li>100% satisfaction guarantee</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Language Toggle
+        function switchLanguage(lang) {
+            document.body.className = lang === 'en' ? 'lang-en' : '';
+            
+            // Update button states
+            document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Save preference
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Load saved language preference
+        const savedLang = localStorage.getItem('preferred-language');
+        if (savedLang) {
+            switchLanguage(savedLang);
+        }
+
+        // Progress Bar
+        function updateProgressBar() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+            
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                progressBar.style.width = scrollPercent + '%';
+            }
+        }
+
+        // Sticky Header
+        function updateStickyHeader() {
+            const stickyHeader = document.getElementById('stickyHeader');
+            if (stickyHeader) {
+                if (window.scrollY > 50) {
+                    stickyHeader.classList.add('scrolled');
+                } else {
+                    stickyHeader.classList.remove('scrolled');
+                }
+            }
+        }
+
+        // Event Listeners
+        window.addEventListener('scroll', function() {
+            updateProgressBar();
+            updateStickyHeader();
+        });
+
+        // Initialize on load
+        window.addEventListener('load', function() {
+            updateProgressBar();
+            updateStickyHeader();
+        });
+    </script>
+</body>
+</html>
+
