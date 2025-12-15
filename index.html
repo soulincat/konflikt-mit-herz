@@ -4,684 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soulful Academy - Konflikt-Kompetenz mit Herz</title>
-    <style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
         /* ============================================
-           APPLE-STYLE UX REDESIGN
-           Design System & Tokens
+           SOULFUL ACADEMY — MINIMAL UI SYSTEM
+           Apple-level UX spec for emotional content
+           "I'm being met" — not sold to, not guided
            ============================================ */
 
-        /* Reset & Base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --color-bg: #f8f5f2;
+            --color-bg-soft: #f3efe9;
+            --color-text: #2c2c2c;
+            --color-text-soft: #5a5a55;
+            --color-accent: #8b6f47;
+            --space-section: 96px;
+            --space-block: 48px;
+            --space-paragraph: 28px;
+            --max-width: 620px;
+            --line-height-body: 1.65;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.7;
-            color: #1d1d1f;
-            background-color: #ffffff;
-            font-size: 1.125rem;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.0625rem;
+            font-weight: 400;
+            line-height: var(--line-height-body);
+            color: var(--color-text);
+            background-color: var(--color-bg);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ============================================
-           TYPOGRAPHY SYSTEM
-           ============================================ */
-        h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            font-weight: 600;
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            line-height: 1.2;
-            font-weight: 600;
-            margin: 0 0 40px 0;
-            letter-spacing: -0.01em;
-        }
-
-        h3 {
-            font-size: 1.75rem;
-            line-height: 1.3;
-            font-weight: 600;
-            margin: 0 0 24px 0;
-        }
-
-        h4 {
-            font-size: 1.25rem;
-            line-height: 1.4;
-            font-weight: 600;
-            margin: 0 0 16px 0;
-        }
-
-        p {
-            margin-bottom: 24px;
-            color: #1d1d1f;
-        }
-
-        /* ============================================
-           SPACING SYSTEM (8px grid)
-           ============================================ */
-        section {
-            padding: 120px 24px;
-            max-width: 680px;
-            margin: 0 auto;
-        }
-
-        /* ============================================
-           PROGRESS INDICATOR
-           ============================================ */
-        .progress-bar {
+        body::before {
+            content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background: #0071e3;
-            z-index: 9999;
-            transition: width 0.1s ease-out;
+            inset: 0;
+            background-image: url('texture.png');
+            background-repeat: repeat;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* ============================================
-           STICKY HEADER
-           ============================================ */
+        body > * { position: relative; z-index: 1; }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-weight: 450; letter-spacing: -0.01em; color: var(--color-text); }
+        h1 { font-size: 2.5rem; line-height: 1.15; margin-bottom: var(--space-paragraph); }
+        h2 { font-size: 1.875rem; line-height: 1.25; margin-bottom: var(--space-block); }
+        h3 { font-size: 1.375rem; line-height: 1.35; margin-bottom: 20px; }
+        h4 { font-size: 1.125rem; line-height: 1.4; margin-bottom: 16px; }
+        p { margin-bottom: var(--space-paragraph); max-width: var(--max-width); }
+        p:last-child { margin-bottom: 0; }
+        ul, ol { max-width: var(--max-width); margin-bottom: var(--space-paragraph); padding-left: 1.25em; }
+        li { margin-bottom: 12px; line-height: 1.6; }
+        strong { font-weight: 500; }
+
+        /* Sections */
+        section { padding: var(--space-section) 24px; max-width: var(--max-width); margin: 0 auto; }
+        .section-wide { max-width: 900px; }
+        .text-center { text-align: center; }
+        .text-center p, .text-center h1, .text-center h2 { margin-left: auto; margin-right: auto; }
+
+        /* Header */
         .sticky-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid #d2d2d7;
-            padding: 16px 24px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
+            position: fixed; top: 0; left: 0; right: 0; padding: 16px 24px; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            background: transparent; transition: background 0.3s ease;
         }
-
-        .sticky-header.scrolled {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        /* ============================================
-           LANGUAGE TOGGLE
-           ============================================ */
-        .language-toggle {
-            display: flex;
-            gap: 4px;
-            background: #f5f5f7;
-            border-radius: 8px;
-            padding: 4px;
-        }
-
+        .sticky-header.scrolled { background: rgba(248, 245, 242, 0.95); box-shadow: 0 1px 0 rgba(0,0,0,0.06); }
+        .logo-title { font-size: 1rem; font-weight: 500; color: var(--color-text); text-decoration: none; }
+        .language-toggle { display: flex; gap: 4px; }
         .language-toggle button {
-            padding: 8px 16px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: #6e6e73;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            min-height: 44px;
+            padding: 8px 14px; border: none; background: transparent; cursor: pointer;
+            font-size: 13px; font-weight: 500; color: var(--color-text-soft); border-radius: 6px; transition: all 0.2s ease;
         }
+        .language-toggle button.active { color: var(--color-text); background: rgba(0,0,0,0.04); }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--color-accent); z-index: 9999; }
 
-        .language-toggle button.active {
-            background: #ffffff;
-            color: #1d1d1f;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .language-toggle button:hover:not(.active) {
-            color: #1d1d1f;
-        }
-
-        /* ============================================
-           HERO SECTION
-           ============================================ */
+        /* Hero */
         #hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 120px 24px 80px;
-            background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 120px 24px 80px; max-width: 100%;
         }
+        #hero h1 { max-width: 700px; }
+        #hero p { max-width: 580px; margin-left: auto; margin-right: auto; }
+        #hero .subtitle { font-size: 1rem; color: var(--color-text-soft); font-style: italic; margin-bottom: 40px; }
+        #hero .question { font-size: 1.25rem; font-weight: 450; color: var(--color-accent); margin-top: 48px; margin-bottom: 32px; }
 
-        #hero h1 {
-            max-width: 900px;
-            margin-bottom: 32px;
-        }
-
-        #hero p {
-            font-size: 1.25rem;
-            line-height: 1.6;
-            color: #6e6e73;
-            max-width: 600px;
-            margin: 0 auto 24px;
-        }
-
-        #hero .cta-button {
-            margin-top: 16px;
-        }
-
-        /* ============================================
-           AUTHORITY BAR
-           ============================================ */
-        .authority-bar {
-            background: #f5f5f7;
-            padding: 24px 32px;
-            text-align: center;
-            margin: 40px 0;
-            border-radius: 12px;
-            font-size: 0.9375rem;
-            color: #6e6e73;
-            font-weight: 500;
-        }
-
-        /* ============================================
-           SECTION STYLING
-           ============================================ */
-        section {
-            background-color: #ffffff;
-        }
-
-        section:nth-of-type(even) {
-            background-color: #fafafa;
-        }
-
-        #hero {
-            background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
-        }
-
-        /* ============================================
-           EPISODES (Pain Stories)
-           ============================================ */
-        .episode {
-            margin: 48px 0;
-            padding: 32px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border-left: 4px solid #0071e3;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .episode:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        }
-
-        .episode-number {
-            display: inline-block;
-            background: #0071e3;
-            color: #ffffff;
-            font-size: 0.875rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-        }
-
-        .episode h3 {
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        .episode p {
-            margin-bottom: 20px;
-        }
-
-        .cost {
-            font-weight: 600;
-            color: #d32f2f;
-            margin-top: 24px;
-            padding: 16px;
-            background: #fff5f5;
-            border-radius: 8px;
-            border-left: 3px solid #d32f2f;
-        }
-
-        /* ============================================
-           SCIENCE SECTION
-           ============================================ */
-        .stat-card {
-            background: #ffffff;
-            padding: 24px;
-            border-radius: 12px;
-            margin: 24px 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border-top: 3px solid #0071e3;
-        }
-
-        .stat-card h4 {
-            margin-top: 0;
-            color: #0071e3;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-
-        .stat-card ul {
-            list-style: none;
-            margin-left: 0;
-        }
-
-        .stat-card li {
-            padding-left: 24px;
-            position: relative;
-            margin-bottom: 12px;
-        }
-
-        .stat-card li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #0071e3;
-            font-weight: bold;
-            font-size: 1.5em;
-            line-height: 0.8;
-        }
-
-        .highlight-box {
-            background: #f0f7ff;
-            padding: 24px;
-            border-radius: 12px;
-            margin: 32px 0;
-            border-left: 4px solid #0071e3;
-        }
-
-        .highlight-box strong {
-            color: #0071e3;
-        }
-
-        /* ============================================
-           FRAMEWORK SECTION
-           ============================================ */
-        .framework-pillars {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            margin: 48px 0;
-        }
-
-        .pillar {
-            background: #ffffff;
-            padding: 32px 24px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .pillar:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        }
-
-        .pillar-icon {
-            width: 64px;
-            height: 64px;
-            background: #f0f7ff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 28px;
-        }
-
-        .pillar h4 {
-            color: #0071e3;
-            margin-bottom: 16px;
-        }
-
-        /* ============================================
-           TESTIMONIALS
-           ============================================ */
-        .testimonial {
-            margin: 40px 0;
-            padding: 40px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
-
-        .testimonial:before {
-            content: '"';
-            font-size: 4rem;
-            color: #d2d2d7;
-            position: absolute;
-            top: 20px;
-            left: 24px;
-            line-height: 1;
-        }
-
-        .testimonial p {
-            position: relative;
-            z-index: 1;
-            font-size: 1.0625rem;
-            line-height: 1.7;
-            margin-bottom: 24px;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: #1d1d1f;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid #d2d2d7;
-        }
-
-        .testimonial-avatar {
-            width: 48px;
-            height: 48px;
-            background: #f5f5f7;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #6e6e73;
-            margin-right: 12px;
-            vertical-align: middle;
-        }
-
-        /* ============================================
-           OFFER SECTION
-           ============================================ */
-        .offer-box {
-            border: 1px solid #d2d2d7;
-            padding: 48px;
-            margin: 48px 0;
-            border-radius: 16px;
-            background: #ffffff;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-        }
-
-        .offer-box h3 {
-            margin-top: 0;
-            color: #0071e3;
-        }
-
-        .offer-box ul {
-            list-style: none;
-            margin-left: 0;
-            margin-bottom: 32px;
-        }
-
-        .offer-box li {
-            padding-left: 32px;
-            position: relative;
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        .offer-box li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #4caf50;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .price {
-            font-size: 3rem;
-            font-weight: 700;
-            margin: 32px 0;
-            text-align: center;
-        }
-
-        .price-old {
-            text-decoration: line-through;
-            color: #6e6e73;
-            font-size: 1.5rem;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .price-new {
-            color: #d32f2f;
-            display: block;
-        }
-
-        .price-label {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #6e6e73;
-            margin-top: 8px;
-        }
-
-        /* ============================================
-           CTA BUTTONS
-           ============================================ */
+        /* CTA */
         .cta-button {
-            display: inline-block;
-            padding: 16px 48px;
-            background: #0071e3;
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.125rem;
-            margin: 24px 0;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            min-height: 44px;
-            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
+            display: inline-block; padding: 16px 40px; background: var(--color-accent); color: #fff;
+            text-decoration: none; font-size: 1rem; font-weight: 500; border-radius: 4px; transition: all 0.25s ease;
         }
+        .cta-button:hover { background: #7a6340; transform: translateY(-1px); }
 
-        .cta-button:hover {
-            background: #0051d5;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+        /* Founders */
+        #founders { max-width: 900px; }
+        .founders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+        .founder-card { text-align: center; }
+        .founder-avatar {
+            width: 120px; height: 120px; border-radius: 50%; background: var(--color-bg-soft);
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
+            font-size: 1.5rem; font-weight: 450; color: var(--color-text-soft);
         }
+        .founder-card h3 { margin-bottom: 8px; }
+        .founder-card .role { font-size: 0.9375rem; color: var(--color-accent); margin-bottom: 20px; }
+        .founder-card p { font-size: 0.9375rem; color: var(--color-text-soft); max-width: 100%; }
+        .founders-tagline { text-align: center; padding-top: 32px; border-top: 1px solid rgba(0,0,0,0.06); }
 
-        .cta-button:active {
-            transform: translateY(0);
-        }
+        /* Problems */
+        .problem-block { position: relative; padding: 64px 0; }
+        .problem-number { position: absolute; top: 0; left: -20px; font-size: 8rem; font-weight: 300; color: rgba(0,0,0,0.03); line-height: 1; }
+        .problem-block .consequence { margin-top: 32px; padding: 24px; background: var(--color-bg-soft); border-radius: 4px; }
+        .problem-block .consequence strong { color: var(--color-accent); }
 
-        /* ============================================
-           FAQ SECTION
-           ============================================ */
-        .faq-item {
-            margin: 24px 0;
-            padding: 24px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: box-shadow 0.2s ease;
-        }
+        /* Approach */
+        #approach { background: var(--color-bg-soft); max-width: 100%; padding: var(--space-section) 24px; }
+        #approach > div { max-width: var(--max-width); margin: 0 auto; }
+        #approach p { font-size: 1.125rem; margin-bottom: 36px; }
 
-        .faq-item:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        }
+        /* Framework */
+        .framework-block { padding: 40px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .framework-block:last-child { border-bottom: none; }
 
-        .faq-question {
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #1d1d1f;
-            font-size: 1.0625rem;
-        }
+        /* Testimonials */
+        .testimonial { margin: 48px 0; padding: 32px 0; border-top: 1px solid rgba(0,0,0,0.06); }
+        .testimonial:first-child { border-top: none; }
+        .testimonial blockquote { font-size: 1.0625rem; font-style: italic; margin-bottom: 24px; }
+        .testimonial-author { font-size: 0.9375rem; color: var(--color-text-soft); }
 
-        .faq-item p {
-            margin-bottom: 0;
-            color: #6e6e73;
-        }
+        /* FAQ */
+        .faq-item { padding: 24px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { font-weight: 500; margin-bottom: 12px; }
 
-        /* ============================================
-           TRUST LINE
-           ============================================ */
-        .trust-line {
-            margin-top: 40px;
-            padding-top: 32px;
-            border-top: 1px solid #d2d2d7;
-        }
+        /* Offer */
+        .offer-box { padding: 40px; background: var(--color-bg-soft); border-radius: 4px; margin: 32px 0; }
+        .price { font-size: 2.5rem; font-weight: 450; color: var(--color-accent); margin: 24px 0; }
 
-        .trust-line ul {
-            list-style: none;
-            margin-left: 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            justify-content: center;
-        }
+        /* Trust */
+        .trust-line { margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(0,0,0,0.06); }
+        .trust-line ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 32px; font-size: 0.9375rem; color: var(--color-text-soft); }
 
-        .trust-line li {
-            padding-left: 24px;
-            position: relative;
-            color: #6e6e73;
-            font-size: 0.9375rem;
-        }
+        /* Bilingual */
+        [data-lang="en"] { display: none; }
+        .lang-en [data-lang="de"] { display: none; }
+        .lang-en [data-lang="en"] { display: block; }
 
-        .trust-line li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #4caf50;
-            font-weight: bold;
-        }
-
-        /* ============================================
-           LISTS
-           ============================================ */
-        ul:not(.trust-line ul):not(.offer-box ul):not(.stat-card ul) {
-            margin-left: 24px;
-            margin-bottom: 24px;
-        }
-
-        li:not(.trust-line li):not(.offer-box li):not(.stat-card li) {
-            margin-bottom: 12px;
-            line-height: 1.7;
-        }
-
-        /* ============================================
-           LANGUAGE TOGGLE
-           ============================================ */
-        [data-lang="de"] {
-            display: block;
-        }
-
-        [data-lang="en"] {
-            display: none;
-        }
-
-        body.lang-en [data-lang="de"] {
-            display: none;
-        }
-
-        body.lang-en [data-lang="en"] {
-            display: block;
-        }
-
-        /* ============================================
-           RESPONSIVE DESIGN
-           ============================================ */
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            h3 {
-                font-size: 1.5rem;
-            }
-
-            section {
-                padding: 60px 20px;
-            }
-
-            #hero {
-                min-height: 90vh;
-                padding: 100px 20px 60px;
-            }
-
-            .framework-pillars {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            #founders > div > div:first-of-type {
-                grid-template-columns: 1fr !important;
-                gap: 32px !important;
-            }
-
-            .sticky-header {
-                padding: 12px 16px;
-            }
-
-            .offer-box {
-                padding: 32px 24px;
-            }
-
-            .price {
-                font-size: 2.5rem;
-            }
-
-            .testimonial {
-                padding: 32px 24px;
-            }
-
-            .trust-line ul {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+            :root { --space-section: 64px; --space-block: 32px; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            #hero { min-height: auto; padding: 100px 20px 60px; }
+            .founders-grid { grid-template-columns: 1fr; gap: 40px; }
+            .trust-line ul { flex-direction: column; gap: 16px; }
+            .problem-number { display: none; }
         }
 
         @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.75rem;
-            }
-
-            section {
-                padding: 40px 16px;
-            }
-
-            #hero {
-                padding: 80px 16px 40px;
-            }
-
-            .episode {
-                padding: 24px;
-            }
-
-            .offer-box {
-                padding: 24px 16px;
-            }
+            :root { --space-section: 48px; }
+            h1 { font-size: 1.75rem; }
+            section { padding-left: 16px; padding-right: 16px; }
+            .cta-button { width: 100%; text-align: center; }
         }
+
+        /* Hide old complex elements */
+        .hero-image, .image-placeholder, .split-section, .section-label,
+        .founders-background > .image-placeholder, .pain-section-wrapper,
+        .testimonials-grid, .testimonials-header, .episodes-grid { display: none !important; }
     </style>
 </head>
 <body>
     <div class="progress-bar" id="progressBar"></div>
     
     <div class="sticky-header" id="stickyHeader">
-        <div></div>
+        <a href="#" class="logo-title">Soulful Academy</a>
         <div class="language-toggle">
             <button onclick="switchLanguage('de')" id="btn-de" class="active">DE</button>
             <button onclick="switchLanguage('en')" id="btn-en">EN</button>
@@ -689,107 +193,93 @@
     </div>
 
     <!-- SECTION 1: HERO -->
+    <!-- SECTION 1: HERO -->
     <section id="hero">
         <div data-lang="de">
             <h1>Wie wäre dein Leben ohne Angst vor Konflikten?</h1>
-            <p>Lerne bei uns Konflikt-Kompetenz mit Herz - ein innovativer und ganzheitlicher Ansatz, entwickelt von Isabel & Ania die Wissen, Erfahrungen und Methoden aus den Bereichen Psychologie, Mediation, Somatic Studies und traumabasierte Arbeit zusammenbringen.</p>
-            <a href="#offer" class="cta-button">Platz sichern - April 2025</a>
-            <div class="authority-bar" style="margin-top: 64px;">
-                [X] Jahre Erfahrung | [X] Konflikte gelöst | Innovativer ganzheitlicher Ansatz
-            </div>
+            <p>Lerne bei uns Konflikt-Kompetenz mit Herz – ein innovativer und interdisziplinärer Ansatz, der Körper, Bewusstsein und Beziehung verbindet.</p>
+            <p class="subtitle">Entwickelt von Isabel Kresse und Ania Pilipenko, die ihr fundiertes Wissen aus Mediation, Beratung und somatischer Arbeit zusammenbringen.</p>
+            <p class="question">Lust Konflikte zu führen – statt sie zu fürchten?</p>
+            <a href="#offer" class="cta-button">Mehr erfahren</a>
         </div>
         <div data-lang="en">
             <h1>What would your life be like without fear of conflict?</h1>
-            <p>Learn Conflict Competence with Heart with us - an innovative and holistic approach developed by Isabel & Ania, bringing together knowledge, experience and methods from psychology, mediation, somatic studies and trauma-informed work.</p>
-            <a href="#offer" class="cta-button">Hold Your Space - April 2025</a>
-            <div class="authority-bar" style="margin-top: 64px;">
-                [X] Years Experience | [X] Conflicts Resolved | Innovative Holistic Approach
-            </div>
+            <p>Learn Conflict Competence with Heart – an innovative and interdisciplinary approach that connects body, consciousness and relationships.</p>
+            <p class="subtitle">Developed by Isabel Kresse and Ania Pilipenko, bringing together their profound knowledge from mediation, counseling and somatic work.</p>
+            <p class="question">Ready to engage with conflicts – instead of fearing them?</p>
+            <a href="#offer" class="cta-button">Learn more</a>
         </div>
     </section>
 
     <!-- SECTION 2: MISSION STATEMENT -->
-    <section id="mission" style="text-align: center; padding: 80px 24px; background: #0071e3; color: #ffffff;">
+    <section id="mission" style="text-align: center; padding: 80px 24px;">
         <div data-lang="de">
-            <h2 style="color: #ffffff; margin-bottom: 24px; font-size: 2.5rem;">Wir sind auf der wilden Mission</h2>
-            <p style="font-size: 1.5rem; color: #ffffff; opacity: 0.95; max-width: 600px; margin: 0 auto;">
+            <h2 style="margin-bottom: 24px; font-size: 2.5rem;">Wir sind auf der wilden Mission</h2>
+            <p style="font-size: 1.5rem; max-width: 600px; margin: 0 auto;">
                 Radikale Soulfulness in die Welt der Konflikte zu bringen.
             </p>
         </div>
         <div data-lang="en">
-            <h2 style="color: #ffffff; margin-bottom: 24px; font-size: 2.5rem;">We're on a wild mission</h2>
-            <p style="font-size: 1.5rem; color: #ffffff; opacity: 0.95; max-width: 600px; margin: 0 auto;">
+            <h2 style="margin-bottom: 24px; font-size: 2.5rem;">We're on a wild mission</h2>
+            <p style="font-size: 1.5rem; max-width: 600px; margin: 0 auto;">
                 To bring radical Soulfulness into the world of conflict.
             </p>
         </div>
     </section>
 
     <!-- SECTION 3: MEET YOUR GUIDES -->
-    <section id="founders" style="padding: 120px 24px; max-width: 1000px; margin: 0 auto;">
+    <!-- SECTION 2: DEINE GUIDES -->
+    <section id="founders" class="text-center">
         <div data-lang="de">
-            <h2 style="text-align: center; margin-bottom: 64px;">Deine Guides</h2>
+            <h2>Deine Guides</h2>
             
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px; margin-bottom: 48px;">
-                <!-- Isabel Kruse -->
-                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
-                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">IK</div>
-                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Isabel Kruse</h3>
-                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Trainerin, Mediatorin, Systemische Beraterin & Coach</p>
-                    <p style="line-height: 1.7;">Weltweit eine der erfahrensten Expertinnen mit über 20 Jahren Erfahrung. Bekannte Autorin, Kongressveranstalterin und globale Community-Builderin. Spezialisiert auf Potenzial- und Verkörperungsarbeit.</p>
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-avatar">IK</div>
+                    <h3>Isabel Kresse</h3>
+                    <p class="role">Organisationsberaterin, Mediatorin und Ausbilderin BM</p>
+                    <p>Mit nahezu 30 Jahren Erfahrung anerkannte Expertin für Bewältigung komplexer, emotionaler Konfliktdynamiken in Organisationen und Beziehungen.</p>
                 </div>
 
-                <!-- Ania Rakić -->
-                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
-                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">AR</div>
-                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Ania Rakić</h3>
-                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Mediatorin & Organisationsberaterin</p>
-                    <p style="line-height: 1.7;">Erfahrene Mediatorin und Organisationsberaterin. Spezialisiert auf die Auflösung von Krisen, tiefe Transformationen und nachhaltige Organisationsmodelle.</p>
+                <div class="founder-card">
+                    <div class="founder-avatar">AP</div>
+                    <h3>Ania Pilipenko</h3>
+                    <p class="role">Unternehmerin und psycho-somatische Beraterin</p>
+                    <p>Über 15 Jahre Erfahrung in Gründung kooperativer Businessmodelle – Expertin an der Schnittstelle von Bewusstsein, Kreativität und Körper-Intelligenz.</p>
                 </div>
             </div>
 
-            <div style="background: #f0f7ff; padding: 40px; border-radius: 16px; text-align: center; border-left: 4px solid #0071e3;">
-                <p style="font-size: 1.125rem; line-height: 1.7; margin-bottom: 16px;">
-                    <strong>Gemeinsam</strong> vereinen sie Körper- und Emotionsarbeit mit narrativer Aufstellungsarbeit – und lehren die Fähigkeiten für mutige, ehrliche und kooperative Beziehungen.
-                </p>
-                <p style="font-style: italic; color: #6e6e73; font-size: 1rem;">
-                    Das Soulful Conflict Framework™ ist ihre Liebessprache und ihr Beitrag zum Weltfrieden.
-                </p>
+            <div class="founders-tagline">
+                <p><strong>Gemeinsam</strong> haben sie den Conflict Integration Process (CIP) entwickelt – eine integrative Methode für Konfliktarbeit, Bewusstseinsentwicklung und Beziehungskultur.</p>
             </div>
         </div>
 
         <div data-lang="en">
-            <h2 style="text-align: center; margin-bottom: 64px;">Your Guides</h2>
+            <h2>Your Guides</h2>
             
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px; margin-bottom: 48px;">
-                <!-- Isabel Kruse -->
-                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
-                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">IK</div>
-                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Isabel Kruse</h3>
-                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Trainer, Mediator, Systemic Consultant & Coach</p>
-                    <p style="line-height: 1.7;">One of the world's most experienced experts with over 20 years of experience. Renowned author, congress organizer and global community builder. Specialized in potential and embodiment work.</p>
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-avatar">IK</div>
+                    <h3>Isabel Kresse</h3>
+                    <p class="role">Organizational Consultant, Mediator & Trainer</p>
+                    <p>With nearly 30 years of experience, a recognized expert in managing complex emotional conflict dynamics in organizations and relationships.</p>
                 </div>
 
-                <!-- Ania Rakić -->
-                <div style="background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
-                    <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2.5rem; color: #ffffff; font-weight: 600;">AR</div>
-                    <h3 style="text-align: center; margin-bottom: 16px; color: #0071e3;">Ania Rakić</h3>
-                    <p style="text-align: center; font-size: 0.9375rem; color: #6e6e73; margin-bottom: 24px;">Mediator & Organizational Consultant</p>
-                    <p style="line-height: 1.7;">Experienced mediator and organizational consultant. Specialized in crisis resolution, deep transformations, and sustainable organizational models.</p>
+                <div class="founder-card">
+                    <div class="founder-avatar">AP</div>
+                    <h3>Ania Pilipenko</h3>
+                    <p class="role">Entrepreneur & Psycho-Somatic Consultant</p>
+                    <p>Over 15 years experience founding cooperative business models – expert at the intersection of consciousness, creativity and body intelligence.</p>
                 </div>
             </div>
 
-            <div style="background: #f0f7ff; padding: 40px; border-radius: 16px; text-align: center; border-left: 4px solid #0071e3;">
-                <p style="font-size: 1.125rem; line-height: 1.7; margin-bottom: 16px;">
-                    <strong>Together</strong> they combine body and emotion work with narrative constellation work – teaching the skills for courageous, honest, and cooperative relationships.
-                </p>
-                <p style="font-style: italic; color: #6e6e73; font-size: 1rem;">
-                    The Soulful Conflict Framework™ is their love language and their contribution to world peace.
-                </p>
+            <div class="founders-tagline">
+                <p><strong>Together</strong> they developed the Conflict Integration Process (CIP) – an integrative method for conflict work, consciousness development and relationship culture.</p>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 4: CHALLENGES WITH CONFLICT -->
+    <!-- SECTION 5: CHALLENGES WITH CONFLICT -->
     <section id="pain">
         <div data-lang="de">
             <h2>Konflikte sind Herausforderungen!</h2>
@@ -803,6 +293,7 @@
                 <p>"Soll ich was sagen? Nein... das macht es nur schlimmer. Ich bin professionell. Ich kann das aushalten."</p>
                 <p>Das war vor 2 Jahren. Heute arbeiten Sarah und Marcus in getrennten Teams. Das Projekt, an dem sie arbeiteten? Gescheitert. Drei talentierte Teammitglieder? Gekündigt. Die Atmosphäre im gesamten Unternehmen? Toxisch.</p>
                 <p class="cost"><strong>Folge:</strong> Konflikte bleiben ungelöst und sabotieren unser Nervensystem, unser Wohlbefinden und unsere Beziehungen.</p>
+                <p style="margin-top: 24px; padding: 20px; background-color: rgba(139, 111, 71, 0.08); border-radius: 4px; font-weight: 500; color: #8b6f47; font-size: 1.0625rem;">Welche Konflikt-Vermeidungsstrategien kennst du?</p>
             </div>
 
             <div class="episode">
@@ -848,6 +339,7 @@
                 <p>"Should I say something? No... that'll just make it worse. I'm professional. I can handle this."</p>
                 <p>That was 2 years ago. Today, Sarah and Marcus work in separate teams. The project they worked on? Failed. Three talented team members? Quit. The atmosphere in the entire company? Toxic.</p>
                 <p class="cost"><strong>Consequence:</strong> Conflicts remain unresolved and sabotage our nervous system, our well-being and our relationships.</p>
+                <p style="margin-top: 24px; padding: 20px; background-color: rgba(139, 111, 71, 0.08); border-radius: 4px; font-weight: 500; color: #8b6f47; font-size: 1.0625rem;">What conflict avoidance strategies do you know?</p>
             </div>
 
             <div class="episode">
@@ -882,7 +374,46 @@
         </div>
     </section>
 
-    <!-- SECTION 4: THE SCIENTIFIC TRUTH -->
+    <!-- SECTION 4: CORE APPROACH -->
+    <section id="approach" style="padding: 100px 24px; background-color: rgba(232, 221, 212, 0.4); text-align: center;">
+        <div data-lang="de">
+            <h2 style="margin-bottom: 48px;">Das besondere an unserem Ansatz</h2>
+            
+            <div style="max-width: 700px; margin: 0 auto; text-align: left;">
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 32px;">
+                    Konfliktkompetenz mit Herz verbindet Klarheit und Mitgefühl. Sie stärkt deine Präsenz – nicht nur durch Analyse der Vergangenheit, sondern auch durch bewusste Wahrnehmung im Jetzt.
+                </p>
+                
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 32px;">
+                    Es geht darum, eigene Gefühle, Bedürfnisse und Muster zu erkennen, ohne sich von ihnen steuern zu lassen. Konflikte werden so zu einem Raum zwischen Reiz und Reaktion, in dem du deine innere Führung findest: klar, souverän und verbunden.
+                </p>
+
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 0;">
+                    So entsteht ein Umgang mit Konflikten, der nicht vermeidet, sondern verwandelt.
+                </p>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2 style="margin-bottom: 48px;">What's special about our approach</h2>
+            
+            <div style="max-width: 700px; margin: 0 auto; text-align: left;">
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 32px;">
+                    Conflict Competence with Heart connects clarity and compassion. It strengthens your presence – not only through analysis of the past, but also through conscious awareness in the now.
+                </p>
+                
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 32px;">
+                    It's about recognizing your own feelings, needs and patterns without being controlled by them. Conflicts thus become a space between stimulus and response, where you find your inner guidance: clear, sovereign and connected.
+                </p>
+
+                <p style="font-size: 1.125rem; line-height: 1.8; margin-bottom: 0;">
+                    This creates an approach to conflicts that doesn't avoid, but transforms.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: THE SCIENTIFIC TRUTH -->
     <section id="science">
         <div data-lang="de">
             <h2>Was Dein Körper weiß (und Dein Verstand nicht)</h2>
@@ -965,7 +496,7 @@
         </div>
     </section>
 
-    <!-- SECTION 5: WHY OTHER APPROACHES ARE NOT ENOUGH -->
+    <!-- SECTION 8: WHY OTHER APPROACHES ARE NOT ENOUGH -->
     <section id="differentiation">
         <div data-lang="de">
             <h2>Warum andere Ansätze nicht ausreichen?</h2>
@@ -1018,7 +549,7 @@
         </div>
     </section>
 
-    <!-- SECTION 6: THE FRAMEWORK -->
+    <!-- SECTION 9: THE FRAMEWORK -->
     <section id="framework">
         <div data-lang="de">
             <h2>Wie es funktioniert: Das Soulful Conflict Framework</h2>
@@ -1041,7 +572,7 @@
                 </div>
             </div>
             
-            <p style="text-align: center; margin-top: 48px; color: #6e6e73;">Mehr Details im Training.</p>
+            <p style="text-align: center; margin-top: 48px;">Mehr Details im Training.</p>
         </div>
 
         <div data-lang="en">
@@ -1065,11 +596,11 @@
                 </div>
             </div>
             
-            <p style="text-align: center; margin-top: 48px; color: #6e6e73;">More details in the training.</p>
+            <p style="text-align: center; margin-top: 48px;">More details in the training.</p>
         </div>
     </section>
 
-    <!-- SECTION 8: TRANSFORMATION PROOF -->
+    <!-- SECTION 10: TRANSFORMATION PROOF -->
     <section id="proof">
         <div data-lang="de">
             <h2>Was wäre möglich?</h2>
@@ -1160,9 +691,13 @@
         </div>
     </section>
 
-    <!-- SECTION 9: THE OFFER -->
-    <section id="offer">
+    <!-- SECTION 11: SALES MOMENT #1 - THE OFFER -->
+    <section id="offer" style="position: relative;">
         <div data-lang="de">
+            <div style="text-align: center; margin-bottom: 48px;">
+                <p style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.15em; color: #8b6f47; font-weight: 500;">Hier ist der Sales-Überzeugungs-Moment</p>
+            </div>
+            
             <h2>Konflikt-Kompetenz mit Herz</h2>
             <p><strong>01.04–02.04.2025</strong></p>
 
@@ -1202,11 +737,17 @@
                 <p><strong>Garantie:</strong> 100% Rückerstattung nach Modul 1, wenn nicht das Richtige für Dich.</p>
                 <p><strong>Limitierung:</strong> 20 Plätze | [X] bereits vergeben</p>
 
-                <a href="#" class="cta-button">PLATZ SICHERN</a>
+                <div style="text-align: center; margin-top: 48px;">
+                    <a href="#" class="cta-button" style="font-size: 1.25rem; padding: 20px 64px;">Jetzt buchen →</a>
+                </div>
             </div>
         </div>
 
         <div data-lang="en">
+            <div style="text-align: center; margin-bottom: 48px;">
+                <p style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.15em; color: #8b6f47; font-weight: 500;">Here is the sales conviction moment</p>
+            </div>
+            
             <h2>Conflict Competence with Heart</h2>
             <p><strong>April 1-2, 2025</strong></p>
 
