@@ -265,6 +265,38 @@
         .testimonial-name { font-weight: 500; font-size: 0.9375rem; color: var(--color-text); }
         .testimonial-role { font-size: 0.8125rem; color: var(--color-text-soft); margin-top: 2px; }
 
+        /* Final CTA Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 32px;
+            max-width: 900px;
+            margin: 32px auto 0;
+        }
+        .option-card {
+            padding: 28px 24px;
+            background: #fff;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .option-card-primary {
+            border-color: var(--color-accent);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .option-card h4 {
+            margin-bottom: 12px;
+            font-size: 1.125rem;
+        }
+        .option-card p {
+            max-width: 100%;
+            font-size: 0.95rem;
+        }
+        .option-note {
+            margin-top: 12px;
+            font-size: 0.8125rem;
+            color: var(--color-text-soft);
+        }
+
         /* Bilingual */
         [data-lang="en"] { display: none; }
         .lang-en [data-lang="de"] { display: none; }
@@ -284,6 +316,7 @@
             .strategy-slide { flex: 0 0 280px; min-height: 200px; padding: 24px 20px; }
             .framework-grid { grid-template-columns: 1fr; gap: 24px; }
             .testimonials-grid { grid-template-columns: 1fr; gap: 24px; }
+            .options-grid { grid-template-columns: 1fr; }
             section { margin-bottom: 48px; } /* Reduce section spacing on mobile */
         }
 
@@ -588,27 +621,18 @@
 
             <h3>You have 2 options:</h3>
 
-            <h4>1. Keep avoiding</h4>
-            <p>Keep being "nice." Keep professionally silent. And watch relationships die, teams fail, your body rebel.</p>
+            <div class="options-grid">
+                <div class="option-card">
+                    <h4>1. Keep avoiding</h4>
+                    <p>Keep being "nice." Keep professionally silent. And watch relationships die, teams fail, your body rebel.</p>
+                </div>
 
-            <h4>2. Learn to stay present</h4>
-            <p>An innovative and holistic approach integrating Mediation, Somatic Work & Trauma-Informed Practice.</p>
-            <p>Developed in [X] years of real conflicts.<br>
-            Not theory. Practice.</p>
-
-            <p><strong>April 2025</strong><br>
-            <strong>20 spots</strong><br>
-            <strong>[X] taken</strong><br>
-            <strong>Early Bird ends: March 15, 2025</strong></p>
-
-            <a href="#offer" class="cta-button">I'M READY</a>
-
-            <div class="trust-line">
-                <ul>
-                    <li>[X] years mediation experience</li>
-                    <li>[X] conflicts resolved</li>
-                    <li>100% satisfaction guarantee</li>
-                </ul>
+                <div class="option-card option-card-primary">
+                    <h4>2. Learn to stay present</h4>
+                    <p>An innovative and holistic approach integrating Mediation, Somatic Work & Trauma-Informed Practice.</p>
+                    <a href="#offer" class="cta-button" style="margin-top: 24px;">Register now</a>
+                    <p class="option-note">Workshop 26 Apr 2025</p>
+                </div>
             </div>
         </div>
     </section>
