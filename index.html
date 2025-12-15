@@ -149,11 +149,11 @@
         .stat-card h4 { color: var(--color-accent); margin-bottom: 12px; }
         .stat-card ul { margin-bottom: 0; }
         .highlight-box {
-            padding: 32px; margin: 32px 0; background: var(--color-bg-soft);
-            border-radius: 4px; border: 2px solid var(--color-accent);
+            padding: 32px; margin: 32px auto; background: var(--color-bg-soft);
+            border-radius: 4px; border: 2px solid var(--color-accent); text-align: center; max-width: 800px;
         }
         .highlight-box h3 { color: var(--color-accent); margin-bottom: 16px; }
-        .highlight-box p { max-width: 100%; }
+        .highlight-box p { max-width: 100%; margin-left: auto; margin-right: auto; }
 
         /* Framework */
         .framework-block { padding: 40px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
@@ -186,7 +186,9 @@
         .faq-answer.active { max-height: 500px; padding: 0 0 24px 0; }
 
         /* Offer */
-        .offer-box { padding: 40px; background: var(--color-bg-soft); border-radius: 4px; margin: 32px 0; }
+        .offer-box { padding: 40px; background: var(--color-bg-soft); border-radius: 4px; margin: 32px auto; text-align: left; max-width: 800px; }
+        #offer > div[data-lang] { text-align: center; }
+        #offer h2, #offer p { margin-left: auto; margin-right: auto; }
         .price { font-size: 2.5rem; font-weight: 450; color: var(--color-accent); margin: 24px 0; }
 
         /* Trust */
@@ -302,7 +304,7 @@
             max-width: 1200px; margin: 0 auto;
         }
         .testimonial-card {
-            padding: 32px 28px; background: var(--color-bg-soft); border-radius: 4px;
+            padding: 32px 28px; background: var(--color-bg-soft); border-radius: 4px; text-align: left;
             border: 1px solid rgba(0,0,0,0.06); position: relative;
             transition: all 0.3s ease;
         }
@@ -509,7 +511,7 @@
         </div>
 
         <div data-lang="en">
-            <h2>Your Guides</h2>
+            <h2>Developed by</h2>
             
             <div class="founders-grid">
                 <div class="founder-card">
