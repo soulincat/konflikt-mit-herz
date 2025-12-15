@@ -1,0 +1,626 @@
+    <style>
+        /* ============================================
+           SOULFUL ACADEMY — MINIMAL UI SYSTEM
+           Apple-level UX spec for emotional content
+           "I'm being met" — not sold to, not guided
+           ============================================ */
+
+        :root {
+            /* Warm neutrals */
+            --color-bg: #f8f5f2;
+            --color-bg-soft: #f3efe9;
+            --color-text: #2c2c2c;
+            --color-text-soft: #5a5a55;
+            --color-accent: #8b6f47;
+            
+            /* Spacing - generous, breathing */
+            --space-section: 96px;
+            --space-block: 48px;
+            --space-paragraph: 28px;
+            
+            /* Typography */
+            --max-width: 620px;
+            --line-height-body: 1.65;
+            --line-height-heading: 1.15;
+        }
+
+        /* Reset */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.0625rem;
+            font-weight: 400;
+            line-height: var(--line-height-body);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url('texture.png');
+            background-repeat: repeat;
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================
+           TYPOGRAPHY — Neutral, humanist, calm
+           Never Bold. Regular/Medium only.
+           ============================================ */
+        h1, h2, h3, h4 {
+            font-family: inherit;
+            font-weight: 450;
+            letter-spacing: -0.01em;
+            color: var(--color-text);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            line-height: var(--line-height-heading);
+            margin-bottom: var(--space-paragraph);
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            line-height: 1.25;
+            margin-bottom: var(--space-block);
+        }
+
+        h3 {
+            font-size: 1.375rem;
+            line-height: 1.35;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-size: 1.125rem;
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        p {
+            margin-bottom: var(--space-paragraph);
+            max-width: var(--max-width);
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        ul, ol {
+            max-width: var(--max-width);
+            margin-bottom: var(--space-paragraph);
+            padding-left: 1.25em;
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        strong {
+            font-weight: 500;
+        }
+
+        /* ============================================
+           SECTIONS — Single column, centered, breathing
+           ============================================ */
+        section {
+            padding: var(--space-section) 24px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .section-wide {
+            max-width: 900px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-center p,
+        .text-center h1,
+        .text-center h2,
+        .text-center h3 {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ============================================
+           HEADER — Minimal, unobtrusive
+           ============================================ */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sticky-header.scrolled {
+            background: rgba(248, 245, 242, 0.95);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        .logo-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-text);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 4px;
+        }
+
+        .language-toggle button {
+            padding: 8px 14px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-text-soft);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .language-toggle button.active {
+            color: var(--color-text);
+            background: rgba(0,0,0,0.04);
+        }
+
+        .language-toggle button:hover {
+            background: rgba(0,0,0,0.04);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: var(--color-accent);
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+
+        /* ============================================
+           HERO — Invitational, centered, no cards
+           Safety + curiosity
+           ============================================ */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            max-width: 100%;
+        }
+
+        #hero h1 {
+            max-width: 700px;
+            margin-bottom: 24px;
+        }
+
+        #hero p {
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #hero .subtitle {
+            font-size: 1rem;
+            color: var(--color-text-soft);
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+
+        #hero .question {
+            font-size: 1.25rem;
+            font-weight: 450;
+            color: var(--color-accent);
+            margin-top: 48px;
+            margin-bottom: 32px;
+        }
+
+        /* ============================================
+           CTA — Only accent element
+           ============================================ */
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--color-accent);
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #7a6340;
+            transform: translateY(-1px);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--color-accent);
+            border: 1px solid var(--color-accent);
+        }
+
+        .cta-secondary:hover {
+            background: var(--color-accent);
+            color: #fff;
+        }
+
+        /* ============================================
+           FOUNDERS — Two column, asymmetric, human
+           ============================================ */
+        #founders {
+            max-width: 900px;
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .founder-card {
+            text-align: center;
+        }
+
+        .founder-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--color-bg-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 1.5rem;
+            font-weight: 450;
+            color: var(--color-text-soft);
+        }
+
+        .founder-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .founder-card .role {
+            font-size: 0.9375rem;
+            color: var(--color-accent);
+            margin-bottom: 20px;
+        }
+
+        .founder-card p {
+            font-size: 0.9375rem;
+            color: var(--color-text-soft);
+            max-width: 100%;
+        }
+
+        .founders-tagline {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        /* ============================================
+           PROBLEM LANDSCAPE — One per viewport feel
+           ============================================ */
+        .problem-block {
+            position: relative;
+            padding: 64px 0;
+        }
+
+        .problem-number {
+            position: absolute;
+            top: 0;
+            left: -20px;
+            font-size: 8rem;
+            font-weight: 300;
+            color: rgba(0,0,0,0.03);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .problem-block h3 {
+            margin-bottom: 24px;
+        }
+
+        .problem-block .consequence {
+            margin-top: 32px;
+            padding: 24px;
+            background: var(--color-bg-soft);
+            border-radius: 4px;
+        }
+
+        .problem-block .consequence strong {
+            color: var(--color-accent);
+        }
+
+        /* ============================================
+           APPROACH — Extra breathing room
+           ============================================ */
+        #approach {
+            background: var(--color-bg-soft);
+            max-width: 100%;
+            padding: var(--space-section) 24px;
+        }
+
+        #approach > div {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        #approach p {
+            font-size: 1.125rem;
+            margin-bottom: 36px;
+        }
+
+        /* ============================================
+           FRAMEWORK — Vertical stacking, one idea per block
+           ============================================ */
+        .framework-block {
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .framework-block:last-child {
+            border-bottom: none;
+        }
+
+        .framework-block h4 {
+            margin-bottom: 16px;
+        }
+
+        /* ============================================
+           TESTIMONIALS — No carousel, generous spacing
+           ============================================ */
+        .testimonial {
+            margin: 48px 0;
+            padding: 32px 0;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .testimonial:first-child {
+            border-top: none;
+        }
+
+        .testimonial blockquote {
+            font-size: 1.0625rem;
+            font-style: italic;
+            margin-bottom: 24px;
+            max-width: var(--max-width);
+        }
+
+        .testimonial-author {
+            font-size: 0.9375rem;
+            color: var(--color-text-soft);
+        }
+
+        /* ============================================
+           FAQ — Accordion, no borders
+           ============================================ */
+        .faq-item {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item summary {
+            font-weight: 500;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: '+';
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--color-text-soft);
+            transition: transform 0.2s ease;
+        }
+
+        .faq-item[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-item .answer {
+            padding-top: 16px;
+            color: var(--color-text-soft);
+        }
+
+        /* ============================================
+           OFFER BOX — Clean, no decoration
+           ============================================ */
+        .offer-box {
+            padding: 40px;
+            background: var(--color-bg-soft);
+            border-radius: 4px;
+            margin: 32px 0;
+        }
+
+        .offer-box h3 {
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 450;
+            color: var(--color-accent);
+            margin: 24px 0;
+        }
+
+        /* ============================================
+           TRUST LINE — Subtle credibility
+           ============================================ */
+        .trust-line {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .trust-line ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            font-size: 0.9375rem;
+            color: var(--color-text-soft);
+        }
+
+        /* ============================================
+           BILINGUAL — Soft toggle, identical layout
+           ============================================ */
+        [data-lang="en"] {
+            display: none;
+        }
+
+        .lang-en [data-lang="de"] {
+            display: none;
+        }
+
+        .lang-en [data-lang="en"] {
+            display: block;
+        }
+
+        /* ============================================
+           ANIMATIONS — Subtle fade-in
+           ============================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           RESPONSIVE — Mobile: one idea per screen
+           ============================================ */
+        @media (max-width: 768px) {
+            :root {
+                --space-section: 64px;
+                --space-block: 32px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.25rem;
+            }
+
+            #hero {
+                min-height: auto;
+                padding: 100px 20px 60px;
+            }
+
+            .founders-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .trust-line ul {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .offer-box {
+                padding: 28px 20px;
+            }
+
+            .price {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --space-section: 48px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            section {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .cta-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Hide complex layout elements from previous version */
+        .hero-image,
+        .image-placeholder,
+        .split-section,
+        .founders-background > .image-placeholder,
+        .pain-section-wrapper > .image-placeholder,
+        .testimonials-grid,
+        .testimonials-header,
+        .episodes-grid,
+        .section-label {
+            display: none !important;
+        }
+    </style>
+
