@@ -152,6 +152,28 @@
         .trust-line { margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(0,0,0,0.06); }
         .trust-line ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 32px; font-size: 0.9375rem; color: var(--color-text-soft); }
 
+        /* Strategies Carousel */
+        .strategies-carousel { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--color-accent) transparent; }
+        .strategies-carousel::-webkit-scrollbar { height: 8px; }
+        .strategies-carousel::-webkit-scrollbar-track { background: rgba(0,0,0,0.04); border-radius: 4px; }
+        .strategies-carousel::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 4px; }
+        .carousel-track { display: flex; gap: 24px; max-width: 1200px; margin: 0 auto; padding: 8px 24px 16px; }
+        .strategy-slide {
+            flex: 0 0 320px; min-height: 220px; padding: 28px 24px; background: #fff; 
+            border-radius: 4px; border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: all 0.3s ease;
+        }
+        .strategy-slide:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .strategy-badge {
+            display: inline-block; padding: 4px 12px; background: var(--color-accent); color: #fff; 
+            border-radius: 3px; font-size: 0.8125rem; font-weight: 500; margin-bottom: 16px;
+        }
+        .strategy-slide h4 { font-size: 1.125rem; font-weight: 500; margin-bottom: 8px; color: var(--color-text); }
+        .strategy-slide p { font-size: 0.9375rem; color: var(--color-text-soft); margin-bottom: 0; max-width: 100%; line-height: 1.5; }
+        .strategy-divider { height: 1px; background: rgba(0,0,0,0.06); margin: 16px 0; }
+        .strategy-consequence { font-size: 0.875rem !important; line-height: 1.6 !important; }
+        .strategy-consequence strong { color: var(--color-accent); font-weight: 500; }
+
         /* Bilingual */
         [data-lang="en"] { display: none; }
         .lang-en [data-lang="de"] { display: none; }
@@ -166,6 +188,8 @@
             .founders-grid { grid-template-columns: 1fr; gap: 40px; }
             .trust-line ul { flex-direction: column; gap: 16px; }
             .problem-number { display: none; }
+            .carousel-track { padding: 8px 16px 16px; }
+            .strategy-slide { flex: 0 0 280px; min-height: 200px; padding: 24px 20px; }
         }
 
         @media (max-width: 480px) {
@@ -285,89 +309,79 @@
 
 
     <!-- SECTION 4: CONFLICT AVOIDANCE STRATEGIES CAROUSEL -->
-    <section id="conflict-strategies" style="background-color: #2a2a2a; color: #f5f0e8;">
+    <section id="conflict-strategies" style="padding: 64px 24px; max-width: 100%; background: var(--color-bg-soft);">
         <div data-lang="de">
-            <h2 style="text-align: center; margin-bottom: 60px;">Welche Konflikt-Vermeidungsstrategien kennst du?</h2>
+            <h2 style="text-align: center; margin-bottom: 48px; max-width: 800px; margin-left: auto; margin-right: auto;">Welche Konflikt-Vermeidungsstrategien kennst du?</h2>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;">
-                
-                <!-- Strategy #1 -->
-                <div style="background-color: #3a3a3a; padding: 40px 30px; border-radius: 8px; border-left: 4px solid #d4a574;">
-                    <h3 style="color: #d4a574; margin-bottom: 20px; font-size: 1.5rem;">#1 Konflikt-Vermeidung – unter den Teppich kehren</h3>
-                    <p style="margin-bottom: 20px; line-height: 1.8;">Konflikte werden ignoriert, verdrängt oder bewusst umgangen in der Hoffnung, dass sie von selbst verschwinden.</p>
-                    <div style="border-top: 2px solid #d4a574; padding-top: 20px; margin-top: 20px;">
-                        <p style="font-weight: 600; color: #d4a574; margin-bottom: 10px;">Folge:</p>
-                        <p style="line-height: 1.8;">Konflikte bleiben ungelöst und sabotieren unser Nervensystem, unser Wohlbefinden und unsere Beziehungen.</p>
+            <div class="strategies-carousel">
+                <div class="carousel-track">
+                    <!-- Strategy #1 -->
+                    <div class="strategy-slide">
+                        <span class="strategy-badge">#1</span>
+                        <h4>Konflikt-Vermeidung</h4>
+                        <p>Unter den Teppich kehren</p>
+                        <div class="strategy-divider"></div>
+                        <p class="strategy-consequence"><strong>Folge:</strong> Sabotiert Nervensystem, Wohlbefinden und Beziehungen</p>
+                    </div>
+
+                    <!-- Strategy #2 -->
+                    <div class="strategy-slide">
+                        <span class="strategy-badge">#2</span>
+                        <h4>Vorwürfe & Anschuldigungen</h4>
+                        <p>Im Kreis drehen</p>
+                        <div class="strategy-divider"></div>
+                        <p class="strategy-consequence"><strong>Folge:</strong> Beziehung zerbricht und Muster wiederholen sich</p>
+                    </div>
+
+                    <!-- Strategy #3 -->
+                    <div class="strategy-slide">
+                        <span class="strategy-badge">#3</span>
+                        <h4>Schnelle Lösung</h4>
+                        <p>Brücke über die Schlangengrube</p>
+                        <div class="strategy-divider"></div>
+                        <p class="strategy-consequence"><strong>Folge:</strong> Konflikt kommt zurück und wandert durchs System</p>
                     </div>
                 </div>
-
-                <!-- Strategy #2 -->
-                <div style="background-color: #3a3a3a; padding: 40px 30px; border-radius: 8px; border-left: 4px solid #d4a574;">
-                    <h3 style="color: #d4a574; margin-bottom: 20px; font-size: 1.5rem;">#2 Vorwürfe, Anschuldigungen und im Kreis drehen</h3>
-                    <p style="margin-bottom: 20px; line-height: 1.8;">Emotionale Reaktionen dominieren das Gespräch, Schuldzuweisungen fliegen hin und her, ohne dass echte Lösungen entstehen.</p>
-                    <div style="border-top: 2px solid #d4a574; padding-top: 20px; margin-top: 20px;">
-                        <p style="font-weight: 600; color: #d4a574; margin-bottom: 10px;">Folge:</p>
-                        <p style="line-height: 1.8;">Die Emotionen übernehmen Führung, die Beziehung kriegt immer mehr Risse und geht meistens in die Brüche. Ohne bewusste Muster-Unterbrechung wiederholt sich das in weiteren Beziehungen.</p>
-                    </div>
-                </div>
-
-                <!-- Strategy #3 -->
-                <div style="background-color: #3a3a3a; padding: 40px 30px; border-radius: 8px; border-left: 4px solid #d4a574;">
-                    <h3 style="color: #d4a574; margin-bottom: 20px; font-size: 1.5rem;">#3 Schnelle Lösung – die Brücke über die Schlangengrube</h3>
-                    <p style="margin-bottom: 20px; line-height: 1.8;">Der Konflikt wird oberflächlich "gelöst" ohne die tieferen Ursachen anzuschauen – wie eine Schmerztablette, die nur Symptome unterdrückt.</p>
-                    <div style="border-top: 2px solid #d4a574; padding-top: 20px; margin-top: 20px;">
-                        <p style="font-weight: 600; color: #d4a574; margin-bottom: 10px;">Folge:</p>
-                        <p style="line-height: 1.8;">Es scheint kurzfristig gelöst. Wie eine Schmerztablette. Wenn die Wirkung nachlässt kommt der Konflikt zurück und wandert durch unser Lebenssystem und bricht an verschiedenen Stellen solange bis wir uns damit bewusst und mit Hingabe auseinandersetzen.</p>
-                    </div>
-                </div>
-
             </div>
 
-            <div style="text-align: center; margin-top: 60px;">
-                <p style="font-size: 1.5rem; font-weight: 600; color: #d4a574;">Aber wie?</p>
-            </div>
+            <p style="text-align: center; margin-top: 48px; font-size: 1.375rem; font-weight: 450; color: var(--color-accent);">Aber wie?</p>
         </div>
 
         <div data-lang="en">
-            <h2 style="text-align: center; margin-bottom: 60px;">Which Conflict Avoidance Strategies Do You Know?</h2>
+            <h2 style="text-align: center; margin-bottom: 48px; max-width: 800px; margin-left: auto; margin-right: auto;">Which Conflict Avoidance Strategies Do You Know?</h2>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;">
-                
-                <!-- Strategy #1 -->
-                <div style="background-color: #3a3a3a; padding: 40px 30px; border-radius: 8px; border-left: 4px solid #d4a574;">
-                    <h3 style="color: #d4a574; margin-bottom: 20px; font-size: 1.5rem;">#1 Conflict Avoidance – sweeping under the rug</h3>
-                    <p style="margin-bottom: 20px; line-height: 1.8;">Conflicts are ignored, suppressed, or consciously avoided in the hope they will disappear on their own.</p>
-                    <div style="border-top: 2px solid #d4a574; padding-top: 20px; margin-top: 20px;">
-                        <p style="font-weight: 600; color: #d4a574; margin-bottom: 10px;">Consequence:</p>
-                        <p style="line-height: 1.8;">Conflicts remain unresolved and sabotage our nervous system, our well-being, and our relationships.</p>
+            <div class="strategies-carousel">
+                <div class="carousel-track">
+                    <!-- Strategy #1 -->
+                    <div class="strategy-slide">
+                        <span class="strategy-badge">#1</span>
+                        <h4>Conflict Avoidance</h4>
+                        <p>Sweeping under the rug</p>
+                        <div class="strategy-divider"></div>
+                        <p class="strategy-consequence"><strong>Consequence:</strong> Sabotages nervous system, well-being and relationships</p>
+                    </div>
+
+                    <!-- Strategy #2 -->
+                    <div class="strategy-slide">
+                        <span class="strategy-badge">#2</span>
+                        <h4>Blame & Accusations</h4>
+                        <p>Going in circles</p>
+                        <div class="strategy-divider"></div>
+                        <p class="strategy-consequence"><strong>Consequence:</strong> Relationship breaks apart and patterns repeat</p>
+                    </div>
+
+                    <!-- Strategy #3 -->
+                    <div class="strategy-slide">
+                        <span class="strategy-badge">#3</span>
+                        <h4>Quick Fix</h4>
+                        <p>Bridge over the snake pit</p>
+                        <div class="strategy-divider"></div>
+                        <p class="strategy-consequence"><strong>Consequence:</strong> Conflict returns and migrates through the system</p>
                     </div>
                 </div>
-
-                <!-- Strategy #2 -->
-                <div style="background-color: #3a3a3a; padding: 40px 30px; border-radius: 8px; border-left: 4px solid #d4a574;">
-                    <h3 style="color: #d4a574; margin-bottom: 20px; font-size: 1.5rem;">#2 Blame, accusations and going in circles</h3>
-                    <p style="margin-bottom: 20px; line-height: 1.8;">Emotional reactions dominate the conversation, blame flies back and forth, without real solutions emerging.</p>
-                    <div style="border-top: 2px solid #d4a574; padding-top: 20px; margin-top: 20px;">
-                        <p style="font-weight: 600; color: #d4a574; margin-bottom: 10px;">Consequence:</p>
-                        <p style="line-height: 1.8;">Emotions take the lead, the relationship gets more and more cracks and usually falls apart. Without conscious pattern interruption, this repeats in further relationships.</p>
-                    </div>
-                </div>
-
-                <!-- Strategy #3 -->
-                <div style="background-color: #3a3a3a; padding: 40px 30px; border-radius: 8px; border-left: 4px solid #d4a574;">
-                    <h3 style="color: #d4a574; margin-bottom: 20px; font-size: 1.5rem;">#3 Quick Fix – the bridge over the snake pit</h3>
-                    <p style="margin-bottom: 20px; line-height: 1.8;">The conflict is superficially "solved" without looking at the deeper causes – like a painkiller that only suppresses symptoms.</p>
-                    <div style="border-top: 2px solid #d4a574; padding-top: 20px; margin-top: 20px;">
-                        <p style="font-weight: 600; color: #d4a574; margin-bottom: 10px;">Consequence:</p>
-                        <p style="line-height: 1.8;">It seems temporarily solved. Like a painkiller. When the effect wears off, the conflict returns and migrates through our life system, breaking out in different places until we consciously and devotedly address it.</p>
-                    </div>
-                </div>
-
             </div>
 
-            <div style="text-align: center; margin-top: 60px;">
-                <p style="font-size: 1.5rem; font-weight: 600; color: #d4a574;">But how?</p>
-            </div>
+            <p style="text-align: center; margin-top: 48px; font-size: 1.375rem; font-weight: 450; color: var(--color-accent);">But how?</p>
         </div>
     </section>
 
@@ -833,24 +847,20 @@
 
 
     <!-- SECTION 9: FULL-WIDTH PHOTO CTA -->
-    <section id="photo-cta" style="padding: 0; max-width: 100%; position: relative; min-height: 500px; display: flex; align-items: center; justify-content: center;">
-        <div class="image-placeholder" style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(139, 111, 71, 0.7) 0%, rgba(160, 130, 109, 0.7) 100%);"></div>
-        
-        <div style="position: relative; z-index: 2; text-align: center; padding: 80px 24px; max-width: 700px;">
-            <div data-lang="de">
-                <h2 style="color: #fff; font-size: 2.5rem; margin-bottom: 24px;">Bereit für den nächsten Schritt?</h2>
-                <p style="color: rgba(255,255,255,0.95); font-size: 1.25rem; line-height: 1.7; margin-bottom: 40px;">
-                    Sichere dir jetzt deinen Platz im Training und lerne, Konflikte zu verwandeln statt zu vermeiden.
-                </p>
-                <a href="#offer" class="cta-button" style="background: #fff; color: #8b6f47; font-size: 1.125rem; padding: 18px 48px; font-weight: 600;">Jetzt buchen</a>
-            </div>
-            <div data-lang="en">
-                <h2 style="color: #fff; font-size: 2.5rem; margin-bottom: 24px;">Ready for the next step?</h2>
-                <p style="color: rgba(255,255,255,0.95); font-size: 1.25rem; line-height: 1.7; margin-bottom: 40px;">
-                    Secure your spot in the training now and learn to transform conflicts instead of avoiding them.
-                </p>
-                <a href="#offer" class="cta-button" style="background: #fff; color: #8b6f47; font-size: 1.125rem; padding: 18px 48px; font-weight: 600;">Book Now</a>
-            </div>
+    <section id="photo-cta" style="padding: 120px 24px; max-width: 100%; background: linear-gradient(135deg, var(--color-accent) 0%, #9d8260 100%); text-align: center;">
+        <div data-lang="de" style="max-width: 620px; margin: 0 auto;">
+            <h2 style="color: #fff; margin-bottom: 28px;">Bereit für den nächsten Schritt?</h2>
+            <p style="color: rgba(255,255,255,0.95); font-size: 1.125rem; line-height: var(--line-height-body); margin-bottom: 40px; max-width: 540px; margin-left: auto; margin-right: auto;">
+                Sichere dir jetzt deinen Platz im Training und lerne, Konflikte zu verwandeln statt zu vermeiden.
+            </p>
+            <a href="#offer" class="cta-button" style="background: #fff; color: var(--color-accent); font-weight: 500;">Jetzt buchen</a>
+        </div>
+        <div data-lang="en" style="max-width: 620px; margin: 0 auto;">
+            <h2 style="color: #fff; margin-bottom: 28px;">Ready for the next step?</h2>
+            <p style="color: rgba(255,255,255,0.95); font-size: 1.125rem; line-height: var(--line-height-body); margin-bottom: 40px; max-width: 540px; margin-left: auto; margin-right: auto;">
+                Secure your spot in the training now and learn to transform conflicts instead of avoiding them.
+            </p>
+            <a href="#offer" class="cta-button" style="background: #fff; color: var(--color-accent); font-weight: 500;">Book Now</a>
         </div>
     </section>
 
