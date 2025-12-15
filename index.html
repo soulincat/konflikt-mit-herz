@@ -140,9 +140,24 @@
         .testimonial-author { font-size: 0.9375rem; color: var(--color-text-soft); }
 
         /* FAQ */
-        .faq-item { padding: 24px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .faq-item { padding: 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
         .faq-item:last-child { border-bottom: none; }
-        .faq-question { font-weight: 500; margin-bottom: 12px; }
+        .faq-question { 
+            font-weight: 500; margin-bottom: 0; padding: 24px 40px 24px 0; 
+            cursor: pointer; position: relative; transition: color 0.2s ease;
+            user-select: none;
+        }
+        .faq-question:hover { color: var(--color-accent); }
+        .faq-question::after {
+            content: '+'; position: absolute; right: 0; top: 24px;
+            font-size: 1.5rem; font-weight: 300; transition: transform 0.3s ease;
+        }
+        .faq-question.active::after { content: '−'; }
+        .faq-answer { 
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+            padding: 0 0 0 0;
+        }
+        .faq-answer.active { max-height: 500px; padding: 0 0 24px 0; }
 
         /* Offer */
         .offer-box { padding: 40px; background: var(--color-bg-soft); border-radius: 4px; margin: 32px 0; }
@@ -289,8 +304,12 @@
 
 
 
+
+
+
+
     <!-- SECTION 2: MISSION STATEMENT -->
-    <section id="mission" style="text-align: center; padding: 80px 24px;">
+    <section id="mission" style="text-align: center; padding: 80px 24px; background: var(--color-bg-soft); max-width: 100%;">
         <div data-lang="de">
             <h2 style="margin-bottom: 24px; font-size: 2.5rem;">Wir sind auf der wilden Mission</h2>
             <p style="font-size: 1.5rem; max-width: 600px; margin: 0 auto;">
@@ -304,6 +323,10 @@
             </p>
         </div>
     </section>
+
+
+
+
 
 
 
@@ -328,10 +351,6 @@
                     <p>Über 15 Jahre Erfahrung in Gründung kooperativer Businessmodelle – Expertin an der Schnittstelle von Bewusstsein, Kreativität und Körper-Intelligenz.</p>
                 </div>
             </div>
-
-            <div class="founders-tagline">
-                <p><strong>Gemeinsam</strong> haben sie den Conflict Integration Process (CIP) entwickelt – eine integrative Methode für Konfliktarbeit, Bewusstseinsentwicklung und Beziehungskultur.</p>
-            </div>
         </div>
 
         <div data-lang="en">
@@ -352,12 +371,12 @@
                     <p>Over 15 years experience founding cooperative business models – expert at the intersection of consciousness, creativity and body intelligence.</p>
                 </div>
             </div>
-
-            <div class="founders-tagline">
-                <p><strong>Together</strong> they developed the Conflict Integration Process (CIP) – an integrative method for conflict work, consciousness development and relationship culture.</p>
-            </div>
         </div>
     </section>
+
+
+
+
 
 
     <!-- SECTION 4: CONFLICT AVOIDANCE STRATEGIES CAROUSEL -->
@@ -440,6 +459,10 @@
 
 
 
+
+
+
+
     <!-- SECTION 11: FINAL CTA -->
     <section id="final-cta">
         <div data-lang="de">
@@ -516,6 +539,90 @@
             </div>
         </div>
     </section>
+
+
+
+
+
+
+    <!-- SECTION 10: TRANSFORMATION PROOF -->
+    <section id="proof">
+        <div data-lang="de">
+            <h2>Was wäre möglich?</h2>
+            <h3>Vorher → Nachher</h3>
+            <ul>
+                <li>"Seit Monaten vermieden" → "Schwieriges Gespräch mit Klarheit initiiert"</li>
+                <li>"Körper verspannt bei erstem Zeichen" → "Reguliert geblieben, auch als es emotional wurde"</li>
+                <li>"2-jährige Pattsituation mit Kollegen" → "Arbeitsbeziehung komplett verändert nach 1 Gespräch"</li>
+                <li>"Ehe am Ende" → "Schwerstes Gespräch unseres Lebens geführt – enger als je zuvor"</li>
+                <li>"Konflikte im Körper getragen (Migräne, Schlaflosigkeit)" → "Gelernt, somatisch zu verarbeiten"</li>
+            </ul>
+
+            <h3 style="margin-top: var(--space-section);">Stimmen aus dem Training:</h3>
+
+            <div class="testimonial">
+                <p>Als Führungskraft dachte ich, ich könnte mit Konflikten umgehen. Ich konnte sie nur vermeiden oder durchsetzen. Dieses Framework zeigte mir einen dritten Weg: authentische Begegnung.</p>
+                <p>Die 2-jährige Pattsituation mit Marcus? Nach EINEM Gespräch mit den Tools aus diesem Training hat sich unsere gesamte Dynamik verändert. Nicht weil wir 'nett' waren, sondern weil ich endlich gelernt habe, präsent zu bleiben, auch wenn mein Nervensystem 'Gefahr!' schreit.</p>
+                <p>Konkret: Unser Team-Output ist um 40% gestiegen. Drei Leute, die kündigen wollten, sind geblieben. Die Atmosphäre hat sich komplett gedreht.</p>
+                <p class="testimonial-author">Sarah M., Senior Director, Tech-Unternehmen</p>
+            </div>
+
+            <div class="testimonial">
+                <p>Unsere Ehe war dabei zu sterben – still, höflich, tot. Wir sprachen über alles außer das, was wirklich wichtig war.</p>
+                <p>Nach Modul 2 des Trainings habe ich Lisa gesagt: 'Ich bin bereit für das Gespräch, das wir seit 3 Jahren nicht führen.' Die somatischen Tools – besonders die Nervensystem-Regulierung – haben mir geholfen, nicht in Kampf-oder-Flucht zu gehen.</p>
+                <p>Wir haben 4 Stunden lang gesprochen. Es war das schwerste Gespräch unseres Lebens. Und das befreiendste. Heute, 6 Monate später, fühlt sich unsere Beziehung wie neu an. Wir haben Sex wieder. Wir lachen wieder. Wir sind wieder lebendig.</p>
+                <p class="testimonial-author">Michael R., 41, mit Lisa seit 12 Jahren</p>
+            </div>
+
+            <div class="testimonial">
+                <p>Als Therapeutin mit 15 Jahren Erfahrung dachte ich, ich verstünde Konflikte. Aber ich habe gemerkt: Ich vermied sie in meinem eigenen Leben genauso wie meine Klienten.</p>
+                <p>Dieses Training hat mir Werkzeuge gegeben, die ich in meiner klinischen Ausbildung nicht gelernt habe. Die Verbindung von Nervensystem-Arbeit mit konkreten Gesprächsstrategien ist revolutionär.</p>
+                <p>Ich nutze das Framework jetzt in meiner Arbeit mit Klienten – und in meinem eigenen Leben. Letzte Woche habe ich endlich das Gespräch mit meiner Schwester geführt, das seit 7 Jahren ausstand.</p>
+                <p class="testimonial-author">Dr. Anna K., Therapeutin & Coach</p>
+            </div>
+        </div>
+
+        <div data-lang="en">
+            <h2>What Would Be Possible?</h2>
+            <h3>Before → After</h3>
+            <ul>
+                <li>"Avoided for months" → "Initiated difficult conversation with clarity"</li>
+                <li>"Body tensed at first sign" → "Stayed regulated, even when it got emotional"</li>
+                <li>"2-year stalemate with colleague" → "Work relationship completely transformed after 1 conversation"</li>
+                <li>"Marriage at the end" → "Had the hardest conversation of our lives – closer than ever"</li>
+                <li>"Carried conflicts in body (migraines, insomnia)" → "Learned to process somatically"</li>
+            </ul>
+
+            <h3 style="margin-top: var(--space-section);">Voices from the Training:</h3>
+
+            <div class="testimonial">
+                <p>As an executive, I thought I could handle conflicts. I could only avoid or push through them. This framework showed me a third way: authentic encounter.</p>
+                <p>The 2-year stalemate with Marcus? After ONE conversation with the tools from this training, our entire dynamic changed. Not because we were 'nice,' but because I finally learned to stay present, even when my nervous system screams 'Danger!'</p>
+                <p>Concretely: Our team output increased by 40%. Three people who wanted to quit stayed. The atmosphere completely shifted.</p>
+                <p class="testimonial-author">Sarah M., Senior Director, Tech Company</p>
+            </div>
+
+            <div class="testimonial">
+                <p>Our marriage was dying – quiet, polite, dead. We talked about everything except what really mattered.</p>
+                <p>After Module 2 of the training, I told Lisa: 'I'm ready for the conversation we haven't had for 3 years.' The somatic tools – especially nervous system regulation – helped me not go into fight-or-flight.</p>
+                <p>We talked for 4 hours. It was the hardest conversation of our lives. And the most liberating. Today, 6 months later, our relationship feels new. We have sex again. We laugh again. We're alive again.</p>
+                <p class="testimonial-author">Michael R., 41, with Lisa for 12 years</p>
+            </div>
+
+            <div class="testimonial">
+                <p>As a therapist with 15 years of experience, I thought I understood conflicts. But I realized: I avoided them in my own life just like my clients.</p>
+                <p>This training gave me tools I didn't learn in my clinical training. The connection of nervous system work with concrete conversation strategies is revolutionary.</p>
+                <p>I use the framework now in my work with clients – and in my own life. Last week I finally had the conversation with my sister that had been pending for 7 years.</p>
+                <p class="testimonial-author">Dr. Anna K., Therapist & Coach</p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
 
 
     <!-- SECTION 7: THE SCIENTIFIC TRUTH -->
@@ -604,6 +711,74 @@
 
 
 
+
+
+
+
+    <!-- SECTION 5: THE FRAMEWORK -->
+    <section id="framework" style="padding: 64px 24px; max-width: 100%; background: var(--color-bg-soft);">
+        <div data-lang="de">
+            <h2 style="text-align: center; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">Der Conflict Integration Process (CIP)</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 48px; font-size: 1.0625rem; color: var(--color-text-soft);">
+                <strong>Isabel Kresse und Ania Pilipenko</strong> haben gemeinsam den Conflict Integration Process (CIP) entwickelt – eine integrative Methode für Konfliktarbeit, Bewusstseinsentwicklung und Beziehungskultur.
+            </p>
+            
+            <div class="framework-grid">
+                <div class="framework-pillar">
+                    <div class="pillar-number">1</div>
+                    <h4>Soulfully: Verstehen</h4>
+                    <p>Was wirklich geschieht – in Deinem Nervensystem, bevor Du es bewusst registrierst.</p>
+                </div>
+                <div class="framework-pillar">
+                    <div class="pillar-number">2</div>
+                    <h4>Courageously: Präsent bleiben</h4>
+                    <p>Somatische Regulierung, um in schwierigen Momenten geerdet zu bleiben, statt zu fliehen oder anzugreifen.</p>
+                </div>
+                <div class="framework-pillar">
+                    <div class="pillar-number">3</div>
+                    <h4>Skillfully: Transformieren</h4>
+                    <p>Bewährte Mediations-Methoden aus jahrzehntelanger realer Konfliktarbeit.</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 40px; font-size: 0.9375rem; color: var(--color-text-soft);">Mehr Details im Training.</p>
+        </div>
+
+        <div data-lang="en">
+            <h2 style="text-align: center; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">The Conflict Integration Process (CIP)</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 48px; font-size: 1.0625rem; color: var(--color-text-soft);">
+                <strong>Isabel Kresse and Ania Pilipenko</strong> together developed the Conflict Integration Process (CIP) – an integrative method for conflict work, consciousness development and relationship culture.
+            </p>
+            
+            <div class="framework-grid">
+                <div class="framework-pillar">
+                    <div class="pillar-number">1</div>
+                    <h4>Soulfully: Understanding</h4>
+                    <p>What's really happening – in your nervous system, before you consciously register it.</p>
+                </div>
+                <div class="framework-pillar">
+                    <div class="pillar-number">2</div>
+                    <h4>Courageously: Staying Present</h4>
+                    <p>Somatic regulation to stay grounded in difficult moments, instead of fleeing or attacking.</p>
+                </div>
+                <div class="framework-pillar">
+                    <div class="pillar-number">3</div>
+                    <h4>Skillfully: Transforming</h4>
+                    <p>Proven mediation methods from decades of real conflict work.</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 40px; font-size: 0.9375rem; color: var(--color-text-soft);">More details in the training.</p>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
     <!-- SECTION 5: WHAT MAKES OUR APPROACH SPECIAL -->
     <section id="special-approach" style="background-color: #f5f0e8;">
         <div data-lang="de">
@@ -646,146 +821,6 @@
 
 
 
-    <!-- SECTION 5: THE FRAMEWORK -->
-    <section id="framework" style="padding: 64px 24px; max-width: 100%; background: var(--color-bg-soft);">
-        <div data-lang="de">
-            <h2 style="text-align: center; margin-bottom: 48px; max-width: 800px; margin-left: auto; margin-right: auto;">Wie es funktioniert: Das Soulful Conflict Framework</h2>
-            
-            <div class="framework-grid">
-                <div class="framework-pillar">
-                    <div class="pillar-number">1</div>
-                    <h4>Soulfully: Verstehen</h4>
-                    <p>Was wirklich geschieht – in Deinem Nervensystem, bevor Du es bewusst registrierst.</p>
-                </div>
-                <div class="framework-pillar">
-                    <div class="pillar-number">2</div>
-                    <h4>Courageously: Präsent bleiben</h4>
-                    <p>Somatische Regulierung, um in schwierigen Momenten geerdet zu bleiben, statt zu fliehen oder anzugreifen.</p>
-                </div>
-                <div class="framework-pillar">
-                    <div class="pillar-number">3</div>
-                    <h4>Skillfully: Transformieren</h4>
-                    <p>Bewährte Mediations-Methoden aus [X] Jahren realer Konfliktarbeit.</p>
-                </div>
-            </div>
-            
-            <p style="text-align: center; margin-top: 40px; font-size: 0.9375rem; color: var(--color-text-soft);">Mehr Details im Training.</p>
-        </div>
-
-        <div data-lang="en">
-            <h2 style="text-align: center; margin-bottom: 48px; max-width: 800px; margin-left: auto; margin-right: auto;">How It Works: The Soulful Conflict Framework</h2>
-            
-            <div class="framework-grid">
-                <div class="framework-pillar">
-                    <div class="pillar-number">1</div>
-                    <h4>Soulfully: Understanding</h4>
-                    <p>What's really happening – in your nervous system, before you consciously register it.</p>
-                </div>
-                <div class="framework-pillar">
-                    <div class="pillar-number">2</div>
-                    <h4>Courageously: Staying Present</h4>
-                    <p>Somatic regulation to stay grounded in difficult moments, instead of fleeing or attacking.</p>
-                </div>
-                <div class="framework-pillar">
-                    <div class="pillar-number">3</div>
-                    <h4>Skillfully: Transforming</h4>
-                    <p>Proven mediation methods from [X] years of real conflict work.</p>
-                </div>
-            </div>
-            
-            <p style="text-align: center; margin-top: 40px; font-size: 0.9375rem; color: var(--color-text-soft);">More details in the training.</p>
-        </div>
-    </section>
-
-
-
-
-    <!-- SECTION 10: TRANSFORMATION PROOF -->
-    <section id="proof" style="padding: 64px 24px; max-width: 100%;">
-        <div data-lang="de">
-            <h2 style="text-align: center; margin-bottom: 48px;">Was wäre möglich?</h2>
-            
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-quote">"</div>
-                    <p>Die 2-jährige Pattsituation mit Marcus? Nach EINEM Gespräch hat sich unsere gesamte Dynamik verändert. Unser Team-Output ist um 40% gestiegen. Die Atmosphäre hat sich komplett gedreht.</p>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-avatar">SM</span>
-                        <div>
-                            <div class="testimonial-name">Sarah M.</div>
-                            <div class="testimonial-role">Senior Director</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-quote">"</div>
-                    <p>Nach Modul 2 hatte ich das Gespräch, das wir seit 3 Jahren nicht führten. Heute, 6 Monate später, fühlt sich unsere Beziehung wie neu an. Wir sind wieder lebendig.</p>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-avatar">MR</span>
-                        <div>
-                            <div class="testimonial-name">Michael R.</div>
-                            <div class="testimonial-role">12 Jahre verheiratet</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-quote">"</div>
-                    <p>Die Verbindung von Nervensystem-Arbeit mit konkreten Gesprächsstrategien ist revolutionär. Letzte Woche führte ich endlich das Gespräch mit meiner Schwester, das seit 7 Jahren ausstand.</p>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-avatar">AK</span>
-                        <div>
-                            <div class="testimonial-name">Dr. Anna K.</div>
-                            <div class="testimonial-role">Therapeutin & Coach</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div data-lang="en">
-            <h2 style="text-align: center; margin-bottom: 48px;">What Would Be Possible?</h2>
-            
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-quote">"</div>
-                    <p>The 2-year stalemate with Marcus? After ONE conversation, our entire dynamic changed. Our team output increased by 40%. The atmosphere completely shifted.</p>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-avatar">SM</span>
-                        <div>
-                            <div class="testimonial-name">Sarah M.</div>
-                            <div class="testimonial-role">Senior Director</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-quote">"</div>
-                    <p>After Module 2, I had the conversation we hadn't had for 3 years. Today, 6 months later, our relationship feels new. We're alive again.</p>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-avatar">MR</span>
-                        <div>
-                            <div class="testimonial-name">Michael R.</div>
-                            <div class="testimonial-role">Married 12 years</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-quote">"</div>
-                    <p>The connection of nervous system work with concrete conversation strategies is revolutionary. Last week I finally had the conversation with my sister that had been pending for 7 years.</p>
-                    <div class="testimonial-footer">
-                        <span class="testimonial-avatar">AK</span>
-                        <div>
-                            <div class="testimonial-name">Dr. Anna K.</div>
-                            <div class="testimonial-role">Therapist & Coach</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
 
 
@@ -894,6 +929,10 @@
 
 
 
+
+
+
+
     <!-- SECTION 9: FULL-WIDTH PHOTO CTA -->
     <section id="photo-cta" style="padding: 120px 24px; max-width: 100%; background: linear-gradient(135deg, var(--color-accent) 0%, #9d8260 100%); text-align: center;">
         <div data-lang="de" style="max-width: 620px; margin: 0 auto;">
@@ -915,34 +954,48 @@
 
 
 
+
+
+
+
     <!-- SECTION 10: FAQ -->
     <section id="faq">
         <div data-lang="de">
             <h2>Häufige Fragen</h2>
 
             <div class="faq-item">
-                <p class="faq-question">"Ist das nicht nur für krasse Konflikte?"</p>
-                <p>Nein. Das Framework gilt für jede Situation, wo Du etwas wichtiges nicht sagen kannst – vom Vorstandskonflikt bis zum Gespräch mit Deinem Partner.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Ist das nicht nur für krasse Konflikte?"</p>
+                <div class="faq-answer">
+                    <p>Nein. Das Framework gilt für jede Situation, wo Du etwas wichtiges nicht sagen kannst – vom Vorstandskonflikt bis zum Gespräch mit Deinem Partner.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"Ich habe keine Zeit für 2 Tage Präsenz."</p>
-                <p>Der Konflikt, den Du vermeidest, kostet Dich bereits mehr Zeit (und Energie und Gesundheit) als 2 Tage Training.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Ich habe keine Zeit für 2 Tage Präsenz."</p>
+                <div class="faq-answer">
+                    <p>Der Konflikt, den Du vermeidest, kostet Dich bereits mehr Zeit (und Energie und Gesundheit) als 2 Tage Training.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"Was, wenn ich nicht live kann?"</p>
-                <p>Alles wird aufgezeichnet. Aber: Die Magie passiert live, in der Gruppe. Wir empfehlen dringend, live dabei zu sein.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Was, wenn ich nicht live kann?"</p>
+                <div class="faq-answer">
+                    <p>Alles wird aufgezeichnet. Aber: Die Magie passiert live, in der Gruppe. Wir empfehlen dringend, live dabei zu sein.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"Brauche ich Vorkenntnisse?"</p>
-                <p>Nein. Das Einzige, was Du brauchst: einen Konflikt, den Du bewegen möchtest.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Brauche ich Vorkenntnisse?"</p>
+                <div class="faq-answer">
+                    <p>Nein. Das Einzige, was Du brauchst: einen Konflikt, den Du bewegen möchtest.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"Ist das Therapie?"</p>
-                <p>Nein. Training. Du lernst ein Framework. Wenn Du in Therapie bist, kann das eine kraftvolle Ergänzung sein.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Ist das Therapie?"</p>
+                <div class="faq-answer">
+                    <p>Nein. Training. Du lernst ein Framework. Wenn Du in Therapie bist, kann das eine kraftvolle Ergänzung sein.</p>
+                </div>
             </div>
         </div>
 
@@ -950,31 +1003,45 @@
             <h2>Frequently Asked Questions</h2>
 
             <div class="faq-item">
-                <p class="faq-question">"Isn't this only for major conflicts?"</p>
-                <p>No. The framework applies to any situation where you can't say something important – from board conflicts to conversations with your partner.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Isn't this only for major conflicts?"</p>
+                <div class="faq-answer">
+                    <p>No. The framework applies to any situation where you can't say something important – from board conflicts to conversations with your partner.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"I don't have time for 2 days in-person."</p>
-                <p>The conflict you're avoiding is already costing you more time (and energy and health) than 2 days of training.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"I don't have time for 2 days in-person."</p>
+                <div class="faq-answer">
+                    <p>The conflict you're avoiding is already costing you more time (and energy and health) than 2 days of training.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"What if I can't attend live?"</p>
-                <p>Everything is recorded. But: The magic happens live, in the group. We strongly recommend being there live.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"What if I can't attend live?"</p>
+                <div class="faq-answer">
+                    <p>Everything is recorded. But: The magic happens live, in the group. We strongly recommend being there live.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"Do I need prior knowledge?"</p>
-                <p>No. The only thing you need: a conflict you want to move.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Do I need prior knowledge?"</p>
+                <div class="faq-answer">
+                    <p>No. The only thing you need: a conflict you want to move.</p>
+                </div>
             </div>
 
             <div class="faq-item">
-                <p class="faq-question">"Is this therapy?"</p>
-                <p>No. Training. You learn a framework. If you're in therapy, this can be a powerful complement.</p>
+                <p class="faq-question" onclick="toggleFAQ(this)">"Is this therapy?"</p>
+                <div class="faq-answer">
+                    <p>No. Training. You learn a framework. If you're in therapy, this can be a powerful complement.</p>
+                </div>
             </div>
         </div>
     </section>
+
+
+
+
 
 
 
@@ -1023,6 +1090,22 @@
                 } else {
                     stickyHeader.classList.remove('scrolled');
                 }
+            }
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(questionElement) {
+            const answer = questionElement.nextElementSibling;
+            const isActive = questionElement.classList.contains('active');
+            
+            // Close all FAQs
+            document.querySelectorAll('.faq-question').forEach(q => q.classList.remove('active'));
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('active'));
+            
+            // Open clicked FAQ if it wasn't already open
+            if (!isActive) {
+                questionElement.classList.add('active');
+                answer.classList.add('active');
             }
         }
 
