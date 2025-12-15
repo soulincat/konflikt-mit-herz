@@ -366,6 +366,11 @@
         .lang-en [data-lang="de"] { display: none; }
         .lang-en [data-lang="en"] { display: block; }
 
+        /* Ensure only one language block shows in photo CTA */
+        #photo-cta > [data-lang] { display: none; }
+        body.lang-en #photo-cta > [data-lang="en"] { display: flex; }
+        body:not(.lang-en) #photo-cta > [data-lang="de"] { display: flex; }
+
         /* Responsive */
         @media (max-width: 768px) {
             :root { --space-section: 64px; --space-block: 32px; }
