@@ -208,6 +208,16 @@
             height: 100vh;
             overflow: hidden;
         }
+        .full-screen-carousel > div[data-lang] > .carousel-title-fixed {
+            position: absolute;
+            top: 48px;
+            left: 48px;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #fff;
+            z-index: 100;
+            pointer-events: none;
+        }
         .carousel-slide {
             position: absolute;
             inset: 0;
@@ -230,6 +240,22 @@
             max-width: 720px;
             margin-left: 10%;
             color: #fff;
+        }
+        .carousel-caption-right {
+            position: absolute;
+            top: 50%;
+            right: 48px;
+            transform: translateY(-50%);
+            text-align: right;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #fff;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .carousel-slide.active .carousel-caption-right {
+            opacity: 1;
         }
         .carousel-label {
             font-size: 0.875rem;
@@ -389,6 +415,15 @@
             .full-screen-carousel > div[data-lang] {
                 height: 80vh;
             }
+            .full-screen-carousel > div[data-lang] > .carousel-title-fixed {
+                top: 24px;
+                left: 24px;
+                font-size: 1rem;
+            }
+            .carousel-caption-right {
+                right: 24px;
+                font-size: 1.125rem;
+            }
             section { margin-bottom: 48px; } /* Reduce section spacing on mobile */
             #photo-cta { min-height: 70vh; padding: 80px 20px; flex-direction: column; gap: 32px; }
             #photo-cta > div[data-lang] { max-width: 100%; justify-content: space-between; display: flex; }
@@ -423,14 +458,14 @@
     <section id="hero">
         <div data-lang="de">
             <h1>Wie wäre dein Leben ohne Angst vor Konflikten?</h1>
-            <p>Lerne bei uns Konflikt-Kompetenz mit Herz – ein innovativer und interdisziplinärer Ansatz, der Körper, Bewusstsein und Beziehung verbindet.</p>
-            <p class="option-note" style="margin-top: 16px; margin-bottom: 16px; text-align: center;">Workshop 26. April 2025</p>
+            <p>Der weltweit erste Konflikt-Framework-Kurs, der Mediation, somatische Arbeit und bewusstes Beziehen verbindet.</p>
+            <p class="option-note" style="margin-top: 16px; margin-bottom: 16px; text-align: center;">Live Training 1. April 2026</p>
             <a href="#offer" class="cta-button">Platz sichern</a>
         </div>
         <div data-lang="en">
             <h1>What would your life be like without fear of conflict?</h1>
-            <p>Learn Conflict Competence with Heart – an innovative and interdisciplinary approach that connects body, consciousness and relationships.</p>
-            <p class="option-note" style="margin-top: 16px; margin-bottom: 16px; text-align: center;">Workshop 26 Apr 2025</p>
+            <p>The World's 1st Conflict Framework Course combining mediation, somatic work, conscious relating.</p>
+            <p class="option-note" style="margin-top: 16px; margin-bottom: 16px; text-align: center;">Live Training 1st Apr 2026</p>
             <a href="#offer" class="cta-button">Secure your spot</a>
         </div>
     </section>
@@ -460,16 +495,16 @@
     <section id="not-taught" style="padding: var(--space-section) 24px; max-width: 100%; margin-bottom: 80px;">
         <div data-lang="de" style="max-width: 700px; margin: 0 auto; text-align: center;">
             <div class="highlight-box">
-                <p style="font-size: 1.25rem; font-weight: 500; margin-bottom: 20px;"><strong>Du wurdest nicht gelehrt, mit Konflikten umzugehen.</strong></p>
+                <p style="font-size: 1.25rem; font-weight: 500; margin-bottom: 20px;"><strong>Wir haben nie gelernt, wie wir in Konflikten auftreten können.</strong></p>
                 <p style="font-size: 1.125rem; margin-bottom: 20px;">Du wurdest gelehrt, "nett" zu sein. Frieden zu bewahren. Nicht das Boot zu rocken.</p>
-                <p style="font-size: 1.125rem; color: var(--color-accent); font-weight: 500; margin-bottom: 0;">Und jetzt? Dein Körper führt Buch.</p>
+                <p style="font-size: 1.125rem; color: var(--color-accent); font-weight: 500; margin-bottom: 0;">Und jetzt? Das Schweigen tötet dich langsam.</p>
             </div>
         </div>
         <div data-lang="en" style="max-width: 700px; margin: 0 auto; text-align: center;">
             <div class="highlight-box">
-                <p style="font-size: 1.25rem; font-weight: 500; margin-bottom: 20px;"><strong>You weren't taught to deal with conflict.</strong></p>
+                <p style="font-size: 1.25rem; font-weight: 500; margin-bottom: 20px;"><strong>We never learned how to show up in conflict</strong></p>
                 <p style="font-size: 1.125rem; margin-bottom: 20px;">You were taught to be "nice." To keep peace. Not to rock the boat.</p>
-                <p style="font-size: 1.125rem; color: var(--color-accent); font-weight: 500; margin-bottom: 0;">And now? Your body is keeping score.</p>
+                <p style="font-size: 1.125rem; color: var(--color-accent); font-weight: 500; margin-bottom: 0;">And now? Silence is slowly killing you</p>
             </div>
         </div>
     </section>
@@ -479,13 +514,13 @@
         <div data-lang="de">
             <h2 style="margin-bottom: 24px;">Wir sind auf der wilden Mission</h2>
             <p style="font-size: 1.25rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-                Radikale Soulfulness in die Welt der Konflikte zu bringen.
+                Radikale Soulfulness in die Welt der Konflikte zu bringen mit CIP, dem weltweit ersten Konflikt-Framework.
             </p>
         </div>
         <div data-lang="en">
             <h2 style="margin-bottom: 24px;">We're on a wild mission</h2>
             <p style="font-size: 1.25rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
-                To bring radical Soulfulness into the world of conflict.
+                To bring radical Soulfulness into the world of conflict with CIP the World's 1st Conflict Framework.
             </p>
         </div>
     </section>
@@ -514,7 +549,7 @@
     <!-- SECTION 3: MEET YOUR GUIDES -->
     <section id="founders" class="text-center">
         <div data-lang="de">
-            <h2>Deine Guides</h2>
+            <h2>Co-entwickelt von</h2>
             
             <div class="founders-grid">
                 <div class="founder-card">
@@ -534,7 +569,7 @@
         </div>
 
         <div data-lang="en">
-            <h2>Developed by</h2>
+            <h2>Co-developed by</h2>
             
             <div class="founders-grid">
                 <div class="founder-card">
@@ -576,6 +611,7 @@
     <!-- SECTION 4: CONFLICT AVOIDANCE STRATEGIES CAROUSEL -->
     <section id="conflict-strategies" class="full-screen-carousel">
         <div data-lang="de">
+            <div class="carousel-title-fixed">Was wir denken, löst Konflikte :</div>
             <div class="carousel-slide active" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('man-sweeping-error-under-carpet-260nw-1226307703.webp');">
                 <div class="carousel-overlay">
                     <p class="carousel-label">#1</p>
@@ -583,6 +619,7 @@
                     <p class="carousel-subtitle">Konflikte werden ignoriert, verdrängt oder bewusst umgangen in der Hoffnung, dass sie von selbst verschwinden.</p>
                     <p class="carousel-consequence"><strong>Folge:</strong> Sabotiert Nervensystem, Wohlbefinden und Beziehungen.</p>
                 </div>
+                <div class="carousel-caption-right">Taktik #1 : Vermeiden</div>
             </div>
 
             <div class="carousel-slide" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('img_4331.webp');">
@@ -592,6 +629,7 @@
                     <p class="carousel-subtitle">Emotionale Reaktionen dominieren das Gespräch, Schuldzuweisungen fliegen hin und her, ohne dass echte Lösungen entstehen.</p>
                     <p class="carousel-consequence"><strong>Folge:</strong> Beziehung bekommt Risse, geht oft in die Brüche – Muster wiederholen sich.</p>
                 </div>
+                <div class="carousel-caption-right">Taktik #2 : Beschuldigen</div>
             </div>
 
             <div class="carousel-slide" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('strategy3.jpg');">
@@ -601,6 +639,7 @@
                     <p class="carousel-subtitle">Der Konflikt wird oberflächlich \"gelöst\", ohne die tieferen Ursachen anzuschauen – wie eine Schmerztablette, die nur Symptome dämpft.</p>
                     <p class="carousel-consequence"><strong>Folge:</strong> Der Konflikt kommt zurück, wandert durch Dein Lebenssystem und bricht an anderen Stellen wieder auf.</p>
                 </div>
+                <div class="carousel-caption-right">Taktik #3 : Schnelle Lösung</div>
             </div>
 
             <div class="carousel-dots">
@@ -611,6 +650,7 @@
         </div>
 
         <div data-lang="en">
+            <div class="carousel-title-fixed">What we think solves conflicts :</div>
             <div class="carousel-slide active" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('man-sweeping-error-under-carpet-260nw-1226307703.webp');">
                 <div class="carousel-overlay">
                     <p class="carousel-label">#1</p>
@@ -618,6 +658,7 @@
                     <p class="carousel-subtitle">Conflicts are ignored, suppressed, or consciously avoided in the hope they will disappear on their own.</p>
                     <p class="carousel-consequence"><strong>Consequence:</strong> Sabotages nervous system, well-being and relationships.</p>
                 </div>
+                <div class="carousel-caption-right">Tactic #1 : Avoiding</div>
             </div>
 
             <div class="carousel-slide" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('img_4331.webp');">
@@ -627,6 +668,7 @@
                     <p class="carousel-subtitle">Emotional reactions dominate the conversation, blame flies back and forth, without real solutions emerging.</p>
                     <p class="carousel-consequence"><strong>Consequence:</strong> Relationship cracks deepen and often break – patterns repeat in future relationships.</p>
                 </div>
+                <div class="carousel-caption-right">Tactic #2 : Blaming</div>
             </div>
 
             <div class="carousel-slide" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('strategy3.jpg');">
@@ -636,6 +678,7 @@
                     <p class="carousel-subtitle">The conflict is superficially \"solved\" without looking at deeper causes – like a painkiller that only numbs symptoms.</p>
                     <p class="carousel-consequence"><strong>Consequence:</strong> The conflict returns, moves through your life system, and erupts in new places.</p>
                 </div>
+                <div class="carousel-caption-right">Tactic #3 : Quick Fix</div>
             </div>
 
             <div class="carousel-dots">
@@ -692,7 +735,7 @@
                     <h4>2. Lernen, präsent zu bleiben</h4>
                     <p>Ein innovativer und ganzheitlicher Ansatz, der Mediation, Somatic Work & Trauma-Informed Practice vereint.</p>
                     <a href="#offer" class="cta-button" style="margin-top: 24px;">Jetzt anmelden</a>
-                    <p class="option-note">Workshop 26. April 2025</p>
+                    <p class="option-note">Live Training 1. April 2026</p>
                 </div>
             </div>
         </div>
@@ -719,7 +762,7 @@
                 <div class="option-card option-card-primary">
                     <h4>2. Learn to stay present</h4>
                     <p>An innovative and holistic approach integrating Mediation, Somatic Work & Trauma-Informed Practice.</p>
-                    <a href="#offer" class="cta-button" style="margin-top: 24px;">Register now</a>
+                    <a href="#offer" class="cta-button" style="margin-top: 24px;">Register Now</a>
                     <p class="option-note">Workshop 26 Apr 2025</p>
                 </div>
             </div>
@@ -748,7 +791,7 @@
     <!-- SECTION 7: THE SCIENTIFIC TRUTH -->
     <section id="science">
         <div data-lang="de">
-            <h2>Was Dein Körper weiß (und Dein Verstand nicht)</h2>
+            <h2>Was nicht gesprochen wird, bleibt in deinem Körper</h2>
             
             <div class="stat-card">
                 <h4>Die neurobiologische Wahrheit</h4>
@@ -783,7 +826,7 @@
         </div>
 
         <div data-lang="en">
-            <h2>Your body is keeping score.</h2>
+            <h2>What doesn't get spoken, stays in your body</h2>
             
             <div class="stat-card">
                 <h4>The neurobiological truth</h4>
@@ -842,7 +885,7 @@
     <!-- SECTION 10: TRANSFORMATION PROOF -->
     <section id="proof">
         <div data-lang="de">
-            <h2>Was wäre, wenn es einen Weg gibt?</h2>
+            <h2>Was wäre, wenn es einen anderen Weg gibt?</h2>
             <h3>Vorher → Nachher</h3>
             <ul>
                 <li>"Seit Monaten vermieden" → "Schwieriges Gespräch mit Klarheit initiiert"</li>
@@ -854,7 +897,7 @@
         </div>
 
         <div data-lang="en">
-            <h2>What if there's a way?</h2>
+            <h2>What if there's another way?</h2>
             <h3>Before → After</h3>
             <ul>
                 <li>"Avoided for months" → "Initiated difficult conversation with clarity"</li>
@@ -887,7 +930,7 @@
     <!-- SECTION 5: THE FRAMEWORK -->
     <section id="framework" style="padding: var(--space-section) 24px; max-width: 100%; background: var(--color-bg-soft); margin-bottom: 80px;">
         <div data-lang="de">
-            <h2 style="text-align: center; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">Der Conflict Integration Process (CIP)</h2>
+            <h2 style="text-align: center; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">Vorstellung des Conflict Integration Process (CIP)</h2>
             <p style="text-align: center; max-width: 700px; margin: 0 auto 48px; font-size: 1.0625rem; color: var(--color-text-soft); line-height: 1.7;">
                 <strong>Isabel Kresse und Ania Pilipenko</strong> haben gemeinsam den Conflict Integration Process (CIP) entwickelt – eine integrative Methode für Konfliktarbeit, Bewusstseinsentwicklung und Beziehungskultur.
             </p>
@@ -914,7 +957,7 @@
         </div>
 
         <div data-lang="en">
-            <h2 style="text-align: center; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">The Conflict Integration Process (CIP)</h2>
+            <h2 style="text-align: center; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">Introducing the Conflict Integration Process (CIP)</h2>
             <p style="text-align: center; max-width: 700px; margin: 0 auto 48px; font-size: 1.0625rem; color: var(--color-text-soft);">
                 <strong>Isabel Kresse and Ania Pilipenko</strong> together developed the Conflict Integration Process (CIP) – an integrative method for conflict work, consciousness development and relationship culture.
             </p>
@@ -1137,8 +1180,8 @@
                 <p style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--color-accent); font-weight: 500;">Das Angebot</p>
             </div>
             
-            <h2>Konflikt-Kompetenz mit Herz</h2>
-            <p><strong>01.04–02.04.2025</strong></p>
+            <h2>Hör auf, in Angst zu leben.<br>Lerne Konflikt-Kompetenz mit Herz kennen</h2>
+            <p><strong>01.04–02.04.2026</strong></p>
 
             <div class="offer-box">
                 <h3>Format:</h3>
@@ -1177,13 +1220,13 @@
                 <p><strong>Limitierung:</strong> 20 Plätze | [X] bereits vergeben</p>
 
                 <div style="text-align: center; margin-top: 48px;">
-                    <a href="#" class="cta-button" style="font-size: 1.25rem; padding: 20px 64px;">Jetzt buchen →</a>
+                    <a href="#" class="cta-button" style="font-size: 1.25rem; padding: 20px 64px;">Jetzt anmelden →</a>
                 </div>
             </div>
         </div>
 
         <div data-lang="en">
-            <h2>Conflict Competence with Heart</h2>
+            <h2>Stop Living in Fear.<br>Meet Conflict Competence with Heart</h2>
             <p><strong>April 1-2, 2025</strong></p>
 
             <div class="offer-box">
@@ -1222,7 +1265,7 @@
                 <p><strong>Guarantee:</strong> 100% refund after Module 1 if not right for you.</p>
                 <p><strong>Limitation:</strong> 20 spots | [X] already taken</p>
 
-                <a href="#" class="cta-button">HOLD YOUR SPACE</a>
+                <a href="#" class="cta-button">Register Now</a>
             </div>
         </div>
     </section>
@@ -1353,15 +1396,15 @@
     <!-- SECTION 9: FULL-WIDTH PHOTO CTA -->
     <section id="photo-cta" style="padding: 120px 24px; max-width: 100%; min-height: 90vh; background-image: linear-gradient(135deg, rgba(0,0,0,0.45), rgba(0,0,0,0.65)), url('Screenshot 2025-12-15 at 17.27.59.png'); background-size: cover; background-position: center; background-repeat: no-repeat; display: flex; align-items: center; justify-content: center;">
         <div data-lang="de" style="max-width: 900px; width: 100%; align-items: center; justify-content: space-between; gap: 32px;">
-            <h2 style="color: #fff; margin-bottom: 0; max-width: 420px; text-align: left;">Bereit für den nächsten Schritt?</h2>
+            <h2 style="color: #fff; margin-bottom: 0; max-width: 420px; text-align: left;">Beginne zu leben, ohne Angst</h2>
             <div style="text-align: right; flex-shrink: 0;">
-                <a href="#offer" class="cta-button" style="background: #fff; color: var(--color-accent); font-weight: 500;">Jetzt buchen</a>
+                <a href="#offer" class="cta-button" style="background: #fff; color: var(--color-accent); font-weight: 500;">Jetzt anmelden</a>
             </div>
         </div>
         <div data-lang="en" style="max-width: 900px; width: 100%; align-items: center; justify-content: space-between; gap: 32px;">
-            <h2 style="color: #fff; margin-bottom: 0; max-width: 520px; text-align: left;">Ready to engage with conflicts – instead of fearing them?</h2>
+            <h2 style="color: #fff; margin-bottom: 0; max-width: 520px; text-align: left;">Start living, without fear</h2>
             <div style="text-align: right; flex-shrink: 0;">
-                <a href="#offer" class="cta-button" style="background: #fff; color: var(--color-accent); font-weight: 500;">Book Now</a>
+                <a href="#offer" class="cta-button" style="background: #fff; color: var(--color-accent); font-weight: 500;">Register Now</a>
             </div>
         </div>
     </section>
