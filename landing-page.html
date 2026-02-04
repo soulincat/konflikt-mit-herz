@@ -41,6 +41,12 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
             overflow-x: auto;
+            overflow-y: visible; /* Allow dropdown to overflow vertically */
+        }
+
+        /* Ensure dropdown container doesn't clip */
+        .control-panel .sections-dropdown {
+            overflow: visible;
         }
 
         .control-panel.hidden {
@@ -53,6 +59,7 @@
             align-items: center;
             position: relative;
             flex-shrink: 0;
+            overflow: visible; /* Allow dropdown to overflow */
         }
 
         .control-group.checkboxes-column {
@@ -63,6 +70,7 @@
 
         .sections-dropdown {
             position: relative;
+            z-index: 10002; /* Higher than control panel to ensure dropdown visibility */
         }
 
         .sections-toggle {
@@ -97,23 +105,23 @@
         }
 
         .sections-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            margin-top: 8px;
+            position: fixed;
             background: white;
             border: 1px solid #ddd;
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             min-width: 280px;
+            max-width: 400px;
             max-height: 400px;
             overflow-y: auto;
+            overflow-x: hidden;
             display: none;
-            z-index: 10001;
+            z-index: 99999;
+            /* Position will be set dynamically by JavaScript */
         }
 
         .sections-list.open {
-            display: block;
+            /* Styles handled by inline styles in JavaScript */
         }
 
         .section-item {
@@ -463,6 +471,16 @@
                 align-items: flex-start;
             }
 
+            .sections-dropdown {
+                position: relative;
+            }
+
+            .sections-list {
+                max-width: 90vw;
+                left: 0;
+                right: auto;
+            }
+
             .section {
                 padding: 100px 20px 40px;
             }
@@ -488,9 +506,9 @@
     <div class="control-panel" id="controlPanel">
         <div class="control-group">
             <span class="control-label">Color Theme</span>
-            <button class="control-button active" data-theme="1" onclick="switchTheme(1)">Clean</button>
+            <button class="control-button" data-theme="1" onclick="switchTheme(1)">Clean</button>
             <button class="control-button" data-theme="2" onclick="switchTheme(2)">Classy</button>
-            <button class="control-button" data-theme="3" onclick="switchTheme(3)">Artsy</button>
+            <button class="control-button active" data-theme="3" onclick="switchTheme(3)">Artsy</button>
         </div>
         <div class="control-group">
             <span class="control-label">Main Font</span>
@@ -857,7 +875,7 @@
             },
             3: {
                 colors: [
-                    '#8F5A5E', // Section 1 - Main color (Hero)
+                    '#6A2A33', // Section 1 - Main color (Hero)
                     '#E6D6C7', // Section 2 - Light base
                     '#B59A8A', // Section 3 - Mid neutral
                     '#8F5A5E', // Section 4 - Main color
@@ -885,11 +903,11 @@
                     secondary: '#8F5A5E',  // Main color for secondary
                     inverse: '#E6D6C7'    // Light base for inverse
                 },
-                darkColors: ['#8F5A5E', '#4A2E32'] // Main color and dark anchor
+                darkColors: ['#6A2A33', '#4A2E32'] // Main color and dark anchor
             }
         };
 
-        let currentTheme = 1;
+        let currentTheme = 3; // Default: Artsy
         let currentMainFont = 'lora';
         let currentBodyFont = 'lato';
 
@@ -1003,7 +1021,16 @@
         // Initialize Sections List
         function initSectionsList() {
             const list = document.getElementById('sectionsList');
+            if (!list) {
+                console.error('Sections list element not found');
+                return;
+            }
             list.innerHTML = '';
+            
+            if (sectionsOrder.length === 0) {
+                console.warn('No sections in sectionsOrder');
+                return;
+            }
             
             sectionsOrder.forEach((sectionName, index) => {
                 const item = document.createElement('div');
@@ -1024,24 +1051,152 @@
                 list.appendChild(item);
             });
             
+            console.log('Sections list initialized with', list.children.length, 'items');
             updateSectionTitles();
         }
 
         // Toggle Sections List
-        function toggleSectionsList() {
+        function toggleSectionsList(e) {
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            
             const list = document.getElementById('sectionsList');
             const toggle = document.getElementById('sectionsToggle');
-            list.classList.toggle('open');
-            toggle.classList.toggle('open');
+            
+            if (!list || !toggle) {
+                return;
+            }
+            
+            // Ensure list has items
+            if (list.children.length === 0) {
+                initSectionsList();
+            }
+            
+            const isOpening = !list.classList.contains('open');
+            
+            if (isOpening) {
+                // Move dropdown to body to escape control panel overflow clipping
+                if (list.parentElement !== document.body) {
+                    document.body.appendChild(list);
+                }
+                
+                // Calculate position relative to toggle button using fixed positioning
+                const toggleRect = toggle.getBoundingClientRect();
+                
+                let top = toggleRect.bottom + 8;
+                let left = toggleRect.left;
+                const width = Math.max(toggleRect.width, 280);
+                
+                // Ensure dropdown stays within viewport
+                const viewportHeight = window.innerHeight;
+                const viewportWidth = window.innerWidth;
+                const dropdownHeight = 400; // max-height
+                
+                // If dropdown would go off bottom of screen, show it above instead
+                if (top + dropdownHeight > viewportHeight) {
+                    top = toggleRect.top - dropdownHeight - 8;
+                }
+                
+                // Ensure dropdown stays within horizontal bounds
+                if (left + width > viewportWidth) {
+                    left = viewportWidth - width - 10;
+                }
+                if (left < 10) {
+                    left = 10;
+                }
+                
+                // Set all styles explicitly
+                list.style.cssText = `
+                    position: fixed !important;
+                    top: ${top}px !important;
+                    left: ${left}px !important;
+                    width: ${width}px !important;
+                    display: block !important;
+                    visibility: visible !important;
+                    opacity: 1 !important;
+                    z-index: 99999 !important;
+                    background: white !important;
+                    border: 1px solid #ddd !important;
+                    border-radius: 6px !important;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+                    max-height: 400px !important;
+                    overflow-y: auto !important;
+                    min-width: 280px !important;
+                `;
+                
+                list.classList.add('open');
+                toggle.classList.add('open');
+            } else {
+                // Move dropdown back to original position when closing
+                const dropdown = document.querySelector('.sections-dropdown');
+                if (dropdown && list.parentElement === document.body) {
+                    dropdown.appendChild(list);
+                }
+                
+                list.style.display = 'none';
+                list.classList.remove('open');
+                toggle.classList.remove('open');
+            }
         }
 
         // Close sections list when clicking outside
         document.addEventListener('click', function(e) {
             const dropdown = document.querySelector('.sections-dropdown');
             const list = document.getElementById('sectionsList');
-            if (dropdown && !dropdown.contains(e.target)) {
-                list.classList.remove('open');
-                document.getElementById('sectionsToggle').classList.remove('open');
+            const toggle = document.getElementById('sectionsToggle');
+            if (dropdown && list && toggle && list.classList.contains('open')) {
+                // Check if click is outside both dropdown and list
+                const clickedInsideDropdown = dropdown.contains(e.target);
+                const clickedInsideList = list.contains(e.target);
+                
+                if (!clickedInsideDropdown && !clickedInsideList) {
+                    // Move dropdown back to original position
+                    if (list.parentElement === document.body) {
+                        dropdown.appendChild(list);
+                    }
+                    list.style.display = 'none';
+                    list.classList.remove('open');
+                    toggle.classList.remove('open');
+                }
+            }
+        });
+
+        // Update dropdown position on scroll/resize
+        window.addEventListener('scroll', function() {
+            const list = document.getElementById('sectionsList');
+            const toggle = document.getElementById('sectionsToggle');
+            if (list && toggle && list.classList.contains('open')) {
+                const toggleRect = toggle.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const dropdownHeight = 400;
+                let top = toggleRect.bottom + 8;
+                
+                if (top + dropdownHeight > viewportHeight) {
+                    top = toggleRect.top - dropdownHeight - 8;
+                }
+                
+                list.style.top = top + 'px';
+                list.style.left = toggleRect.left + 'px';
+            }
+        }, true);
+
+        window.addEventListener('resize', function() {
+            const list = document.getElementById('sectionsList');
+            const toggle = document.getElementById('sectionsToggle');
+            if (list && toggle && list.classList.contains('open')) {
+                const toggleRect = toggle.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const dropdownHeight = 400;
+                let top = toggleRect.bottom + 8;
+                
+                if (top + dropdownHeight > viewportHeight) {
+                    top = toggleRect.top - dropdownHeight - 8;
+                }
+                
+                list.style.top = top + 'px';
+                list.style.left = toggleRect.left + 'px';
             }
         });
 
@@ -1154,12 +1309,35 @@
         }
 
         // Initialize
-        switchTheme(1);
+        switchTheme(3); // Artsy theme
         switchMainFont('lora');
         switchBodyFont('lato');
         initSectionsList();
         // Initialize content toggle (unchecked by default)
         toggleContent(false);
+        
+        // Debug: verify dropdown exists and has items
+        setTimeout(function() {
+            const list = document.getElementById('sectionsList');
+            const toggle = document.getElementById('sectionsToggle');
+            console.log('Dropdown check:', {
+                listExists: !!list,
+                toggleExists: !!toggle,
+                itemsCount: list ? list.children.length : 0,
+                listDisplay: list ? window.getComputedStyle(list).display : 'N/A',
+                toggleOnclick: toggle ? toggle.getAttribute('onclick') : 'N/A'
+            });
+            
+            // Test: make dropdown temporarily visible to verify it exists
+            if (list && list.children.length > 0) {
+                console.log('Dropdown has', list.children.length, 'items. First item:', list.children[0].textContent);
+            } else if (list) {
+                console.warn('Dropdown exists but has no items!');
+            }
+        }, 100);
+        
+        // Make toggleSectionsList globally accessible
+        window.toggleSectionsList = toggleSectionsList;
     </script>
 </body>
 </html>
