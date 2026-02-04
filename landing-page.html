@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page - Theme & Font Switcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400&family=Karma:wght@300;400&family=Literata:wght@300;400&family=Lato:wght@300;400&family=Montserrat:wght@300;400&family=Archivo:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Control Panel - Fixed Top */
+        .control-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 12px 24px;
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            overflow-x: auto;
+        }
+
+        .control-panel.hidden {
+            transform: translateY(-100%);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .control-group.checkboxes-column {
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .sections-dropdown {
+            position: relative;
+        }
+
+        .sections-toggle {
+            padding: 8px 14px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .sections-toggle:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        .sections-toggle::after {
+            content: '▼';
+            font-size: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .sections-toggle.open::after {
+            transform: rotate(180deg);
+        }
+
+        .sections-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 10001;
+        }
+
+        .sections-list.open {
+            display: block;
+        }
+
+        .section-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: move;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s ease;
+            user-select: none;
+        }
+
+        .section-item:hover {
+            background: #f9f9f9;
+        }
+
+        .section-item:last-child {
+            border-bottom: none;
+        }
+
+        .section-item.dragging {
+            opacity: 0.5;
+            background: #f0f0f0;
+        }
+
+        .section-item.drag-over {
+            border-top: 2px solid #333;
+        }
+
+        .section-drag-handle {
+            cursor: grab;
+            color: #999;
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .section-drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .section-item-number {
+            font-size: 11px;
+            color: #999;
+            font-weight: 600;
+            min-width: 20px;
+        }
+
+        .section-item-text {
+            flex: 1;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .control-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .control-button {
+            padding: 8px 14px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .control-button:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        .control-button.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .control-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #333;
+        }
+
+        .control-checkbox label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .toggle-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-panel:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        /* Full Screen Sections */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 120px 40px 40px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* First section - vertically centered */
+        #section1 {
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #section1 .section-content {
+            min-height: auto;
+        }
+
+        #section1 .section-title {
+            position: static;
+            margin-top: 0;
+            padding: 0;
+        }
+
+        /* When content is hidden, center titles and subtitles */
+        .content-hidden .section {
+            justify-content: center;
+        }
+
+        .content-hidden .section-content {
+            min-height: auto;
+        }
+
+        .content-hidden .section-title {
+            position: static;
+            margin-top: 0;
+            padding: 0;
+        }
+
+        /* Color Palette Classes - Will be dynamically applied */
+        .color-palette-1 { background-color: #f5f5f5; }
+        .color-palette-2 { background-color: #ffffff; }
+        .color-palette-3 { background-color: #fafafa; }
+
+        /* Texture Overlays */
+        .texture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background-repeat: repeat;
+        }
+
+        /* A. Plaster / Limewash - Hero & brand sections - 6-10% */
+        .texture-plaster {
+            background-image: url('texture-plaster.png');
+            mix-blend-mode: overlay;
+            opacity: 0.08; /* 8% */
+        }
+
+        /* B. Paper / Fiber - Editorial, text-heavy - 4-6% */
+        .texture-paper {
+            background-image: url('texture-paper.png');
+            mix-blend-mode: soft-light;
+            opacity: 0.05; /* 5% */
+        }
+
+        /* C. Stone / Mineral - Architectural, image-led - 5-8% */
+        .texture-stone {
+            background-image: url('texture-stone.png');
+            mix-blend-mode: overlay;
+            opacity: 0.065; /* 6.5% */
+        }
+
+        /* D. Fabric / Pigment Wash - Highlight, emotional - 6-9% */
+        .texture-fabric {
+            background-image: url('texture-fabric.png');
+            mix-blend-mode: soft-light;
+            opacity: 0.075; /* 7.5% */
+        }
+
+        /* E. Fine Grain / Noise - Dark sections only - 3-5% */
+        .texture-grain {
+            background-image: url('texture-grain.png');
+            mix-blend-mode: overlay;
+            opacity: 0.04; /* 4% */
+        }
+
+        /* F. None / Ultra-light Noise - Utility, dense content - 0-3% */
+        .texture-none {
+            background-image: url('texture-grain.png');
+            mix-blend-mode: overlay;
+            opacity: 0.015; /* 1.5% - barely perceptible */
+        }
+
+        /* Content Container */
+        .section-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        .section-title {
+            font-size: 64px;
+            font-weight: 300; /* Thin weight */
+            margin-bottom: 24px;
+            line-height: 1.2;
+            color: #2E1F1C; /* Primary Text - default */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        /* Sticky title for sections 2-10 */
+        .section:not(#section1) .section-title {
+            position: sticky;
+            top: 0;
+            background: inherit;
+            padding: 20px 0 10px;
+            z-index: 20;
+            margin-top: -20px;
+        }
+
+        /* Remove sticky positioning when content is hidden */
+        .content-hidden .section-title {
+            position: static !important;
+            margin-top: 0 !important;
+            padding: 0 !important;
+        }
+
+        .section-subtitle {
+            font-size: 24px;
+            font-weight: 300; /* Thin weight */
+            margin-bottom: 32px;
+            opacity: 0.8;
+            color: #2E1F1C; /* Primary Text - default */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .section-body {
+            font-size: 18px;
+            font-weight: 300; /* Thin weight */
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #2E1F1C; /* Primary Text - default */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            text-align: left;
+        }
+
+        .section-body p {
+            margin-bottom: 24px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            text-align: left;
+        }
+
+        /* Main Font Classes - For titles only */
+        .main-font-lora .section-title {
+            font-family: 'Lora', serif;
+        }
+
+        .main-font-karma .section-title {
+            font-family: 'Karma', serif;
+        }
+
+        .main-font-literata .section-title {
+            font-family: 'Literata', serif;
+        }
+
+        /* Body Font Classes - For body text and subtitles */
+        .body-font-lato .section-body,
+        .body-font-lato .section-subtitle {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .body-font-montserrat .section-body,
+        .body-font-montserrat .section-subtitle {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .body-font-archivo .section-body,
+        .body-font-archivo .section-subtitle {
+            font-family: 'Archivo', sans-serif;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .control-panel {
+                padding: 12px 16px;
+                gap: 16px;
+            }
+
+            .control-group {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+            }
+
+            .section {
+                padding: 100px 20px 40px;
+            }
+
+            .section-title {
+                font-size: 36px;
+                padding: 15px 0;
+                margin-top: -15px;
+            }
+
+            .section-subtitle {
+                font-size: 18px;
+            }
+
+            .section-body {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Control Panel -->
+    <div class="control-panel" id="controlPanel">
+        <div class="control-group">
+            <span class="control-label">Color Theme</span>
+            <button class="control-button active" data-theme="1" onclick="switchTheme(1)">Clean</button>
+            <button class="control-button" data-theme="2" onclick="switchTheme(2)">Classy</button>
+            <button class="control-button" data-theme="3" onclick="switchTheme(3)">Artsy</button>
+        </div>
+        <div class="control-group">
+            <span class="control-label">Main Font</span>
+            <button class="control-button active" data-main-font="lora" onclick="switchMainFont('lora')">Lora</button>
+            <button class="control-button" data-main-font="karma" onclick="switchMainFont('karma')">Karma</button>
+            <button class="control-button" data-main-font="literata" onclick="switchMainFont('literata')">Literata</button>
+        </div>
+        <div class="control-group">
+            <span class="control-label">Body Font</span>
+            <button class="control-button active" data-body-font="lato" onclick="switchBodyFont('lato')">Lato</button>
+            <button class="control-button" data-body-font="montserrat" onclick="switchBodyFont('montserrat')">Montserrat</button>
+            <button class="control-button" data-body-font="archivo" onclick="switchBodyFont('archivo')">Archivo</button>
+        </div>
+        <div class="control-group sections-dropdown">
+            <span class="control-label">Sections</span>
+            <button class="sections-toggle" id="sectionsToggle" onclick="toggleSectionsList()">
+                Sections <span id="sectionsCount">10</span>
+            </button>
+            <div class="sections-list" id="sectionsList">
+                <!-- Sections will be populated by JavaScript -->
+            </div>
+        </div>
+        <div class="control-group checkboxes-column">
+            <div class="control-checkbox">
+                <input type="checkbox" id="contentToggle" onchange="toggleContent(this.checked)">
+                <label for="contentToggle">Content</label>
+            </div>
+            <div class="control-checkbox">
+                <input type="checkbox" id="textureToggle" checked onchange="toggleTextures(this.checked)">
+                <label for="textureToggle">Textures</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toggle Panel Button -->
+    <button class="toggle-panel" id="togglePanel" onclick="toggleControlPanel()">⚙️</button>
+
+    <!-- Section 1 -->
+    <section class="section color-palette-1 main-font-lora body-font-lato" id="section1">
+        <div class="texture-overlay texture-1"></div>
+        <div class="section-content">
+            <h1 class="section-title">Welcome to Soulful Academy</h1>
+            <p class="section-subtitle">A school for embodied conflict competence and conscious relationship culture.</p>
+            <div class="section-body">
+                <p>We offer training and educational programs for individuals, groups and organizations – promoting self-efficacy, emotional clarity and connection.</p>
+                <p>Our aim is to empower people so they can express what they feel, need, and want – and stay connected with each other in the process. In both their personal and professional lives.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="section color-palette-2 main-font-lora body-font-lato" id="section2">
+        <div class="section-content">
+            <h1 class="section-title">Engage in conflicts – instead of fearing them.</h1>
+            <p class="section-subtitle">Learn conflict resolution skills with heart with us!</p>
+            <div class="section-body">
+                <p>An experience-based training for people who hold positions of responsibility – in relationships, teams, and organizations.</p>
+                <p>We combine attitude and a sound method to consciously and compassionately shape relationships, even in times of crisis.</p>
+                <p>Live Training · April 2026</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="section color-palette-3 main-font-lora body-font-lato" id="section3">
+        <div class="texture-overlay texture-2"></div>
+        <div class="section-content">
+            <h1 class="section-title">Problem</h1>
+            <p class="section-subtitle">Does this sound familiar?</p>
+            <div class="section-body">
+                <p>You perceive tensions within the team that are disrupting you and the workflow. Although you feel that discussions are necessary, you hesitate and postpone them.</p>
+                <p>The result: conflicts remain unresolved, straining the nervous systems of those involved, the team atmosphere, and workflow. Short-term solutions are like a painkiller: when the effect wears off, the conflict returns.</p>
+                <p>You've been struggling with an issue you want to resolve for a long time. Although you've mentioned it several times, it never gets the attention it deserves. Eventually, you explode and overreact to minor things, leading to escalation with the other person and driving you further apart.</p>
+                <p>As a result, the drama takes over and relationships suffer cracks that are usually difficult to repair.</p>
+                <p>You've noticed for a long time that you say yes far too often, even though you feel it's pushing you beyond your limits. You know it's time to stop – but how?</p>
+                <p>The result: You lose more and more contact with yourself, your feelings and needs, which massively damages your self-confidence in the long run.</p>
+                <p>These aren't weaknesses, but survival strategies that once protected you. Today, they're outdated and can permanently damage your relationships. Imagine there's another way:</p>
+                <p>Conflicts can also lead to greater togetherness, sovereignty, and inner peace.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="section color-palette-1 main-font-lora body-font-lato" id="section4">
+        <div class="section-content">
+            <h1 class="section-title">THE OTHER WAY</h1>
+            <p class="section-subtitle">Conflict resolution skills with heart</p>
+            <div class="section-body">
+                <p>Conflict competence with heart means...</p>
+                <p>to remain present and embodied in the conflict – instead of fleeing, destroying, or losing oneself.</p>
+                <p>We don't teach perfect communication skills.</p>
+                <p>We convey an attitude that combines courage, clarity, and compassion, and sees conflicts not as disruptions, but as opportunities for renewal.</p>
+                <p>In our courses, we make this attitude learnable.</p>
+                <p>Do you want to gain a deeper understanding of how we think about conflict – and why integration is more than communication?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5 -->
+    <section class="section color-palette-2 main-font-lora body-font-lato" id="section5">
+        <div class="texture-overlay texture-3"></div>
+        <div class="section-content">
+            <h1 class="section-title">Who will be accompanying you</h1>
+            <p class="section-subtitle">Developed by</p>
+            <div class="section-body">
+                <p>Isabel Kresse, MA, organizational consultant, mediator and trainer BM</p>
+                <p>With nearly 30 years of experience, she is a recognized expert in managing complex, emotional conflict dynamics in organizations and relationships.</p>
+                <p>Ania Pilipenko, MA</p>
+                <p>Entrepreneur and psychosomatic consultant</p>
+                <p>with over 15 years of experience in founding cooperative business models and an expert at the intersection of consciousness, creativity and body intelligence.</p>
+                <p>Together we developed the Conflict Competence with Heart training - as the foundation of the Soulful Academy and as an expression of an attitude: to lead conflicts courageously, clearly and in a relationship-oriented way.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6 -->
+    <section class="section color-palette-3 main-font-lora body-font-lato" id="section6">
+        <div class="section-content">
+            <h1 class="section-title">OUR APPROACH</h1>
+            <p class="section-subtitle">The opposite of conflict is not peace, but cooperation.</p>
+            <div class="section-body">
+                <p>Conflict integration</p>
+                <p>We have developed an innovative and interdisciplinary approach that does not aim to resolve conflicts quickly, but rather integrates them sustainably as a tool for relationship and self-management.</p>
+                <p>It combines five levels that are effective in every conflict:</p>
+                <p>Body & Regulation</p>
+                <p>Emotion & Need Perception</p>
+                <p>Consciousness & inner order</p>
+                <p>Decision & Responsibility</p>
+                <p>Relationship & System</p>
+                <p>It is not a theory, but an experiential process that sustainably changes your conflict and relationship culture.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7 -->
+    <section class="section color-palette-1 main-font-lora body-font-lato" id="section7">
+        <div class="texture-overlay texture-1"></div>
+        <div class="section-content">
+            <h1 class="section-title">THE TRAINING (OFFER)</h1>
+            <p class="section-subtitle">Basic training – conflict competence with heart</p>
+            <div class="section-body">
+                <p>Conflict Competence with Heart:</p>
+                <p>An experience-based training for people who want to consciously, embody, and relationship-orientedly manage conflicts – both privately and professionally.</p>
+                <p>Format:</p>
+                <p>2 online modules (4 sessions of 2 hours each)</p>
+                <p>2-day integration retreat (in-person)</p>
+                <p>Live support for all online and offline seminars by Isabel Kresse & Ania Pilipenko</p>
+                <p>Group size: 8 to a maximum of 20 participants</p>
+                <p>What it's about</p>
+                <p>In the course we learn not to avoid, fight or quickly "resolve" conflicts, but to integrate them through conscious self-management, clear communication and a relationship-oriented attitude.</p>
+                <p>The training combines insights from psychology, neurobiology, mediation, somatic work, systemic counseling and elements of trauma work – and translates them into concrete, experiential practice.</p>
+                <p>The focus is not only on techniques, but on the ability to maintain tension, to clarify emotions, to take responsibility and to stay in touch – even when it gets difficult.</p>
+                <p>Who is this training for?</p>
+                <p>This basic training is aimed at:</p>
+                <p>All people who want to understand and change their conflict patterns</p>
+                <p>People in leadership positions (projects, organizations)</p>
+                <p>Multipliers (consulting, education, social fields)</p>
+                <p>People in relationships (couples, parents, co-parents, polyamorous relationships)</p>
+                <p>Participation requirements:</p>
+                <p>Curiosity, self-responsibility, and a willingness to engage in self-discovery and to confront the topic of conflict</p>
+                <p>No prior knowledge is required.</p>
+                <p>The structure of the training</p>
+                <p>Online Module I – Embodied Self-Leadership</p>
+                <p>4 sessions of 4 hours each</p>
+                <p>Key areas:</p>
+                <p>Introduction to the Anatomy of Conflict</p>
+                <p>Perception of tensions, impulses and boundaries</p>
+                <p>Emotional self-regulation</p>
+                <p>Self-regulation and presence in contact</p>
+                <p>Goal: To learn to stay calm and collected when tension arises.</p>
+                <p>Online Module II – Relationship & Communication</p>
+                <p>4 sessions of 4 hours each</p>
+                <p>Key areas:</p>
+                <p>Dynamics of proximity, distance, power and responsibility</p>
+                <p>Conflict as a relational phenomenon</p>
+                <p>Dialogical practice based on Integration into everyday life, work and relationships</p>
+                <p>Goal: To learn to stay in touch without losing each other.</p>
+                <p>Integration Retreat (2 days, in-person)</p>
+                <p>Small group · experience-oriented · voluntary, but recommended</p>
+                <p>Key areas:</p>
+                <p>Deepening through bodywork and group practice</p>
+                <p>Integration of learning content</p>
+                <p>Practice of real conflict situations</p>
+                <p>Conclusion & Outlook</p>
+                <p>Goal: Embodiment instead of mere understanding.</p>
+                <p>Methodological basis</p>
+                <p>The training was developed by the Soulful Academy.</p>
+                <p>The approach integrates:</p>
+                <p>Body-based perception</p>
+                <p>Emotional intelligence & awareness of needs</p>
+                <p>dialogic and mediative elements</p>
+                <p>Systemic thinking</p>
+                <p>Awareness work</p>
+                <p>Meditation, dance and movement</p>
+                <p>Depending on the professional context, the training may be recognized as further education.</p>
+                <p>What you take with you</p>
+                <p>greater internal stability in conflicts</p>
+                <p>Clarity about one's own patterns</p>
+                <p>Ability to contain and release tension instead of escalating it</p>
+                <p>new quality of contact and relationship</p>
+                <p>A desire for deeper exploration rather than exhaustion</p>
+                <p>Prices (proposal for landing page)</p>
+                <p>Basic training (Online Modules I & II)</p>
+                <p>€1,400 regular</p>
+                <p>Early Bird: €1,150</p>
+                <p>Price:</p>
+                <p>Online training: €1,400</p>
+                <p>Early Bird: €1,150</p>
+                <p>Bundle with retreat: €1,750</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8 -->
+    <section class="section color-palette-2 main-font-lora body-font-lato" id="section8">
+        <div class="section-content">
+            <h1 class="section-title">WHAT THAT CHANGES</h1>
+            <p class="section-subtitle"></p>
+            <div class="section-body">
+                <p>With conflict competence with heart you will learn:</p>
+                <p>Standing in conflict without losing yourself</p>
+                <p>To perceive feelings without being controlled by them.</p>
+                <p>To correctly recognize your own needs and take good care of yourself.</p>
+                <p>to speak clearly without hurting anyone</p>
+                <p>Staying in a relationship – even when it gets difficult</p>
+                <p>Conflicts are not avoided in this way, but transformed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 9 -->
+    <section class="section color-palette-3 main-font-lora body-font-lato" id="section9">
+        <div class="texture-overlay texture-2"></div>
+        <div class="section-content">
+            <h1 class="section-title">FAQs</h1>
+            <p class="section-subtitle"></p>
+            <div class="section-body">
+                <p>What exactly is our approach to conflict competence with heart?</p>
+                <p>It's an experience-based approach to conflict resolution.</p>
+                <p>It understands conflicts not as problems that need to be solved, but as processes that require integration – in the body, in feelings, in thoughts, and in relationships.</p>
+                <p>In the training, you learn to consciously manage and shape conflicts, instead of avoiding, controlling, or escalating them.</p>
+                <p>Is the training more therapeutically or professionally oriented?</p>
+                <p>Both – and neither in the traditional sense.</p>
+                <p>The training is not therapy, but rather an educational and self-discovery experience.</p>
+                <p>The content is highly relevant to everyday life, relationships, organizations, and other professional contexts. Many participants experience this connection as a particular strength.</p>
+                <p>Do I need prior experience in coaching, mediation, or self-exploration?</p>
+                <p>No.</p>
+                <p>The training is designed to appeal to people without prior experience as well as experts.</p>
+                <p>What matters is not prior knowledge, but the willingness to engage in self-reflection and participate in experience-based learning processes.</p>
+                <p>How personal does it get in the groups?</p>
+                <p>As personal as feels right for you.</p>
+                <p>We work with presence, awareness, and dialogue – not with exposure or pressure.</p>
+                <p>You always decide how much you share. Safety, voluntariness, and self-responsibility are central principles of our work.</p>
+                <p>Does the training focus on specific situations from my life?</p>
+                <p>Yes, many exercises can only be directly applied to real-life situations in relationships, family, or work.</p>
+                <p>At the same time, you learn to recognize fundamental patterns that extend beyond individual conflicts. This allows the training to have a lasting effect on your life. You don't need to bring any other parties involved in the conflict.</p>
+                <p>What distinguishes this training from traditional communication or conflict seminars?</p>
+                <p>The focus is not on techniques or conversation models, but on integration.</p>
+                <p>We work in a body-based, emotionally conscious, and relationship-oriented way.</p>
+                <p>Communication arises from presence – not from correct behavior.</p>
+                <p>We explain this in detail in the following PDF, in case you haven't downloaded it yet.</p>
+                <p>Can this training be recognized as continuing education?</p>
+                <p>Yes, depending on the professional context.</p>
+                <p>Isabel Kresse is a licensed mediator and trainer (BM) and is authorized to train others.</p>
+                <p>We will gladly issue a certificate of participation or training certificate upon request.</p>
+                <p>What happens if I can't attend an appointment?</p>
+                <p>The online sessions will be recorded and available to you.</p>
+                <p>However, we still recommend attending live, as the group processes are a key part of the learning experience.</p>
+                <p>Is the retreat mandatory?</p>
+                <p>No.</p>
+                <p>The retreat is an optional but recommended component for deepening and integration.</p>
+                <p>Many participants experience a significant qualitative step there.</p>
+                <p>Are there any further offers afterwards?</p>
+                <p>Yes.</p>
+                <p>The basic training is a prerequisite for more advanced courses, e.g., for managers, couples, or specific relationship contexts.</p>
+                <p>These advanced courses build upon the shared foundations and enable targeted further development.</p>
+                <p>Is the training also suitable for organizations or teams?</p>
+                <p>The basic training is aimed at individuals.</p>
+                <p>We offer separate formats for organizations, teams, or managers.</p>
+                <p>What if I realize that the training isn't right for me after all?</p>
+                <p>Then you can book the modules individually. Before the training begins, we conduct personal interviews. Should you find during this process that the training is not right for you, you will receive a refund of the costs minus a €100 processing fee.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 10 -->
+    <section class="section color-palette-1 main-font-lora body-font-lato" id="section10">
+        <div class="section-content">
+            <h1 class="section-title">Footer / CTA</h1>
+            <p class="section-subtitle">Come with us on the journey to radical soulfulness!</p>
+            <div class="section-body">
+                <p>Contact Section</p>
+                <p>Newsletter</p>
+                <p>imprint</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Theme Configuration - Will be updated with actual color palettes
+        const themes = {
+            1: {
+                colors: [
+                    '#F4EFE9', // Section 1 - Base Background
+                    '#C98F7A', // Section 2 - Secondary
+                    '#9F3D2F', // Section 3 - Primary Brand
+                    '#E3D6C8', // Section 4 - UI Neutral
+                    '#F4EFE9', // Section 5 - Base Background
+                    '#5A1F2A', // Section 6 - Deep Accent
+                    '#F4EFE9', // Section 7 - Base Background
+                    '#C98F7A', // Section 8 - Secondary
+                    '#F4EFE9', // Section 9 - Base Background
+                    '#5A1F2A'  // Section 10 - Deep Accent
+                ],
+                textures: [
+                    'texture-plaster', // Section 1 - Hero (Plaster/Limewash)
+                    'texture-none',   // Section 2 - Brand (Ultra-light)
+                    'texture-paper',   // Section 3 - Content (Paper/Fiber)
+                    'texture-none',   // Section 4 - Secondary (Ultra-light)
+                    'texture-paper',   // Section 5 - UI Neutral (Paper/Fiber)
+                    'texture-none',   // Section 6 - Base Background (Ultra-light)
+                    'texture-grain',   // Section 7 - Deep Accent Dark (Fine Grain)
+                    'texture-none',   // Section 8 - Base Background (Ultra-light)
+                    'texture-paper',   // Section 9 - Secondary (Paper/Fiber)
+                    'texture-none'    // Section 10 - Base Background (Ultra-light)
+                ],
+                textColors: {
+                    primary: '#2E1F1C',
+                    inverse: '#F6F1EC'
+                },
+                darkColors: ['#9F3D2F', '#5A1F2A']
+            },
+            2: {
+                colors: [
+                    '#6A2A33', // Section 1 - Deep Wine Plum (Hero)
+                    '#C49A8A', // Section 2 - Muted Rose Taupe (Image Grid)
+                    '#D2B3A0', // Section 3 - Warm Blush Clay (Soft Content)
+                    '#EEE3D8', // Section 4 - Stone Cream (Light Insert Cards)
+                    '#D2B3A0', // Section 5 - Warm Blush Clay (Feature Image)
+                    '#C49A8A', // Section 6 - Muted Rose Taupe (Arch/Brand Moment)
+                    '#D2B3A0', // Section 7 - Warm Blush Clay (Long-form Copy)
+                    '#C49A8A', // Section 8 - Muted Rose Taupe (Texture Divider)
+                    '#7A3A44', // Section 9 - Smoked Burgundy (Pre-footer Dark)
+                    '#6A2A33'  // Section 10 - Deep Wine Plum (Footer)
+                ],
+                textures: [
+                    'texture-plaster', // Section 1 - Hero (Plaster/Limewash)
+                    null,              // Section 2 - Image Grid (None)
+                    'texture-paper',   // Section 3 - Soft Content (Paper/Fiber)
+                    'texture-paper',   // Section 4 - Light Cards (Paper/Fiber)
+                    'texture-paper',   // Section 5 - Feature Image (Paper/Fiber)
+                    'texture-fabric',  // Section 6 - Brand Moment (Fabric/Pigment)
+                    'texture-paper',   // Section 7 - Long-form Copy (Paper/Fiber)
+                    'texture-plaster', // Section 8 - Texture Divider (Plaster)
+                    'texture-grain',   // Section 9 - Dark section (Fine Grain)
+                    'texture-grain'    // Section 10 - Footer Dark (Fine Grain)
+                ],
+                textColors: {
+                    primary: '#3A2623',   // Primary Text (on light)
+                    secondary: '#7B5E57',  // Secondary Text
+                    inverse: '#F2E8E1'     // Inverse Text (on dark)
+                },
+                darkColors: ['#6A2A33', '#7A3A44'] // Colors that need inverse text
+            },
+            3: {
+                colors: [
+                    '#8F5A5E', // Section 1 - Main color (Hero)
+                    '#E6D6C7', // Section 2 - Light base
+                    '#B59A8A', // Section 3 - Mid neutral
+                    '#8F5A5E', // Section 4 - Main color
+                    '#A07175', // Section 5 - Accent warmth
+                    '#E6D6C7', // Section 6 - Light base
+                    '#9FAFA3', // Section 7 - Organic accent
+                    '#4A2E32', // Section 8 - Dark anchor
+                    '#B59A8A', // Section 9 - Mid neutral (completing pattern)
+                    '#8F5A5E'  // Section 10 - Main color (Footer)
+                ],
+                textures: [
+                    'texture-plaster', // Section 1 - Hero (Plaster/Limewash)
+                    'texture-none',    // Section 2 - Light base (Ultra-light)
+                    'texture-stone',   // Section 3 - Mid neutral (Stone/Mineral)
+                    'texture-fabric',  // Section 4 - Main color (Fabric/Pigment)
+                    'texture-fabric',  // Section 5 - Accent warmth (Fabric/Pigment)
+                    'texture-paper',   // Section 6 - Light base (Paper/Fiber)
+                    'texture-fabric',  // Section 7 - Organic accent (Fabric/Pigment)
+                    'texture-grain',   // Section 8 - Dark anchor (Fine Grain)
+                    'texture-paper',   // Section 9 - Mid neutral (Paper/Fiber)
+                    'texture-grain'    // Section 10 - Main color dark (Fine Grain)
+                ],
+                textColors: {
+                    primary: '#4A2E32',   // Dark anchor for primary text
+                    secondary: '#8F5A5E',  // Main color for secondary
+                    inverse: '#E6D6C7'    // Light base for inverse
+                },
+                darkColors: ['#8F5A5E', '#4A2E32'] // Main color and dark anchor
+            }
+        };
+
+        let currentTheme = 1;
+        let currentMainFont = 'lora';
+        let currentBodyFont = 'lato';
+
+        // Switch Theme
+        function switchTheme(themeNum) {
+            currentTheme = themeNum;
+            const theme = themes[themeNum];
+            
+            // Update active button
+            document.querySelectorAll('[data-theme]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-theme="${themeNum}"]`).classList.add('active');
+            
+            // Get theme-specific text colors and dark colors
+            const darkColors = theme.darkColors || (themeNum === 1 ? ['#9F3D2F', '#5A1F2A'] : ['#6A2A33', '#7A3A44']);
+            const lightTextColor = theme.textColors ? theme.textColors.inverse : '#F6F1EC';
+            const darkTextColor = theme.textColors ? theme.textColors.primary : '#2E1F1C';
+            
+            // Apply colors to sections
+            for (let i = 0; i < 10; i++) {
+                const section = document.getElementById(`section${i + 1}`);
+                const bgColor = theme.colors[i];
+                section.style.backgroundColor = bgColor;
+                
+                // Set text color based on background
+                const isDark = darkColors.includes(bgColor);
+                const title = section.querySelector('.section-title');
+                const subtitle = section.querySelector('.section-subtitle');
+                const body = section.querySelector('.section-body');
+                
+                if (title) title.style.color = isDark ? lightTextColor : darkTextColor;
+                if (subtitle) subtitle.style.color = isDark ? lightTextColor : darkTextColor;
+                if (body) body.style.color = isDark ? lightTextColor : darkTextColor;
+                
+                // Remove all texture overlays
+                const existingOverlays = section.querySelectorAll('.texture-overlay');
+                existingOverlays.forEach(overlay => overlay.remove());
+                
+                // Add texture overlay if specified
+                if (theme.textures[i] && theme.textures[i] !== 'null') {
+                    const overlay = document.createElement('div');
+                    overlay.className = `texture-overlay ${theme.textures[i]}`;
+                    section.insertBefore(overlay, section.firstChild);
+                }
+            }
+            
+            // Apply texture toggle state
+            const textureToggle = document.getElementById('textureToggle');
+            if (textureToggle) {
+                toggleTextures(textureToggle.checked);
+            }
+        }
+
+        // Switch Main Font (for titles/subtitles)
+        function switchMainFont(fontName) {
+            currentMainFont = fontName;
+            
+            // Update active button
+            document.querySelectorAll('[data-main-font]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-main-font="${fontName}"]`).classList.add('active');
+            
+            // Remove all main font classes and add new one
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('main-font-lora', 'main-font-karma', 'main-font-literata');
+                section.classList.add(`main-font-${fontName}`);
+            });
+        }
+
+        // Switch Body Font (for body text)
+        function switchBodyFont(fontName) {
+            currentBodyFont = fontName;
+            
+            // Update active button
+            document.querySelectorAll('[data-body-font]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-body-font="${fontName}"]`).classList.add('active');
+            
+            // Remove all body font classes and add new one
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('body-font-lato', 'body-font-montserrat', 'body-font-archivo');
+                section.classList.add(`body-font-${fontName}`);
+            });
+        }
+
+        // Toggle Control Panel
+        function toggleControlPanel() {
+            const panel = document.getElementById('controlPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        // Sections Configuration
+        const sectionsConfig = [
+            'Welcome to Soulful Academy',
+            'Hero',
+            'Problem / Recognition',
+            'The other way (attitude)',
+            'Who will be accompanying you',
+            'Our approach (CIP – in short)',
+            'The training (offer)',
+            'What that changes',
+            'FAQs',
+            'Footer / CTA'
+        ];
+
+        let sectionsOrder = [...sectionsConfig];
+
+        // Initialize Sections List
+        function initSectionsList() {
+            const list = document.getElementById('sectionsList');
+            list.innerHTML = '';
+            
+            sectionsOrder.forEach((sectionName, index) => {
+                const item = document.createElement('div');
+                item.className = 'section-item';
+                item.draggable = true;
+                item.dataset.sectionName = sectionName;
+                item.innerHTML = `
+                    <span class="section-drag-handle">☰</span>
+                    <span class="section-item-number">${index + 1}</span>
+                    <span class="section-item-text">${sectionName}</span>
+                `;
+                
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+                
+                list.appendChild(item);
+            });
+            
+            updateSectionTitles();
+        }
+
+        // Toggle Sections List
+        function toggleSectionsList() {
+            const list = document.getElementById('sectionsList');
+            const toggle = document.getElementById('sectionsToggle');
+            list.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+
+        // Close sections list when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.sections-dropdown');
+            const list = document.getElementById('sectionsList');
+            if (dropdown && !dropdown.contains(e.target)) {
+                list.classList.remove('open');
+                document.getElementById('sectionsToggle').classList.remove('open');
+            }
+        });
+
+        // Drag and Drop Handlers
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            
+            if (this !== draggedElement) {
+                const rect = this.getBoundingClientRect();
+                const midY = rect.top + rect.height / 2;
+                
+                if (e.clientY < midY) {
+                    this.parentNode.insertBefore(draggedElement, this);
+                } else {
+                    this.parentNode.insertBefore(draggedElement, this.nextSibling);
+                }
+            }
+            
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            // Get new order from DOM
+            const items = Array.from(document.querySelectorAll('.section-item'));
+            const newOrder = items.map(item => item.dataset.sectionName);
+            
+            sectionsOrder = newOrder;
+            initSectionsList();
+            
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            document.querySelectorAll('.section-item').forEach(item => {
+                item.classList.remove('drag-over');
+            });
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.section-item:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // Update Section Titles
+        function updateSectionTitles() {
+            sectionsOrder.forEach((sectionName, index) => {
+                const section = document.getElementById(`section${index + 1}`);
+                if (section) {
+                    const title = section.querySelector('.section-title');
+                    if (title) {
+                        title.textContent = sectionName;
+                    }
+                }
+            });
+            
+            document.getElementById('sectionsCount').textContent = sectionsOrder.length;
+        }
+
+        // Toggle Content
+        function toggleContent(enabled) {
+            const sectionBodies = document.querySelectorAll('.section-body');
+            sectionBodies.forEach(body => {
+                body.style.display = enabled ? 'block' : 'none';
+            });
+            
+            // Add/remove class to body for CSS styling
+            if (enabled) {
+                document.body.classList.remove('content-hidden');
+            } else {
+                document.body.classList.add('content-hidden');
+            }
+        }
+
+        // Toggle Textures
+        function toggleTextures(enabled) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const overlays = section.querySelectorAll('.texture-overlay');
+                overlays.forEach(overlay => {
+                    overlay.style.display = enabled ? 'block' : 'none';
+                });
+            });
+        }
+
+        // Initialize
+        switchTheme(1);
+        switchMainFont('lora');
+        switchBodyFont('lato');
+        initSectionsList();
+        // Initialize content toggle (unchecked by default)
+        toggleContent(false);
+    </script>
+</body>
+</html>
