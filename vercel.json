@@ -3,6 +3,10 @@
     {
       "source": "/brand-identity",
       "destination": "/brand-identity.html"
+    },
+    {
+      "source": "/landing-page",
+      "destination": "/landing-page.html"
     }
   ],
   "headers": [
