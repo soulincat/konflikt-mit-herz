@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soulful Academy – Conflict School with Heart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts: Lora (serif) + Lato (sans) — from landing-page.html Artsy theme -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lato:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== DESIGN TOKENS — Artsy palette from landing-page.html (theme 3) ===== */
+        :root {
+            /* Spacing (DESIGN-GUIDELINES.md) */
+            --space-xl: 160px;
+            --space-lg: 120px;
+            --space-md: 64px;
+            --space-sm: 32px;
+            --space-xs: 16px;
+            --space-block: 48px;
+            --space-paragraph: 24px;
+            --max-text: 720px;
+            --max-text-narrow: 680px;
+            --max-text-tight: 640px;
+
+            /* Artsy theme colors (landing-page.html themes[3]) */
+            --artsy-hero: #6A2A33;           /* Section 1 – Main color (Hero) */
+            --artsy-light: #E6D6C7;         /* Section 2 – Light base */
+            --artsy-mid: #B59A8A;           /* Section 3 – Mid neutral */
+            --artsy-main: #8F5A5E;          /* Section 4 & 10 – Main color */
+            --artsy-warm: #A07175;          /* Section 5 – Accent warmth */
+            --artsy-organic: #9FAFA3;       /* Section 7 – Organic accent */
+            --artsy-dark: #4A2E32;          /* Section 8 – Dark anchor */
+
+            --bg-primary: #E6D6C7;          /* Light base – default page bg */
+            --bg-secondary: #B59A8A;         /* Mid neutral */
+            --bg-card: #fff;
+            --text-primary: #4A2E32;        /* Primary text (on light) */
+            --text-secondary: #8F5A5E;       /* Secondary / metadata */
+            --text-inverse: #E6D6C7;       /* Text on dark sections */
+            --accent: #8F5A5E;              /* CTAs, emphasis (main color) */
+            --accent-soft: rgba(143, 90, 94, 0.2);
+            --btn-secondary-bg: #D0A5A5;    /* Dusty baby pink for secondary / Join us / Download */
+            --btn-register-bg: #D0A5A5;     /* Same dusty pink for Register now */
+            --btn-icon-arrow: #4A2E32;      /* Brown for arrow icon (download, continue) */
+            --focus-ring: #4A2E32;
+            --border-soft: rgba(74, 46, 50, 0.12);
+
+            /* Fonts — Artsy: Lora (serif) + Lato (sans) */
+            --font-serif: 'Lora', Georgia, serif;
+            --font-sans: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            --transition: 250ms ease-out;
+            --radius-pill: 999px;
+            --radius-card: 12px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 17px;
+            line-height: 1.65;
+            color: var(--text-primary);
+            background: var(--artsy-light);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== TYPOGRAPHY (TextBlock variants) ===== */
+        .text-block--hero {
+            font-family: var(--font-serif);
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            line-height: 1.25;
+            font-weight: 400;
+            color: var(--text-primary);
+            max-width: 56ch;
+            margin-bottom: var(--space-md);
+        }
+        .text-block--section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.15;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        .text-block--body {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            max-width: var(--max-text);
+            color: var(--text-primary);
+        }
+        .text-block--body p { margin-bottom: var(--space-paragraph); }
+        .text-block--body p:last-child { margin-bottom: 0; }
+        .text-block--meta {
+            font-family: var(--font-sans);
+            font-size: 0.8125rem;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+        .text-block--eyebrow {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xs);
+        }
+
+        /* ===== BUTTON & CTA GROUP ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 46px;
+            min-height: 46px;
+            padding: 12px 22px;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: none;
+            text-decoration: none;
+            border: none;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            transition: background-color var(--transition);
+        }
+        .btn:focus-visible {
+            outline: 2px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+        .btn:disabled { opacity: 0.45; cursor: default; }
+        .btn--primary {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn--primary:hover:not(:disabled) { background: #7A5A4D; }
+        .btn--secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--text-primary);
+            border: 1px solid rgba(160, 113, 117, 0.35);
+        }
+        .btn--secondary:hover:not(:disabled) { background: #c49595; filter: brightness(0.97); }
+        .btn--register {
+            background: var(--btn-register-bg);
+            color: var(--text-primary);
+            border: 1px solid rgba(160, 113, 117, 0.35);
+        }
+        .btn--register:hover:not(:disabled) { background: #c49595; filter: brightness(0.97); }
+        .btn--icon {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 14px;
+            background: var(--artsy-light);
+            color: var(--btn-icon-arrow);
+            border: 1px solid rgba(74, 46, 50, 0.2);
+        }
+        .btn--icon:hover:not(:disabled) { background: var(--artsy-mid); color: var(--btn-icon-arrow); }
+        .btn--icon svg { width: 20px; height: 20px; stroke-width: 1.5; }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: var(--space-block);
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+        .cta-group .btn--primary { margin: 0; }
+        .cta-group .btn--icon { margin: 0; }
+
+        /* ===== LAYOUT ===== */
+        .section {
+            padding: var(--space-lg) 24px;
+        }
+        @media (max-width: 768px) {
+            .section { padding: 80px 20px; }
+        }
+        @media (max-width: 480px) {
+            .section { padding: 64px 16px; }
+        }
+
+        /* Section backgrounds — Artsy palette (landing-page.html theme 3) */
+        .hero { background: var(--artsy-hero); }
+        .welcome { background: var(--artsy-light); }
+        .recognition { background: var(--artsy-mid); }
+        .other-way { background: var(--artsy-main); }
+        .companions { background: var(--artsy-warm); }
+        .approach { background: var(--artsy-light); }
+        .training { background: var(--artsy-organic); }
+        .who-testimonials { background: var(--artsy-light); }
+        .structure { background: var(--artsy-mid); }
+        .takeaways { background: var(--artsy-light); }
+        .investment { background: var(--artsy-mid); }
+        .changes { background: var(--artsy-mid); }
+        .faqs { background: var(--artsy-light); }
+        .footer { background: var(--artsy-main); }
+
+        /* Dark sections: inverse text and adjusted UI */
+        .section--dark,
+        .hero,
+        .footer {
+            color: var(--text-inverse);
+        }
+        .section--dark .text-block--hero,
+        .section--dark .text-block--section-title,
+        .section--dark .text-block--body,
+        .section--dark .text-block--meta,
+        .section--dark .text-block--eyebrow,
+        .hero .hero__brand,
+        .hero .hero__headline,
+        .hero .hero__subline,
+        .hero .hero__desc,
+        .hero .hero__meta,
+        .footer .footer__headline,
+        .footer .footer__links,
+        .footer .footer__links a,
+        .footer .footer__stay {
+            color: var(--text-inverse);
+        }
+        .section--dark .btn--primary,
+        .hero .btn--primary,
+        .footer .btn--primary {
+            background: var(--text-inverse);
+            color: var(--artsy-hero);
+        }
+        .section--dark .btn--primary:hover:not(:disabled),
+        .hero .btn--primary:hover:not(:disabled),
+        .footer .btn--primary:hover:not(:disabled) {
+            background: #fff;
+            color: var(--artsy-hero);
+        }
+        .section--dark .btn--secondary,
+        .hero .btn--secondary,
+        .footer .btn--secondary {
+            border-color: rgba(230, 214, 199, 0.5);
+            color: var(--text-inverse);
+        }
+        .section--dark .btn--icon,
+        .hero .btn--icon,
+        .footer .btn--icon {
+            background: var(--text-inverse);
+            color: var(--artsy-hero);
+        }
+        .section--dark .btn--icon:hover:not(:disabled),
+        .hero .btn--icon:hover:not(:disabled),
+        .footer .btn--icon:hover:not(:disabled) {
+            background: #fff;
+            color: var(--artsy-hero);
+        }
+        .other-way .standalone-line,
+        .other-way .text-block--body,
+        .other-way .text-block--meta { color: var(--text-inverse); }
+        .other-way .text-block--section-title,
+        .other-way .text-block--eyebrow { color: var(--text-inverse); }
+        .other-way .download-card { border-color: rgba(230, 214, 199, 0.4); background: rgba(0,0,0,0.08); }
+        .other-way .btn--secondary { border-color: rgba(230, 214, 199, 0.5); color: var(--text-inverse); }
+        .other-way .btn--secondary:hover:not(:disabled) { background: rgba(230, 214, 199, 0.15); }
+        .other-way .btn--icon { background: var(--text-inverse); color: var(--artsy-main); }
+        .other-way .btn--icon:hover:not(:disabled) { background: #fff; color: var(--artsy-main); }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+        .container--narrow { max-width: var(--max-text-narrow); margin: 0 auto; }
+        .container--tight { max-width: var(--max-text-tight); margin: 0 auto; }
+        .container--text { max-width: var(--max-text); margin: 0 auto; }
+
+        /* ===== 1. HERO ===== */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: var(--space-lg) 24px;
+        }
+        .hero__brand {
+            font-family: var(--font-sans);
+            font-size: 0.8125rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xs);
+        }
+        .hero__headline {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            line-height: 1.2;
+            font-weight: 400;
+            color: var(--text-primary);
+            max-width: 20ch;
+            margin: 0 auto var(--space-xs);
+        }
+        .hero__subline {
+            font-family: var(--font-sans);
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+        }
+        .hero__desc {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            max-width: 42ch;
+            margin: 0 auto var(--space-sm);
+            color: var(--text-primary);
+        }
+        .hero__meta {
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-block);
+        }
+        .hero .cta-group { justify-content: center; margin-top: var(--space-block); }
+
+        /* ===== 2. WELCOME ===== */
+        .welcome .container--narrow { text-align: left; }
+        .welcome .cta-group { margin-top: var(--space-block); }
+
+        /* ===== 3. RECOGNITION ===== */
+        /* ===== 3. RECOGNITION (stepper, paced beats, no cards) ===== */
+        .recognition {
+            background: #F8F4F0; /* warm off-white, not pure white */
+            padding: 120px 24px 120px;
+        }
+        @media (max-width: 768px) {
+            .recognition { padding: 88px 20px 88px; }
+        }
+        .recognition__inner { max-width: 640px; margin: 0 auto; text-align: center; }
+        .recognition__intro {
+            font-family: var(--font-serif);
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            line-height: 1.25;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 80px;
+        }
+        @media (max-width: 768px) {
+            .recognition__intro { margin-bottom: 88px; }
+        }
+        .recognition__stepper {
+            min-height: 75vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .recognition__stepper { min-height: 82vh; }
+        }
+        .recognition__panel {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 24px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 250ms ease-out, transform 250ms ease-out, visibility 0s linear 250ms;
+        }
+        .recognition__panel.active {
+            position: relative;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transition-delay: 0s;
+        }
+        .recognition__panel.leave {
+            opacity: 0;
+            transform: translateY(-14px);
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .recognition__panel .recognition__content { text-align: left; width: 100%; }
+        .recognition__beat {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.65;
+            color: var(--text-primary);
+            margin-bottom: 50px;
+        }
+        .recognition__beat:last-of-type { margin-bottom: 0; }
+        @media (max-width: 768px) {
+            .recognition__beat { margin-bottom: 55px; font-size: 1rem; }
+        }
+        .recognition__result-label {
+            margin-top: 56px;
+            margin-bottom: 24px;
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: var(--text-primary);
+        }
+        @media (max-width: 768px) {
+            .recognition__result-label { margin-top: 62px; }
+        }
+        .recognition__result-text {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+        }
+        .recognition__nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 48px;
+        }
+        .recognition__dots {
+            display: flex;
+            gap: 12px;
+        }
+        .recognition__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            opacity: 0.4;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: opacity 200ms ease-out, transform 200ms ease-out;
+        }
+        .recognition__dot:hover { opacity: 0.7; }
+        .recognition__dot.active { opacity: 1; }
+        .recognition__next {
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 0;
+            letter-spacing: 0.02em;
+        }
+        .recognition__next:hover { color: var(--accent); }
+        .recognition__next:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+        .recognition__reframe {
+            margin-top: 120px;
+            text-align: center;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 768px) {
+            .recognition__reframe { margin-top: 132px; }
+        }
+        .recognition__reframe-line {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.75;
+            color: var(--text-primary);
+            margin-bottom: 40px;
+        }
+        .recognition__reframe-line:last-child { margin-bottom: 0; }
+        .recognition__imagine-wrap { margin-top: 80px; text-align: center; }
+        @media (max-width: 768px) {
+            .recognition__imagine-wrap { margin-top: 88px; }
+        }
+        .recognition__imagine {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 40px;
+        }
+        .recognition__banner {
+            padding: 40px 24px;
+            background: rgba(143, 90, 94, 0.08);
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .recognition__banner { padding: 44px 20px; }
+        }
+        .recognition__banner-text {
+            font-family: var(--font-serif);
+            font-size: 1.3125rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            max-width: 28ch;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+        @media (max-width: 768px) {
+            .recognition__banner-text { font-size: 1.125rem; }
+        }
+
+        /* ===== 4. THE OTHER WAY ===== */
+        .other-way .standalone-line {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            line-height: 1.5;
+            margin: var(--space-sm) 0;
+            font-style: italic;
+        }
+        .other-way .download-card {
+            margin-top: var(--space-block);
+            padding: var(--space-sm);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-card);
+            max-width: 320px;
+        }
+        .other-way .cta-group { margin-top: var(--space-xs); }
+
+        /* ===== 5. COMPANIONS ===== */
+        .companions__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 900px;
+            margin: 0 auto var(--space-lg);
+        }
+        @media (max-width: 768px) {
+            .companions__grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+        }
+        .companion {
+            text-align: left;
+        }
+        .companion__image {
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 280px;
+            background: var(--artsy-light);
+            border-radius: var(--radius-card);
+            margin-bottom: var(--space-sm);
+        }
+        .companion__name { font-family: var(--font-serif); font-size: 1.375rem; margin-bottom: var(--space-xs); }
+        .companion__role { margin-bottom: var(--space-sm); }
+        .companions__joint {
+            text-align: center;
+            max-width: var(--max-text-tight);
+            margin: 0 auto;
+        }
+
+        /* ===== 6. APPROACH ===== */
+        .approach__header {
+            text-align: center;
+            max-width: 24ch;
+            margin: 0 auto var(--space-block);
+            font-family: var(--font-serif);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.3;
+        }
+        .approach__intro {
+            text-align: center;
+            max-width: var(--max-text-narrow);
+            margin: 0 auto var(--space-block);
+        }
+        .approach__grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            max-width: 1000px;
+            margin: 0 auto var(--space-block);
+        }
+        @media (max-width: 900px) {
+            .approach__grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .approach__grid { grid-template-columns: 1fr; }
+        }
+        .approach__item {
+            padding: var(--space-sm);
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            text-align: center;
+            cursor: pointer;
+            transition: background var(--transition);
+        }
+        .approach__item:hover { background: var(--artsy-light); }
+        .approach__item .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin: 0 auto var(--space-xs);
+            opacity: 0.7;
+        }
+        .approach__item-title {
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .approach__item-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: var(--space-xs);
+            line-height: 1.5;
+            display: none;
+        }
+        .approach__item.expanded .approach__item-desc { display: block; }
+        .approach__outro {
+            text-align: center;
+            max-width: 28ch;
+            margin: 0 auto;
+        }
+
+        /* ===== 7. TRAINING ===== */
+        .training__format-card {
+            padding: var(--space-block);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-card);
+            background: var(--artsy-light);
+            max-width: var(--max-text);
+            margin: var(--space-block) 0;
+        }
+        .training__format-card ul {
+            list-style: none;
+            margin-top: var(--space-sm);
+        }
+        .training__format-card li {
+            margin-bottom: 20px;
+            padding-left: 1.5em;
+            position: relative;
+        }
+        .training__format-card li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.75em;
+        }
+        .training__learn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            max-width: var(--max-text);
+            margin: var(--space-sm) 0;
+        }
+        @media (max-width: 600px) {
+            .training__learn-grid { grid-template-columns: 1fr; }
+        }
+        .training__learn-grid li {
+            margin-bottom: 16px;
+            padding-left: 1.25em;
+            position: relative;
+        }
+        .training__learn-grid li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.7em;
+        }
+
+        /* ===== 8. WHO IS THIS FOR (Photos row + testimonials below) ===== */
+        .who-testimonials__intro { text-align: center; margin-bottom: 100px; }
+        .who-testimonials__heading {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+        }
+        .who-testimonials__headline {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.2;
+            font-weight: 400;
+            color: var(--text-primary);
+        }
+        .who-testimonials__row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            .who-testimonials__row { flex-direction: column; align-items: center; gap: 48px; }
+        }
+        .who-item {
+            flex: 0 0 auto;
+            width: 140px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .who-item { width: 160px; }
+        }
+        .who-item__photo,
+        .who-item__photo-placeholder {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            background: var(--artsy-mid);
+            display: block;
+        }
+        .who-item__photo { object-fit: cover; }
+        .who-item__role {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--text-primary);
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+        .who-item__quote {
+            font-family: var(--font-sans);
+            font-size: 0.8125rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        .who-testimonials__inclusion {
+            text-align: center;
+            max-width: 520px;
+            margin: 80px auto 0;
+            padding: 0 24px;
+        }
+        .who-testimonials__inclusion p {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.65;
+            color: var(--text-primary);
+        }
+        .who-testimonials__requirements {
+            max-width: 420px;
+            margin: 80px auto 0;
+            padding: 40px 32px;
+            background: rgba(143, 90, 94, 0.06);
+            border-radius: var(--radius-card);
+            text-align: center;
+        }
+        .who-testimonials__requirements-line {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        .who-testimonials__requirements-line:last-of-type { margin-bottom: 0; }
+        .who-testimonials__requirements-note {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-soft);
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+        }
+        @media (max-width: 768px) {
+            .who-testimonials__intro { margin-bottom: 110px; }
+            .who-testimonials__inclusion { margin-top: 88px; }
+            .who-testimonials__requirements { margin-top: 88px; padding: 44px 24px; }
+        }
+        .accordion__item {
+            border-bottom: 1px solid var(--border-soft);
+            max-width: var(--max-text);
+            margin: 0 auto;
+        }
+        .accordion__trigger {
+            width: 100%;
+            padding: var(--space-sm) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            text-align: left;
+            cursor: pointer;
+            transition: color var(--transition);
+        }
+        .accordion__trigger:hover { color: var(--accent); }
+        .accordion__trigger:focus-visible {
+            outline: 2px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+        .accordion__trigger::after {
+            content: '+';
+            font-size: 1.25rem;
+            font-weight: 300;
+            transition: transform var(--transition);
+        }
+        .accordion__item.open .accordion__trigger::after { transform: rotate(45deg); }
+        .accordion__panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition);
+        }
+        .accordion__panel-inner {
+            padding-bottom: var(--space-sm);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        /* ===== 9. STRUCTURE & CONTENT (3-phase journey, timeline) ===== */
+        .structure {
+            background: var(--artsy-light);
+        }
+        .structure__intro {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 100px;
+        }
+        .structure__intro-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.2;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        .structure__intro-p {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+        .structure__journey {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+        @media (max-width: 900px) {
+            .structure__journey { grid-template-columns: 1fr; gap: 0; }
+        }
+        .structure__timeline {
+            position: sticky;
+            top: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 8px;
+        }
+        @media (max-width: 900px) {
+            .structure__timeline { display: none; }
+        }
+        .structure__timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 22px;
+            bottom: 22px;
+            width: 2px;
+            background: var(--border-soft);
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        .structure__markers {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 140px;
+            min-height: 412px;
+        }
+        .structure__marker {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--border-soft);
+            background: var(--artsy-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-sans);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: border-color 280ms ease-out, background 280ms ease-out, color 280ms ease-out;
+            z-index: 1;
+        }
+        .structure__marker:hover { border-color: var(--accent); color: var(--text-primary); }
+        .structure__marker.active {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #fff;
+        }
+        .structure__marker:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+        .structure__modules { max-width: 680px; }
+        .structure__module {
+            min-height: 80vh;
+            padding-bottom: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .structure__module:last-child { padding-bottom: 80px; }
+        @media (max-width: 768px) {
+            .structure__module { min-height: auto; padding-bottom: 154px; }
+        }
+        .structure__module-header { margin-bottom: 60px; }
+        .structure__module-title {
+            font-family: var(--font-serif);
+            font-size: clamp(1.5rem, 3vw, 1.875rem);
+            line-height: 1.25;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+        .structure__module-subline {
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+        }
+        .structure__statements { margin-bottom: 48px; }
+        .structure__statement {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 40px;
+        }
+        .structure__statement:last-child { margin-bottom: 0; }
+        .structure__expand-wrap { margin-top: 40px; margin-bottom: 48px; }
+        .structure__expand-btn {
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--accent);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 0;
+            letter-spacing: 0.02em;
+        }
+        .structure__expand-btn:hover { text-decoration: underline; }
+        .structure__expand-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+        .structure__expand-btn[aria-expanded="true"] { margin-bottom: 32px; }
+        .structure__deep-dive {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 280ms ease-out;
+        }
+        .structure__deep-dive.open { max-height: 2000px; }
+        .structure__deep-dive-block { margin-bottom: 32px; }
+        .structure__deep-dive-block:last-child { margin-bottom: 0; }
+        .structure__deep-dive-block p {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .structure__deep-dive-block p:last-child { margin-bottom: 0; }
+        .structure__goal-box {
+            margin-top: 48px;
+            padding: 36px 32px;
+            background: rgba(143, 90, 94, 0.08);
+            text-align: center;
+            border-radius: var(--radius-card);
+        }
+        .structure__goal-text {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.75;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        /* Retreat rhythmic blocks */
+        .structure__retreat-blocks { margin-bottom: 48px; }
+        .structure__retreat-block {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 48px;
+        }
+        .structure__retreat-block:last-child { margin-bottom: 0; }
+        .structure .cta-group { justify-content: center; margin-top: var(--space-block); }
+        @media (max-width: 900px) {
+            .structure__module-title { font-size: 1.375rem; }
+            .structure__statement,
+            .structure__retreat-block { font-size: 1rem; }
+            .structure__intro { margin-bottom: 110px; }
+        }
+        @media (max-width: 768px) {
+            .structure__statement { margin-bottom: 44px; }
+            .structure__retreat-block { margin-bottom: 52px; }
+            .structure__module-header { margin-bottom: 66px; }
+            .structure__goal-box { padding: 40px 24px; }
+        }
+
+        /* ===== 10. WHAT YOU TAKE ===== */
+        .takeaways__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            max-width: var(--max-text);
+            margin: 0 auto var(--space-block);
+        }
+        @media (max-width: 600px) {
+            .takeaways__grid { grid-template-columns: 1fr; }
+        }
+        .takeaways__card {
+            padding: 24px;
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .takeaways__outro {
+            text-align: center;
+            margin-top: 48px;
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+        }
+
+        /* ===== 11. INVESTMENT ===== */
+        .investment__cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            max-width: 1000px;
+            margin: var(--space-block) auto;
+        }
+        @media (max-width: 768px) {
+            .investment__cards { grid-template-columns: 1fr; }
+        }
+        .investment__card {
+            padding: var(--space-block);
+            background: var(--artsy-light);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-card);
+            text-align: center;
+        }
+        .investment__card--highlight {
+            transform: scale(1.03);
+            border-color: var(--accent);
+            background: var(--bg-card);
+        }
+        .investment__card-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            margin-bottom: var(--space-sm);
+        }
+        .investment__price { font-size: 1.5rem; font-weight: 600; margin-bottom: var(--space-xs); }
+        .investment__earlybird { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: var(--space-sm); }
+        .investment .cta-group { justify-content: center; margin-top: var(--space-lg); }
+
+        /* ===== 12. WHAT THAT CHANGES ===== */
+        .changes ul {
+            list-style: none;
+            max-width: var(--max-text-narrow);
+            margin: 0 auto;
+        }
+        .changes li {
+            margin-bottom: 24px;
+            padding-left: 1.5em;
+            position: relative;
+        }
+        .changes li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.75em;
+        }
+        .changes__outro {
+            text-align: center;
+            margin-top: 60px;
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+        }
+
+        /* ===== 13. FAQs ===== */
+        .faqs .accordion__item { max-width: var(--max-text-narrow); }
+        .faqs .accordion__trigger { font-family: var(--font-sans); font-size: 1rem; }
+        .faqs .cta-group { margin-top: var(--space-block); }
+
+        /* ===== 14. FOOTER ===== */
+        .footer {
+            padding: var(--space-lg) 24px var(--space-block);
+            text-align: center;
+        }
+        .footer__headline {
+            font-family: var(--font-serif);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            line-height: 1.3;
+            max-width: 20ch;
+            margin: 0 auto var(--space-block);
+        }
+        .footer__links {
+            margin-top: var(--space-block);
+            font-family: var(--font-sans);
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+        }
+        .footer__links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer__links a:hover { text-decoration: underline; }
+        .footer__stay {
+            margin-top: var(--space-block);
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. HERO -->
+    <section class="hero section" id="hero" aria-label="Hero">
+        <div class="container" style="max-width: 760px;">
+            <p class="hero__brand">Soulful Academy</p>
+            <h1 class="hero__headline">Conflict School with Heart</h1>
+            <p class="hero__subline">Engage in conflicts – instead of fearing them.</p>
+            <p class="hero__desc">Learn conflict resolution skills with heart with us! A holistic live training for people who no longer want to avoid conflicts, but are ready to lead them clearly and with an open heart – in their professional lives as well as in their personal lives.</p>
+            <p class="hero__meta">Live Training · April 2026</p>
+            <div class="cta-group">
+                <a href="#contact" class="btn btn--primary">Secure your spot</a>
+                <a href="#contact" class="btn btn--icon" aria-label="Continue to contact">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. WELCOME -->
+    <section class="welcome section" id="welcome" aria-label="Welcome to Soulful Academy">
+        <div class="container container--narrow">
+            <h2 class="text-block--section-title">Welcome to Soulful Academy</h2>
+            <p class="text-block--meta" style="margin-bottom: var(--space-sm);">Clarity + Grounding</p>
+            <div class="text-block--body">
+                <p>The Soulful Academy is a school for embodied conflict competence and conscious relationship culture.</p>
+                <p>We offer training and educational programs for individuals, groups and organizations – promoting self-efficacy, emotional clarity and connection.</p>
+                <p>Our aim is to empower people so they can express what they feel, need, and want – and stay connected with each other in the process. In both their personal and professional lives.</p>
+            </div>
+            <div class="cta-group">
+                <a href="#contact" class="btn btn--secondary">Join us now</a>
+                <a href="#contact" class="btn btn--icon" aria-label="Continue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. RECOGNITION (stepper, one scenario at a time, paced beats) -->
+    <section class="recognition section" id="recognition" aria-label="Recognition">
+        <div class="recognition__inner">
+            <h2 class="recognition__intro">Does this sound familiar?</h2>
+
+            <div class="recognition__stepper">
+                <div class="recognition__panel active" data-scenario="1" role="tabpanel" id="recognition-panel-1" aria-labelledby="recognition-dot-1">
+                    <div class="recognition__content">
+                        <p class="recognition__beat">You perceive tensions within your team that are disrupting you and the workflow.</p>
+                        <p class="recognition__beat">Although you feel that discussions are necessary, you hesitate, even though you bear a great responsibility.</p>
+                        <p class="recognition__result-label">The result:</p>
+                        <p class="recognition__result-text">Conflicts remain unresolved, burdening those involved, the team atmosphere, and the workflow. Short-term solutions are like a painkiller: when the effect wears off, the conflict returns.</p>
+                    </div>
+                </div>
+                <div class="recognition__panel" data-scenario="2" role="tabpanel" id="recognition-panel-2" aria-labelledby="recognition-dot-2">
+                    <div class="recognition__content">
+                        <p class="recognition__beat">There's something you've been wanting to resolve for a long time.</p>
+                        <p class="recognition__beat">Although you've mentioned it several times, it's never been addressed.</p>
+                        <p class="recognition__beat">You repeatedly explode over minor things, which leads to escalation with the other person and drives you further apart.</p>
+                        <p class="recognition__result-label">As a result:</p>
+                        <p class="recognition__result-text">The drama takes over and relationships suffer cracks that are usually difficult to repair.</p>
+                    </div>
+                </div>
+                <div class="recognition__panel" data-scenario="3" role="tabpanel" id="recognition-panel-3" aria-labelledby="recognition-dot-3">
+                    <div class="recognition__content">
+                        <p class="recognition__beat">You've noticed for a long time that you say yes far too often, even when it pushes you beyond your limits.</p>
+                        <p class="recognition__beat">You know it's time to stop – but how?</p>
+                        <p class="recognition__result-label">The result:</p>
+                        <p class="recognition__result-text">You lose more and more contact with yourself, your feelings and needs, which damages your self-confidence in the long run.</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="recognition__nav" aria-label="Recognition scenarios">
+                <div class="recognition__dots" role="tablist">
+                    <button type="button" class="recognition__dot active" role="tab" id="recognition-dot-1" aria-selected="true" aria-controls="recognition-panel-1" aria-label="Scenario 1" title="Scenario 1"><span aria-hidden="true"></span></button>
+                    <button type="button" class="recognition__dot" role="tab" id="recognition-dot-2" aria-selected="false" aria-controls="recognition-panel-2" aria-label="Scenario 2" title="Scenario 2"><span aria-hidden="true"></span></button>
+                    <button type="button" class="recognition__dot" role="tab" id="recognition-dot-3" aria-selected="false" aria-controls="recognition-panel-3" aria-label="Scenario 3" title="Scenario 3"><span aria-hidden="true"></span></button>
+                </div>
+                <button type="button" class="recognition__next" id="recognition-next">Next</button>
+            </nav>
+
+            <div class="recognition__reframe">
+                <p class="recognition__reframe-line">These aren't weaknesses, but survival strategies that once protected you.</p>
+                <p class="recognition__reframe-line">Today, they're outdated and can permanently damage your relationships.</p>
+            </div>
+
+            <div class="recognition__imagine-wrap">
+                <p class="recognition__imagine">Imagine if things could be different:</p>
+                <div class="recognition__banner">
+                    <p class="recognition__banner-text">Conflicts can also lead to greater connection, sovereignty, and inner peace.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. THE OTHER WAY -->
+    <section class="other-way section" id="other-way" aria-label="The other way">
+        <div class="container container--tight">
+            <p class="text-block--eyebrow">The other way</p>
+            <h2 class="text-block--section-title">Conflict resolution skills with heart</h2>
+            <div class="text-block--body">
+                <p>Conflict competence with heart means...</p>
+            </div>
+            <p class="standalone-line">to remain present and embodied in the conflict – instead of fleeing, destroying, or losing oneself.</p>
+            <div class="text-block--body">
+                <p>In our training courses, we teach an attitude combined with a practical toolset that combines self-leadership, clarity and compassion, and sustainably strengthens your conflict competence.</p>
+                <p>Do you want to gain a deeper understanding of how we think about conflict – and why integration is more than communication?</p>
+            </div>
+            <div class="download-card">
+                <p class="text-block--meta" style="margin-bottom: var(--space-xs);">If you don't have it yet, you can request it here:</p>
+                <div class="cta-group">
+                    <a href="#" class="btn btn--secondary">Download course paper (free)</a>
+                    <a href="#" class="btn btn--icon" aria-label="Download">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. COMPANIONS -->
+    <section class="companions section" id="companions" aria-label="Your companions">
+        <div class="container">
+            <p class="text-block--eyebrow" style="text-align: center;">Trust + Human connection</p>
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">Who we are</h2>
+            <div class="companions__grid">
+                <div class="companion">
+                    <div class="companion__image" aria-hidden="true"></div>
+                    <h3 class="companion__name">Isabel Kresse, MA</h3>
+                    <p class="companion__role text-block--meta">organizational consultant, mediator and trainer BM</p>
+                    <div class="text-block--body">
+                        <p>With nearly 30 years of experience, she is a recognized expert in managing complex, emotional conflict dynamics in organizations and relationships.</p>
+                    </div>
+                </div>
+                <div class="companion">
+                    <div class="companion__image" aria-hidden="true"></div>
+                    <h3 class="companion__name">Ania Pilipenko, MA</h3>
+                    <p class="companion__role text-block--meta">Entrepreneur and psychosomatic consultant</p>
+                    <div class="text-block--body">
+                        <p>With over 15 years of experience in founding cooperative business models and an expert at the intersection of consciousness, creativity and body intelligence.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="companions__joint text-block--body">
+                <p>Together we developed the Conflict Competence with Heart training – as the foundation of the Soulful Academy and as an expression of an attitude: to lead conflicts courageously, clearly and in a relationship-oriented way.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. APPROACH -->
+    <section class="approach section" id="approach" aria-label="Our approach">
+        <div class="container">
+            <p class="text-block--eyebrow" style="text-align: center;">Clarity + Structure</p>
+            <h2 class="approach__header">The opposite of conflict is not peace, but cooperation.</h2>
+            <div class="approach__intro text-block--body">
+                <p>Our training programs are based on an innovative and interdisciplinary approach that does not aim to resolve conflicts quickly, but rather integrates them sustainably as a tool for relationship and self-management.</p>
+                <p>It combines five levels that are effective in every conflict:</p>
+            </div>
+            <div class="approach__grid" role="list">
+                <div class="approach__item" role="listitem" tabindex="0">
+                    <div class="dot"></div>
+                    <div class="approach__item-title">Body & Regulation</div>
+                    <div class="approach__item-desc">Somatic foundations and self-regulation in tension.</div>
+                </div>
+                <div class="approach__item" role="listitem" tabindex="0">
+                    <div class="dot"></div>
+                    <div class="approach__item-title">Emotion & Need Perception</div>
+                    <div class="approach__item-desc">Emotional intelligence and clarity about needs.</div>
+                </div>
+                <div class="approach__item" role="listitem" tabindex="0">
+                    <div class="dot"></div>
+                    <div class="approach__item-title">Consciousness & inner order</div>
+                    <div class="approach__item-desc">Inner clarity and decision-making.</div>
+                </div>
+                <div class="approach__item" role="listitem" tabindex="0">
+                    <div class="dot"></div>
+                    <div class="approach__item-title">Decision & Responsibility</div>
+                    <div class="approach__item-desc">Taking responsibility and clear choices.</div>
+                </div>
+                <div class="approach__item" role="listitem" tabindex="0">
+                    <div class="dot"></div>
+                    <div class="approach__item-title">Relationship & System</div>
+                    <div class="approach__item-desc">Systemic view and relationship dynamics.</div>
+                </div>
+            </div>
+            <p class="approach__outro text-block--body">It is much more than theory; it is a transformative experience.</p>
+        </div>
+    </section>
+
+    <!-- 7. TRAINING -->
+    <section class="training section" id="training" aria-label="The training">
+        <div class="container container--text">
+            <p class="text-block--eyebrow">Safety + Clarity</p>
+            <h2 class="text-block--section-title">Basic training – conflict competence with heart</h2>
+            <div class="text-block--body">
+                <p>The training will be accompanied live by us and will take place in a group of a maximum of 20 participants. The selection process is careful and personal, in order to create a harmonious learning environment. We work based on experience and in a protected environment that allows for genuine immersion – at an appropriate pace and in a group. Depending on the professional context, the training may be recognized as further education.</p>
+            </div>
+            <div class="training__format-card">
+                <h3 class="text-block--meta" style="margin-bottom: var(--space-xs);">Format</h3>
+                <ul>
+                    <li>2 Online Modules (4 sessions at 2 standard times)</li>
+                    <li>2-day integration retreat (in-person)</li>
+                    <li>8 to a maximum of 20 participants</li>
+                    <li>Transfer tasks and peer groups</li>
+                    <li>Access to a curated selection of learning resources</li>
+                </ul>
+                <p class="text-block--meta" style="margin-top: var(--space-sm);">Live support for all online and offline seminars by female founders – Isabel & Ania</p>
+            </div>
+            <h3 class="text-block--meta" style="margin-bottom: var(--space-xs);">What it's about</h3>
+            <div class="text-block--body">
+                <p>The training combines insights from psychology, neurobiology, mediation, somatic work, systemic counseling and elements of trauma work – and translates them into concrete, experiential practice. You learn:</p>
+            </div>
+            <ul class="training__learn-grid">
+                <li>to maintain tension</li>
+                <li>To clarify emotions</li>
+                <li>To take responsibility</li>
+                <li>to use the right tool at the right moment</li>
+                <li>and to stay in contact – even when it gets difficult</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 8. WHO IS THIS FOR (See yourself here – testimonial identity showcase) -->
+    <section class="who-testimonials section" id="who-for" aria-label="Who is this training for">
+        <div class="container">
+            <header class="who-testimonials__intro">
+                <p class="who-testimonials__heading">Who is this training for?</p>
+                <h2 class="who-testimonials__headline">See yourself here.</h2>
+            </header>
+
+            <div class="who-testimonials__row">
+                <figure class="who-item">
+                    <div class="who-item__photo-placeholder" aria-hidden="true"></div>
+                    <figcaption>
+                        <p class="who-item__role">Leadership</p>
+                        <p class="who-item__quote">I used to avoid the tough conversations. The training didn't give me a script—it gave me a way to stay present. Now I can hold the tension without needing to fix it immediately.</p>
+                    </figcaption>
+                </figure>
+                <figure class="who-item">
+                    <div class="who-item__photo-placeholder" aria-hidden="true"></div>
+                    <figcaption>
+                        <p class="who-item__role">Coach</p>
+                        <p class="who-item__quote">I knew the theory. What changed was feeling it in my body. The training helped me move from explaining conflict to embodying a different response.</p>
+                    </figcaption>
+                </figure>
+                <figure class="who-item">
+                    <div class="who-item__photo-placeholder" aria-hidden="true"></div>
+                    <figcaption>
+                        <p class="who-item__role">Relationships</p>
+                        <p class="who-item__quote">We kept having the same fight. I learned to stay in the conversation instead of leaving or attacking. It's not perfect, but we're still connected.</p>
+                    </figcaption>
+                </figure>
+                <figure class="who-item">
+                    <div class="who-item__photo-placeholder" aria-hidden="true"></div>
+                    <figcaption>
+                        <p class="who-item__role">Self-development</p>
+                        <p class="who-item__quote">I said yes to everything until I was empty. Here I learned to notice what I need and say it—without guilt. My relationship with myself shifted.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="who-testimonials__inclusion">
+                <p>And all people who want to understand their conflict patterns more deeply and change them.</p>
+            </div>
+
+            <div class="who-testimonials__requirements">
+                <p class="who-testimonials__requirements-line">Curiosity</p>
+                <p class="who-testimonials__requirements-line">Self-responsibility</p>
+                <p class="who-testimonials__requirements-line">Willingness to engage in self-discovery and to confront the topic of conflict</p>
+                <p class="who-testimonials__requirements-note">Otherwise, no further prior knowledge is required.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. STRUCTURE & CONTENT (3-phase learning journey) -->
+    <section class="structure section" id="structure" aria-label="Structure and content">
+        <div class="container">
+            <div class="structure__intro">
+                <h2 class="structure__intro-title">Structure & Content</h2>
+                <p class="structure__intro-p">A three-phase learning journey: from grounding in self to relationship depth to embodied integration.</p>
+            </div>
+
+            <div class="structure__journey">
+                <aside class="structure__timeline" aria-hidden="true">
+                    <div class="structure__timeline-line" role="presentation"></div>
+                    <div class="structure__markers">
+                        <button type="button" class="structure__marker active" data-module="0" aria-label="Module I">I</button>
+                        <button type="button" class="structure__marker" data-module="1" aria-label="Module II">II</button>
+                        <button type="button" class="structure__marker" data-module="2" aria-label="Retreat">R</button>
+                    </div>
+                </aside>
+
+                <div class="structure__modules">
+                    <!-- Module I – Embodied Self-Leadership -->
+                    <article class="structure__module" id="structure-module-0" data-module="0">
+                        <div class="structure__module-header">
+                            <h3 class="structure__module-title">Online Module I – Embodied Self-Leadership</h3>
+                            <p class="structure__module-subline">4 Sessions at 2 Hours</p>
+                        </div>
+                        <div class="structure__statements">
+                            <p class="structure__statement">Self-leadership in dealing with uncertainty, responsibility, and vulnerability</p>
+                            <p class="structure__statement">Somatic foundations of conflicts: Body perception and somatic markers</p>
+                            <p class="structure__statement">Neurobiological foundations of emotions and their regulation</p>
+                            <p class="structure__statement">Distance between stimulus and response as a key self-management skill</p>
+                        </div>
+                        <div class="structure__expand-wrap">
+                            <button type="button" class="structure__expand-btn" aria-expanded="false" aria-controls="structure-deep-0" id="structure-expand-0">Explore full module content</button>
+                            <div class="structure__deep-dive" id="structure-deep-0" role="region" aria-labelledby="structure-expand-0">
+                                <div class="structure__deep-dive-block">
+                                    <p>Anatomy of inner conflict: interplay of sensation, emotion, need and action</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Awareness of needs and self-clarification as the basis of self-responsibility</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Radical self-responsibility as an attitude in personal and social conflicts</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="structure__goal-box">
+                            <p class="structure__goal-text">Goal: To learn to stay calm and collected when tension arises.</p>
+                        </div>
+                    </article>
+
+                    <!-- Module II – Relationship & Communication -->
+                    <article class="structure__module" id="structure-module-1" data-module="1">
+                        <div class="structure__module-header">
+                            <h3 class="structure__module-title">Online Module II – Relationship & Communication</h3>
+                            <p class="structure__module-subline">4 Sessions at 4 Hours</p>
+                        </div>
+                        <div class="structure__statements">
+                            <p class="structure__statement">Deepening self-relationship</p>
+                            <p class="structure__statement">Emotions in relationships</p>
+                            <p class="structure__statement">Somatic and emotional self-observation</p>
+                            <p class="structure__statement">Acceptance of one's own history</p>
+                        </div>
+                        <div class="structure__expand-wrap">
+                            <button type="button" class="structure__expand-btn" aria-expanded="false" aria-controls="structure-deep-1" id="structure-expand-1">Explore full module content</button>
+                            <div class="structure__deep-dive" id="structure-deep-1" role="region" aria-labelledby="structure-expand-1">
+                                <div class="structure__deep-dive-block">
+                                    <p>Boundaries, needs, and aggression</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Becoming aware of relationship patterns</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Systemic understanding of relationships</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Tools for successful communication</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="structure__goal-box">
+                            <p class="structure__goal-text">Goal: To learn to stay in touch without losing each other.</p>
+                        </div>
+                    </article>
+
+                    <!-- Integration Retreat -->
+                    <article class="structure__module" id="structure-module-2" data-module="2">
+                        <div class="structure__module-header">
+                            <h3 class="structure__module-title">Integration Retreat (2 days, in-person)</h3>
+                            <p class="structure__module-subline">Key areas</p>
+                        </div>
+                        <div class="structure__retreat-blocks">
+                            <p class="structure__retreat-block">Arriving in the group context</p>
+                            <p class="structure__retreat-block">Integration of previous learning content</p>
+                            <p class="structure__retreat-block">Working with projections</p>
+                            <p class="structure__retreat-block">Relationship patterns in a group setting</p>
+                            <p class="structure__retreat-block">Communication in challenging situations</p>
+                            <p class="structure__retreat-block">Working with conflict and shadow aspects</p>
+                            <p class="structure__retreat-block">Models for clarifying relationships</p>
+                            <p class="structure__retreat-block">Movement, play and dance</p>
+                            <p class="structure__retreat-block">Conclusion & Outlook</p>
+                        </div>
+                        <div class="structure__expand-wrap">
+                            <button type="button" class="structure__expand-btn" aria-expanded="false" aria-controls="structure-deep-2" id="structure-expand-2">Explore full retreat content</button>
+                            <div class="structure__deep-dive" id="structure-deep-2" role="region" aria-labelledby="structure-expand-2">
+                                <div class="structure__deep-dive-block">
+                                    <p>Arriving in the group context</p>
+                                    <p>Integration of previous learning content</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Working with projections</p>
+                                    <p>Relationship patterns in a group setting</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Communication in challenging situations</p>
+                                    <p>Working with conflict and shadow aspects</p>
+                                </div>
+                                <div class="structure__deep-dive-block">
+                                    <p>Models for clarifying relationships</p>
+                                    <p>Movement, play and dance</p>
+                                    <p>Conclusion & Outlook</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="structure__goal-box">
+                            <p class="structure__goal-text">Goal: Embodiment instead of mere understanding.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <div class="cta-group">
+                <a href="#contact" class="btn btn--register">Register now</a>
+                <a href="#contact" class="btn btn--icon" aria-label="Continue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. WHAT YOU TAKE -->
+    <section class="takeaways section" id="takeaways" aria-label="What you take with you">
+        <div class="container">
+            <p class="text-block--eyebrow" style="text-align: center;">Transformation Integration</p>
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">What you take with you</h2>
+            <div class="takeaways__grid">
+                <div class="takeaways__card">greater internal stability in conflicts</div>
+                <div class="takeaways__card">Clarity about one's own patterns</div>
+                <div class="takeaways__card">Ability to contain and release tension instead of escalating it</div>
+                <div class="takeaways__card">new quality of contact and relationship</div>
+                <div class="takeaways__card">A desire for deeper exploration rather than exhaustion</div>
+            </div>
+            <p class="takeaways__outro">Conflicts are not avoided in this way, but transformed.</p>
+        </div>
+    </section>
+
+    <!-- 11. INVESTMENT -->
+    <section class="investment section" id="investment" aria-label="Investment">
+        <div class="container">
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">Investment</h2>
+            <div class="investment__cards">
+                <div class="investment__card investment__card--highlight">
+                    <h3 class="investment__card-title">Basic training overall process (recommended)</h3>
+                    <p class="investment__price">€1,999</p>
+                    <p class="investment__earlybird">Early bird: €1,699</p>
+                    <p class="text-block--meta" style="margin-top: var(--space-xs);">Online training + integration weekend. The complete learning and integration process.</p>
+                </div>
+                <div class="investment__card">
+                    <h3 class="investment__card-title">Basis Online-Training</h3>
+                    <p class="investment__price">€1,299</p>
+                    <p class="investment__earlybird">Early Bird: €1,099</p>
+                    <p class="text-block--meta" style="margin-top: var(--space-xs);">Two online modules, with live instruction.</p>
+                </div>
+                <div class="investment__card">
+                    <h3 class="investment__card-title">Integration weekend</h3>
+                    <p class="investment__price">€750</p>
+                    <p class="investment__earlybird">plus accommodation and meals</p>
+                    <p class="text-block--meta" style="margin-top: var(--space-xs);">Only in combination with the basic online training or for alumni.</p>
+                </div>
+            </div>
+            <div class="cta-group">
+                <a href="#contact" class="btn btn--register">Register now</a>
+                <a href="#contact" class="btn btn--icon" aria-label="Continue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. WHAT THAT CHANGES -->
+    <section class="changes section" id="changes" aria-label="What that changes">
+        <div class="container">
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">What that changes</h2>
+            <p class="text-block--body" style="margin-bottom: var(--space-sm);">With conflict competence with heart you will learn:</p>
+            <ul>
+                <li>Standing in conflict without losing yourself</li>
+                <li>To perceive feelings without being controlled by them.</li>
+                <li>To correctly identify your own needs and take good care of yourself.</li>
+                <li>to speak clearly without hurting anyone</li>
+                <li>Staying in a relationship – even when it gets difficult</li>
+            </ul>
+            <p class="changes__outro">Conflicts are not avoided in this way, but transformed.</p>
+        </div>
+    </section>
+
+    <!-- 13. FAQs -->
+    <section class="faqs section" id="faqs" aria-label="FAQs">
+        <div class="container">
+            <p class="text-block--eyebrow" style="text-align: center;">Reassurance + Trust</p>
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">FAQs</h2>
+            <div class="accordion">
+                <div class="accordion__item">
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-1" id="faq-trigger-1">What exactly is conflict competence with heart?</button>
+                    <div class="accordion__panel" id="faq-1" role="region" aria-labelledby="faq-trigger-1">
+                        <div class="accordion__panel-inner">It's an experience-based approach to conflict resolution. It understands conflicts not as problems that need to be solved, but as processes that require integration – in the body, in feelings, in thoughts, and in relationships.</div>
+                    </div>
+                </div>
+                <div class="accordion__item">
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-2" id="faq-trigger-2">Is the training more therapeutically or professionally oriented?</button>
+                    <div class="accordion__panel" id="faq-2" role="region" aria-labelledby="faq-trigger-2">
+                        <div class="accordion__panel-inner">Both – and neither in the traditional sense. The training is not therapy, but rather an educational and self-discovery experience. The content is highly relevant to everyday life, relationships, organizations, and other professional contexts.</div>
+                    </div>
+                </div>
+                <div class="accordion__item">
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-3" id="faq-trigger-3">Do I need prior experience?</button>
+                    <div class="accordion__panel" id="faq-3" role="region" aria-labelledby="faq-trigger-3">
+                        <div class="accordion__panel-inner">No. The training is designed to appeal to people without prior experience as well as experts. What matters is the willingness to engage in self-reflection and participate in experience-based learning processes.</div>
+                    </div>
+                </div>
+                <div class="accordion__item">
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-4" id="faq-trigger-4">Can this training be recognized as continuing education?</button>
+                    <div class="accordion__panel" id="faq-4" role="region" aria-labelledby="faq-trigger-4">
+                        <div class="accordion__panel-inner">Yes, depending on the professional context. We will gladly issue a certificate of participation or training certificate upon request.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cta-group">
+                <a href="#" class="btn btn--secondary">Download course paper (free)</a>
+                <a href="#" class="btn btn--icon" aria-label="Download">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. FOOTER -->
+    <footer class="footer section" id="contact">
+        <div class="container">
+            <p class="footer__headline">Come with us on the journey to radical soulfulness!</p>
+            <div class="cta-group" style="justify-content: center;">
+                <a href="#" class="btn btn--register">Register</a>
+                <a href="#" class="btn btn--icon" aria-label="Continue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="footer__links">
+                <a href="#">Contact</a> · <a href="#">Newsletter</a> · <a href="#">Imprint</a>
+            </div>
+            <p class="footer__stay">Stay: For all those who are ready to go deeper and enable real change.</p>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            // Accordion: one open at a time
+            document.querySelectorAll('.accordion').forEach(function(acc) {
+                var triggers = acc.querySelectorAll('.accordion__trigger');
+                var panels = acc.querySelectorAll('.accordion__panel');
+                triggers.forEach(function(btn, i) {
+                    btn.addEventListener('click', function() {
+                        var item = btn.closest('.accordion__item');
+                        var isOpen = item.classList.contains('open');
+                        acc.querySelectorAll('.accordion__item').forEach(function(el) {
+                            el.classList.remove('open');
+                            el.querySelector('.accordion__trigger').setAttribute('aria-expanded', 'false');
+                            el.querySelector('.accordion__panel').style.maxHeight = null;
+                        });
+                        if (!isOpen) {
+                            item.classList.add('open');
+                            btn.setAttribute('aria-expanded', 'true');
+                            var panel = item.querySelector('.accordion__panel');
+                            panel.style.maxHeight = panel.scrollHeight + 'px';
+                        }
+                    });
+                });
+            });
+
+            // Structure & Content: scroll-active module + timeline markers + expand deep dive
+            (function() {
+                var section = document.getElementById('structure');
+                if (!section) return;
+                var modules = section.querySelectorAll('.structure__module');
+                var markers = section.querySelectorAll('.structure__marker');
+                var expandBtns = section.querySelectorAll('.structure__expand-btn');
+                var deepDives = section.querySelectorAll('.structure__deep-dive');
+
+                function setActiveModule(index) {
+                    markers.forEach(function(m, i) {
+                        m.classList.toggle('active', i === index);
+                    });
+                }
+
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (!entry.isIntersecting) return;
+                        var id = entry.target.getAttribute('data-module');
+                        if (id != null) setActiveModule(parseInt(id, 10));
+                    });
+                }, { rootMargin: '-30% 0px -30% 0px', threshold: 0 });
+                modules.forEach(function(mod) { observer.observe(mod); });
+
+                markers.forEach(function(marker) {
+                    marker.addEventListener('click', function() {
+                        var idx = parseInt(marker.getAttribute('data-module'), 10);
+                        var mod = section.querySelector('#structure-module-' + idx);
+                        if (mod) mod.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+
+                expandBtns.forEach(function(btn, i) {
+                    var expandLabel = i === 2 ? 'Explore full retreat content' : 'Explore full module content';
+                    btn.addEventListener('click', function() {
+                        var expanded = btn.getAttribute('aria-expanded') === 'true';
+                        btn.setAttribute('aria-expanded', !expanded);
+                        if (deepDives[i]) deepDives[i].classList.toggle('open', !expanded);
+                        btn.textContent = expanded ? expandLabel : 'Hide full content';
+                    });
+                });
+            })();
+
+            // Approach grid: tap/hover to expand description
+            document.querySelectorAll('.approach__item').forEach(function(item) {
+                item.addEventListener('click', function() { item.classList.toggle('expanded'); });
+                item.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.classList.toggle('expanded'); }
+                });
+            });
+
+            // Recognition stepper: one scenario at a time, fade + slight up (250ms)
+            (function() {
+                var section = document.getElementById('recognition');
+                if (!section) return;
+                var panels = section.querySelectorAll('.recognition__panel');
+                var dots = section.querySelectorAll('.recognition__dot');
+                var nextBtn = document.getElementById('recognition-next');
+                var total = panels.length;
+                var current = 0;
+                var duration = 250;
+
+                function goTo(index) {
+                    if (index < 0 || index >= total) return;
+                    if (index === current) return;
+                    var prev = current;
+                    current = index;
+                    var leaving = panels[prev];
+                    var entering = panels[index];
+                    leaving.classList.add('leave');
+                    setTimeout(function() {
+                        leaving.classList.remove('active', 'leave');
+                        entering.classList.add('active');
+                        dots.forEach(function(d, i) {
+                            d.classList.toggle('active', i === index);
+                            d.setAttribute('aria-selected', i === index);
+                        });
+                        if (nextBtn) nextBtn.textContent = index < total - 1 ? 'Next' : 'Continue';
+                    }, duration);
+                }
+
+                dots.forEach(function(dot, i) {
+                    dot.addEventListener('click', function() { goTo(i); });
+                });
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        if (current < total - 1) goTo(current + 1);
+                        else section.querySelector('.recognition__reframe').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                }
+            })();
+        })();
+    </script>
+</body>
+</html>
