@@ -6,8 +6,19 @@
     <title>Brand Identity Guidelines</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Lato:wght@300;400;500;600;700&family=Literata:wght@300;400;500;600;700&family=Karma:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --main: #8F5A5E;
+            --light-base: #E6D6C7;
+            --mid-neutral: #B59A8A;
+            --accent-warmth: #A07175;
+            --dark-anchor: #4A2E32;
+            --organic: #9FAFA3;
+            --text-primary: #4A2E32;
+            --text-secondary: #8F5A5E;
+            --inverse: #E6D6C7;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -15,57 +26,167 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f5f5f5;
-            padding: 40px 20px;
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 300;
+            font-size: 17px;
+            background: var(--light-base);
+            color: var(--text-primary);
+            padding: 48px 24px 80px;
+            line-height: 1.65;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 720px;
             margin: 0 auto;
         }
 
         .section {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 64px;
+        }
+
+        .section.process-section {
+            margin-top: 80px;
+            padding-top: 48px;
+            border-top: 1px solid var(--mid-neutral);
         }
 
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 80px 40px;
+            background: transparent;
+            padding: 0 0 56px;
+            margin-bottom: 48px;
+        }
+
+        .guideline-h1 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 34px;
+            font-weight: 400;
+            color: var(--dark-anchor);
+            margin-bottom: 8px;
+        }
+
+        .guideline-h2 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--dark-anchor);
+            margin: 40px 0 16px;
+        }
+
+        .guideline-h2:first-of-type { margin-top: 0; }
+
+        .guideline-p, .guideline li {
+            font-size: 17px;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+        }
+
+        .guideline ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .guideline ul li {
+            padding-left: 1em;
             position: relative;
-            overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
+        .guideline ul li::before {
+            content: '·';
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/></svg>');
-            opacity: 0.3;
+            color: var(--mid-neutral);
         }
 
-        .logo-placeholder {
-            width: 180px;
-            height: 180px;
-            background: rgba(255,255,255,0.15);
-            border: 3px solid white;
-            border-radius: 20px;
-            margin: 0 auto 30px;
+        .guideline ol {
+            padding-left: 1.5em;
+            margin-bottom: 16px;
+        }
+
+        .guideline ol li {
+            list-style: decimal;
+            padding-left: 0.25em;
+            margin-bottom: 8px;
+        }
+
+        .guideline ol li::before {
+            content: none;
+        }
+
+        .placeholder-block {
+            min-height: 80px;
+            background: rgba(181, 154, 138, 0.15);
+            border: 1px dashed var(--mid-neutral);
+            border-radius: 4px;
+            margin: 16px 0 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            font-weight: 700;
-            position: relative;
+            font-size: 15px;
+            color: var(--mid-neutral);
+            font-style: italic;
+        }
+
+        .guideline table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            margin: 12px 0 24px;
+        }
+
+        .guideline th, .guideline td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(181, 154, 138, 0.4);
+        }
+
+        .guideline th {
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .guideline td { color: var(--text-primary); }
+
+        .swatch {
+            display: inline-block;
+            width: 28px;
+            height: 20px;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-right: 8px;
+            border: 1px solid rgba(74, 46, 50, 0.12);
+        }
+
+        .font-sample { font-size: 17px; }
+        .font-lora { font-family: 'Lora', Georgia, serif; font-weight: 400; }
+        .font-karma { font-family: 'Karma', Georgia, serif; font-weight: 400; }
+        .font-literata { font-family: 'Literata', Georgia, serif; font-weight: 400; }
+        .font-lato { font-family: 'Lato', sans-serif; font-weight: 300; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; font-weight: 300; }
+        .font-archivo { font-family: 'Archivo', sans-serif; font-weight: 300; }
+
+        .guideline pre, .guideline code {
+            font-family: 'Lato', monospace;
+            font-size: 15px;
+            background: rgba(181, 154, 138, 0.12);
+            padding: 18px;
+            border-radius: 4px;
+            display: block;
+            overflow-x: auto;
+            margin: 16px 0;
+            color: var(--dark-anchor);
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .process-title {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mid-neutral);
+            margin-bottom: 32px;
         }
 
         h1 {
@@ -80,7 +201,7 @@
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 24px;
-            color: #1a1a1a;
+            color: var(--text-primary);
         }
 
         h3 {
@@ -89,13 +210,26 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 16px;
         }
 
         .subtitle {
-            font-size: 18px;
-            opacity: 0.9;
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .section.card {
+            background: transparent;
+            border-radius: 6px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: none;
+        }
+
+        .section.card p {
+            color: var(--text-primary);
         }
 
         /* Options Layout */
@@ -107,52 +241,53 @@
         }
 
         .option-box {
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            border: 1px solid rgba(181, 154, 138, 0.4);
+            border-radius: 8px;
             padding: 24px;
-            transition: all 0.3s;
+            transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out;
             cursor: pointer;
         }
 
         .option-box:hover {
-            border-color: #667eea;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+            border-color: var(--accent-warmth);
+            box-shadow: 0 2px 12px rgba(143, 90, 94, 0.08);
         }
 
         .option-header {
             text-align: center;
             margin-bottom: 20px;
             padding-bottom: 16px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 1px solid rgba(181, 154, 138, 0.3);
         }
 
         .option-title {
-            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-family: 'Lora', Georgia, serif;
             font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
+            font-weight: 500;
+            color: var(--text-primary);
             margin-bottom: 4px;
         }
 
         .option-subtitle {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 13px;
-            color: #666;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--text-secondary);
         }
 
         /* Image Holder for Color Palettes */
         .palette-image-holder {
             width: 100%;
             height: 300px;
-            background: #f0f0f0;
-            border-radius: 12px;
+            background: rgba(230, 214, 199, 0.5);
+            border-radius: 6px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
-            font-size: 14px;
-            border: 2px dashed #d0d0d0;
+            color: var(--mid-neutral);
+            font-size: 13px;
+            border: 1px dashed var(--mid-neutral);
             overflow: hidden;
         }
 
@@ -164,8 +299,8 @@
 
         /* Logo Options */
         .logo-display {
-            background: #f8f8f8;
-            border-radius: 12px;
+            background: rgba(230, 214, 199, 0.4);
+            border-radius: 8px;
             padding: 40px;
             margin-bottom: 16px;
             min-height: 200px;
@@ -191,8 +326,9 @@
         }
 
         .logo-variant {
-            background: #f8f8f8;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(181, 154, 138, 0.25);
+            border-radius: 6px;
             padding: 20px;
             text-align: center;
             font-size: 32px;
@@ -229,15 +365,15 @@
         }
 
         .color-code {
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            color: #666;
-            font-weight: 600;
+            font-family: 'Lato', monospace;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .color-name {
-            font-size: 10px;
-            color: #999;
+            font-size: 12px;
+            color: var(--mid-neutral);
             margin-top: 2px;
         }
 
@@ -259,36 +395,36 @@
         }
 
         .typography-card {
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            border: 1px solid rgba(181, 154, 138, 0.4);
+            border-radius: 8px;
             padding: 32px;
-            background: #fafafa;
+            background: rgba(230, 214, 199, 0.2);
         }
 
         .type-label {
-            font-size: 12px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
+            letter-spacing: 0.06em;
+            color: var(--mid-neutral);
             margin-bottom: 16px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .type-display {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 700;
             margin-bottom: 12px;
-            color: #1a1a1a;
+            color: var(--text-primary);
         }
 
         .type-name {
-            font-size: 14px;
-            color: #666;
+            font-size: 16px;
+            color: var(--text-secondary);
             margin-bottom: 20px;
         }
 
         .type-samples {
-            border-top: 1px solid #e0e0e0;
+            border-top: 1px solid rgba(181, 154, 138, 0.3);
             padding-top: 20px;
             margin-top: 20px;
         }
@@ -298,9 +434,10 @@
         }
 
         .sample-label {
-            font-size: 10px;
+            font-size: 12px;
             text-transform: uppercase;
-            color: #999;
+            letter-spacing: 0.04em;
+            color: var(--mid-neutral);
             margin-bottom: 4px;
         }
 
@@ -314,15 +451,15 @@
 
         .moodboard-item {
             aspect-ratio: 1;
-            background: #f0f0f0;
-            border-radius: 8px;
+            background: rgba(230, 214, 199, 0.5);
+            border-radius: 6px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ccc;
-            font-size: 14px;
-            border: 2px dashed #d0d0d0;
+            color: var(--mid-neutral);
+            font-size: 13px;
+            border: 1px dashed rgba(181, 154, 138, 0.5);
         }
 
         .moodboard-item img {
@@ -345,8 +482,9 @@
         }
 
         .image-card {
-            background: #f0f0f0;
-            border-radius: 12px;
+            background: rgba(230, 214, 199, 0.5);
+            border: 1px dashed rgba(181, 154, 138, 0.4);
+            border-radius: 8px;
             overflow: hidden;
             position: relative;
             aspect-ratio: 1;
@@ -384,8 +522,9 @@
 
         .value-card {
             padding: 24px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 12px;
+            background: rgba(230, 214, 199, 0.4);
+            border: 1px solid rgba(181, 154, 138, 0.25);
+            border-radius: 8px;
             text-align: center;
         }
 
@@ -395,14 +534,14 @@
         }
 
         .value-title {
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 8px;
-            color: #1a1a1a;
+            color: var(--text-primary);
         }
 
         .value-desc {
-            font-size: 13px;
-            color: #666;
+            font-size: 15px;
+            color: var(--text-secondary);
             line-height: 1.5;
         }
 
@@ -445,17 +584,135 @@
 </head>
 <body>
     <div class="container">
-        <!-- Hero Section -->
-        <div class="section hero" style="background: white; color: #1a1a1a; padding: 80px 40px 60px;">
-            <h1 style="font-size: 48px; margin-bottom: 16px;">Brand Identity Guidelines</h1>
-            <p class="subtitle" style="color: #666; opacity: 1;">Visual Identity & Brand Standards</p>
+        <!-- Hero -->
+        <div class="section hero">
+            <h1 class="guideline-h1">Artsy Brand & Design Guidelines</h1>
+        </div>
+
+        <!-- ========== CONFIRMED THEMES ========== -->
+        <div class="guideline">
+            <h2 class="guideline-h2">1. Core Theme</h2>
+            <p class="guideline-p"><strong>One-line description:</strong><br>
+            Editorial, calm, human warmth with institutional trust; sacred-temple serenity—feminine, divine, neutral, wise—without being mystical or loud.</p>
+            <p class="guideline-p"><strong>Keywords:</strong> calm, sacred, feminine, wise, warm, editorial, neutral, gentle, trustworthy.</p>
+
+            <h2 class="guideline-h2">2. Layout & Space</h2>
+            <ul class="guideline-p">
+                <li><strong>Noise:</strong> Minimal. No busy patterns, heavy shadows, or decorative clutter.</li>
+                <li><strong>Whitespace:</strong> Generous; vertical rhythm is key. Avoid tight stacks and harsh dividers.</li>
+                <li><strong>Grid:</strong> Flexible editorial grid, asymmetric preferred for a human feel.</li>
+            </ul>
+
+            <h2 class="guideline-h2">3. Color Palette</h2>
+            <p class="guideline-p"><strong>3.1 Main Palette</strong></p>
+            <table>
+                <thead><tr><th>Role</th><th>Name</th><th>Hex</th><th>Swatch</th></tr></thead>
+                <tbody>
+                    <tr><td>Main color</td><td>—</td><td>#8F5A5E</td><td><span class="swatch" style="background:#8F5A5E"></span></td></tr>
+                    <tr><td>Light base</td><td>—</td><td>#E6D6C7</td><td><span class="swatch" style="background:#E6D6C7"></span></td></tr>
+                    <tr><td>Mid neutral</td><td>—</td><td>#B59A8A</td><td><span class="swatch" style="background:#B59A8A"></span></td></tr>
+                    <tr><td>Accent warmth</td><td>—</td><td>#A07175</td><td><span class="swatch" style="background:#A07175"></span></td></tr>
+                    <tr><td>Dark anchor</td><td>—</td><td>#4A2E32</td><td><span class="swatch" style="background:#4A2E32"></span></td></tr>
+                    <tr><td>Organic accent</td><td>—</td><td>#9FAFA3</td><td><span class="swatch" style="background:#9FAFA3"></span></td></tr>
+                </tbody>
+            </table>
+            <p class="guideline-p"><strong>3.2 Text Colors</strong></p>
+            <table>
+                <thead><tr><th>Use</th><th>Hex</th><th>Swatch</th></tr></thead>
+                <tbody>
+                    <tr><td>Primary text (on light)</td><td>#4A2E32</td><td><span class="swatch" style="background:#4A2E32"></span></td></tr>
+                    <tr><td>Secondary text</td><td>#8F5A5E</td><td><span class="swatch" style="background:#8F5A5E"></span></td></tr>
+                    <tr><td>Inverse text (on dark)</td><td>#E6D6C7</td><td><span class="swatch" style="background:#E6D6C7"></span></td></tr>
+                </tbody>
+            </table>
+
+            <h2 class="guideline-h2">4. Typography</h2>
+            <table>
+                <thead><tr><th>Role</th><th>Font</th><th>Weight / Use</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>Headlines / Quotes / Editorial</td>
+                        <td><span class="font-sample font-lora">Lora</span>, <span class="font-sample font-karma">Karma</span>, <span class="font-sample font-literata">Literata</span></td>
+                        <td>Thin / Light (300–400)</td>
+                    </tr>
+                    <tr>
+                        <td>Body / UI / Meta</td>
+                        <td><span class="font-sample font-lato">Lato</span>, <span class="font-sample font-montserrat">Montserrat</span>, <span class="font-sample font-archivo">Archivo</span></td>
+                        <td>Light (300)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="guideline-p"><strong>Hierarchy principle:</strong> Serif = meaning, authority; Sans = structure, clarity.</p>
+
+            <h2 class="guideline-h2">5. Buttons / CTAs</h2>
+            <ul class="guideline-p">
+                <li>Soft, rounded (pill-like)</li>
+                <li>Minimal borders, subtle contrast</li>
+                <li>Tone: inviting, not urgent (“Continue reading” not “Act now”)</li>
+                <li>Motion: ease-out 250–300ms, hover = subtle shade change</li>
+            </ul>
+            <div class="placeholder-block">[Insert CTA examples]</div>
+
+            <h2 class="guideline-h2">6. Motion & Interaction</h2>
+            <ul class="guideline-p">
+                <li>Gentle ease-out transitions</li>
+                <li>Hover = minimal shade changes, no aggressive animation</li>
+            </ul>
+
+            <h2 class="guideline-h2">7. Visual Motif</h2>
+            <p class="guideline-p"><strong>Mood:</strong> Sacred temple, feminine, divine, neutral, wise, calm.</p>
+            <p class="guideline-p"><strong>Inspiration:</strong> Arches, ancient scripts, hand stamps, organic textures, trees/love imagery.</p>
+            <p class="guideline-p"><strong>Texture use:</strong> Optional, subtle (2–10% opacity), Overlay/Soft Light blend.</p>
+            <ul class="guideline-p">
+                <li>Plaster/limewash → hero/brand areas</li>
+                <li>Paper/fiber → text blocks</li>
+                <li>Stone/mineral → architectural accents</li>
+                <li>Fabric/pigment → emotional highlights</li>
+                <li>Fine grain → dark sections</li>
+            </ul>
+            <div class="placeholder-block">[Insert texture examples]</div>
+
+            <h2 class="guideline-h2">8. Imagery Guidelines</h2>
+            <ul class="guideline-p">
+                <li>Authentic, natural, editorial</li>
+                <li>Bold or minimal but always “sacred, wise, calm”</li>
+                <li>Warm, soft lighting, desaturated pastels</li>
+                <li>Composition: generous whitespace, vertical rhythm, asymmetric balance</li>
+            </ul>
+            <div class="placeholder-block">[Insert example imagery]</div>
+
+            <h2 class="guideline-h2">9. MidJourney / AI Prompting Guide</h2>
+            <p class="guideline-p"><strong>Prompt structure:</strong></p>
+            <pre>[subject/concept] :: calm, editorial, sacred-temple mood, feminine, divine, wise, neutral, human warmth, soft warm lighting, desaturated pastels, soft textures, gentle natural shadows, organic composition, minimalist yet editorial, subtle handcrafted details, soft grain overlay, professional photography style</pre>
+            <p class="guideline-p"><strong>Examples:</strong></p>
+            <ul class="guideline-p">
+                <li>“Ancient library interior, sunlight through arches, warm cream and stone tones, serene, editorial, sacred-temple mood, feminine, soft textures, subtle plaster, desaturated pastels”</li>
+                <li>“Woman reading under a tree, love growing like branches, editorial, warm natural light, neutral tones, calm, sacred, soft textures, fine grain overlay”</li>
+            </ul>
+            <p class="guideline-p"><strong>Modifiers:</strong> photorealistic, editorial photography, fine art, soft focus, lightly textured</p>
+
+            <h2 class="guideline-h2">10. Photo Editing Guidelines</h2>
+            <ol>
+                <li>Color grading: warm, soft, slightly muted tones; shadows soft, highlights tinted (cream/blush)</li>
+                <li>Contrast: gentle, editorial; no harsh clarity</li>
+                <li>Textures: optional overlays (plaster, paper, stone, fabric, fine grain), 2–10% opacity</li>
+                <li>Cropping & composition: generous whitespace, vertical rhythm, asymmetric balance</li>
+                <li>Typography integration: serif for meaning, light weight; soft charcoal or brown on neutral background</li>
+                <li>Final touch: subtle vignette or soft gradient, avoid heavy filters or neon accents</li>
+            </ol>
+            <p class="guideline-p" style="margin-top: 24px; font-size: 15px; color: var(--mid-neutral);"><em>This document includes placeholders for reference images, swatches, and examples for use across departments and for MidJourney / AI visual guidance.</em></p>
+        </div>
+
+        <!-- ========== PROCESS & EXPLORATION (reference) ========== -->
+        <div class="section process-section">
+            <p class="process-title">Process &amp; exploration — reference</p>
         </div>
 
         <!-- Color Palette Options Section -->
-        <div class="section">
+        <div class="section card">
             <h3>Color Palette</h3>
             <h2>Choose Your Color Direction</h2>
-            <p style="color: #666; margin-bottom: 24px;">Select the color palette that aligns with your brand personality</p>
+            <p style="margin-bottom: 24px;">Select the color palette that aligns with your brand personality</p>
             
             <div class="options-container">
                 <!-- Color Option 1: Warm Botanical -->
@@ -557,10 +814,10 @@
         </div>
 
         <!-- Logo Options Section -->
-        <div class="section">
+        <div class="section card">
             <h3>Logo Design</h3>
             <h2>Choose Your Logo Direction</h2>
-            <p style="color: #666; margin-bottom: 24px;">Select the logo style that best represents your brand identity</p>
+            <p style="margin-bottom: 24px;">Select the logo style that best represents your brand identity</p>
             
             <div class="options-container">
                 <!-- Logo Option 1 -->
@@ -572,7 +829,7 @@
                     <div class="logo-display">
                         <img src="logo1_main.png" alt="Ancient Wisdom Script Logo">
                     </div>
-                    <p style="font-size: 13px; color: #666; text-align: center; margin-top: 16px; line-height: 1.6; max-width: 100%; padding: 0 16px;">
+                    <p style="font-size: 13px; text-align: center; margin-top: 16px; line-height: 1.6; max-width: 100%; padding: 0 16px;">
                         <strong>Symbols:</strong> Hands, trees, and arches — ancient script embodying wisdom and connection
                     </p>
                     <div class="logo-variations">
@@ -597,7 +854,7 @@
                     <div class="logo-display">
                         <img src="logo2_main.png" alt="Hearts in Conflict Logo">
                     </div>
-                    <p style="font-size: 13px; color: #666; text-align: center; margin-top: 16px; line-height: 1.6; max-width: 100%; padding: 0 16px;">
+                    <p style="font-size: 13px; text-align: center; margin-top: 16px; line-height: 1.6; max-width: 100%; padding: 0 16px;">
                         <strong>Meaning:</strong> From conflicts grow hearts. In conflict we stand with hearts. Love grows like trees.
                     </p>
                     <div class="logo-variations">
@@ -613,10 +870,10 @@
         </div>
 
         <!-- Typography -->
-        <div class="section">
+        <div class="section card">
             <h3>Typography System</h3>
             <h2>Font Pairing</h2>
-            <p style="color: #666; margin-bottom: 24px;">Classic elegance meets modern minimalism</p>
+            <p style="margin-bottom: 24px;">Classic elegance meets modern minimalism</p>
             
             <div class="typography-options">
                 <!-- Header Font -->
@@ -629,15 +886,15 @@
                     <div class="type-samples">
                         <div class="type-sample">
                             <div class="sample-label">H1 - 48px Bold</div>
-                            <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: #1a1a1a;">The Quick Brown Fox</h1>
+                            <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: #4A2E32;">The Quick Brown Fox</h1>
                         </div>
                         <div class="type-sample">
                             <div class="sample-label">H2 - 36px Semibold</div>
-                            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: #1a1a1a;">Jumps Over The Lazy Dog</h2>
+                            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: #4A2E32;">Jumps Over The Lazy Dog</h2>
                         </div>
                         <div class="type-sample">
                             <div class="sample-label">H3 - 14px Uppercase</div>
-                            <div style="font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #666;">Logo Design • Color Palette • Typography System</div>
+                            <div style="font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #8F5A5E;">Logo Design • Color Palette • Typography System</div>
                         </div>
                     </div>
                 </div>
@@ -652,11 +909,11 @@
                     <div class="type-samples">
                         <div class="type-sample">
                             <div class="sample-label">Body - 16px Regular</div>
-                            <p style="font-family: 'Inter', sans-serif; font-size: 16px; color: #333; line-height: 1.6;">The quick brown fox jumps over the lazy dog. This elegant typeface brings clarity and sophistication to every word.</p>
+                            <p style="font-family: 'Inter', sans-serif; font-size: 16px; color: #4A2E32; line-height: 1.6;">The quick brown fox jumps over the lazy dog. This elegant typeface brings clarity and sophistication to every word.</p>
                         </div>
                         <div class="type-sample">
                             <div class="sample-label">Small - 14px Light</div>
-                            <p style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300; color: #666; line-height: 1.5;">Perfect for captions, descriptions, and supporting text that needs to feel light and airy.</p>
+                            <p style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 300; color: #8F5A5E; line-height: 1.5;">Perfect for captions, descriptions, and supporting text that needs to feel light and airy.</p>
                         </div>
                     </div>
                 </div>
@@ -664,10 +921,10 @@
         </div>
 
         <!-- Moodboard Section -->
-        <div class="section">
+        <div class="section card">
             <h3>Visual Inspiration</h3>
             <h2>Brand Moodboard</h2>
-            <p style="color: #666; margin-bottom: 24px;">Sacred temple aesthetics — feminine, divine, yet neutral. Powerful wisdom held in elegant form.</p>
+            <p style="margin-bottom: 24px;">Sacred temple aesthetics — feminine, divine, yet neutral. Powerful wisdom held in elegant form.</p>
             
             <div class="moodboard-grid">
                 <div class="moodboard-item large">
@@ -695,7 +952,7 @@
         </div>
 
         <!-- Brand Values -->
-        <div class="section">
+        <div class="section card">
             <h3>Brand Values</h3>
             <h2>What We Stand For</h2>
             <div class="values-grid">
@@ -718,7 +975,7 @@
         </div>
 
         <!-- Imagery Style -->
-        <div class="section">
+        <div class="section card">
             <h3>Visual Direction</h3>
             <h2>Photography & Imagery</h2>
             <div class="imagery-grid">

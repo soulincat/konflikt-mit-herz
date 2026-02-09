@@ -272,6 +272,8 @@
 
         /* ===== 1. HERO ===== */
         .hero {
+            position: relative;
+            overflow: hidden;
             min-height: 90vh;
             display: flex;
             flex-direction: column;
@@ -279,6 +281,22 @@
             justify-content: center;
             text-align: center;
             padding: var(--space-lg) 24px;
+        }
+        .cursor-light {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 30%,
+                transparent 70%
+            );
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            opacity: 0;
         }
         .hero__brand {
             font-family: var(--font-sans);
@@ -1117,6 +1135,7 @@
 <body>
     <!-- 1. HERO -->
     <section class="hero section" id="hero" aria-label="Hero">
+        <div class="cursor-light" aria-hidden="true"></div>
         <div class="container" style="max-width: 760px;">
             <p class="hero__brand">Soulful Academy</p>
             <h1 class="hero__headline">Conflict School with Heart</h1>
@@ -1763,6 +1782,38 @@
                     });
                 }
             })();
+        })();
+    </script>
+    <script>
+        (function() {
+            var hero = document.getElementById('hero');
+            var cursorLight = hero && hero.querySelector('.cursor-light');
+            if (!cursorLight) return;
+            var mouseX = 0;
+            var mouseY = 0;
+            var lightX = 0;
+            var lightY = 0;
+            var isInside = false;
+
+            hero.addEventListener('mousemove', function(e) {
+                var rect = hero.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+                isInside = true;
+            });
+            hero.addEventListener('mouseleave', function() {
+                isInside = false;
+            });
+
+            function animateLight() {
+                lightX += (mouseX - lightX) * 0.1;
+                lightY += (mouseY - lightY) * 0.1;
+                cursorLight.style.left = lightX + 'px';
+                cursorLight.style.top = lightY + 'px';
+                cursorLight.style.opacity = isInside ? '1' : '0';
+                requestAnimationFrame(animateLight);
+            }
+            animateLight();
         })();
     </script>
 </body>
