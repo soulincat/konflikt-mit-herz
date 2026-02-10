@@ -29,7 +29,8 @@
             --artsy-mid: #B59A8A;           /* Section 3 – Mid neutral */
             --artsy-main: #8F5A5E;          /* Section 4 & 10 – Main color */
             --artsy-warm: #A07175;          /* Section 5 – Accent warmth */
-            --artsy-organic: #9FAFA3;       /* Section 7 – Organic accent */
+            --artsy-organic: #dceaea;       /* Section 7 – Organic accent background */
+            --artsy-organic-accent: #cbe1e1;/* Accent elements within organic areas */
             --artsy-dark: #4A2E32;          /* Section 8 – Dark anchor */
 
             --bg-primary: #E6D6C7;          /* Light base – default page bg */
@@ -40,8 +41,8 @@
             --text-inverse: #E6D6C7;       /* Text on dark sections */
             --accent: #8F5A5E;              /* CTAs, emphasis (main color) */
             --accent-soft: rgba(143, 90, 94, 0.2);
-            --btn-secondary-bg: #D0A5A5;    /* Dusty baby pink for secondary / Join us / Download */
-            --btn-register-bg: #D0A5A5;     /* Same dusty pink for Register now */
+            --btn-secondary-bg: #D0A5A5;    /* Sheer dusty pink for secondary / Join us / Download */
+            --btn-register-bg: #D0A5A5;     /* Sheer dusty pink for Register now */
             --btn-icon-arrow: #4A2E32;      /* Brown for arrow icon (download, continue) */
             --focus-ring: #4A2E32;
             --border-soft: rgba(74, 46, 50, 0.12);
@@ -141,23 +142,27 @@
         .btn--secondary {
             background: var(--btn-secondary-bg);
             color: var(--text-primary);
-            border: 1px solid rgba(160, 113, 117, 0.35);
         }
-        .btn--secondary:hover:not(:disabled) { background: #c49595; filter: brightness(0.97); }
+        .btn--secondary:hover:not(:disabled) { background: #c49595; filter: brightness(0.98); }
         .btn--register {
             background: var(--btn-register-bg);
             color: var(--text-primary);
-            border: 1px solid rgba(160, 113, 117, 0.35);
         }
-        .btn--register:hover:not(:disabled) { background: #c49595; filter: brightness(0.97); }
+        .btn--register:hover:not(:disabled) { background: #c49595; filter: brightness(0.98); }
+
+        /* Make text button area wider for secondary/register CTAs */
+        .btn--secondary,
+        .btn--register {
+            padding-left: 32px;
+            padding-right: 32px;
+        }
         .btn--icon {
             width: 44px;
             height: 44px;
             padding: 0;
-            border-radius: 14px;
+            border-radius: 0; /* square by default */
             background: var(--artsy-light);
             color: var(--btn-icon-arrow);
-            border: 1px solid rgba(74, 46, 50, 0.2);
         }
         .btn--icon:hover:not(:disabled) { background: var(--artsy-mid); color: var(--btn-icon-arrow); }
         .btn--icon svg { width: 20px; height: 20px; stroke-width: 1.5; }
@@ -166,7 +171,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 3px; /* 3px space between text + arrow */
             margin-top: var(--space-block);
             margin-left: auto;
             margin-right: auto;
@@ -174,6 +179,23 @@
         }
         .cta-group .btn--primary { margin: 0; }
         .cta-group .btn--icon { margin: 0; }
+
+        /* Pink CTA pairs (text + arrow) behave as one connected dusty-pink button */
+        .cta-group .btn--secondary + .btn--icon,
+        .cta-group .btn--register + .btn--icon {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-icon-arrow);
+            border-radius: 0; /* square arrow area */
+        }
+        /* Hovering either area keeps them in sync */
+        .cta-group .btn--secondary:hover + .btn--icon,
+        .cta-group .btn--register:hover + .btn--icon,
+        .cta-group .btn--secondary + .btn--icon:hover,
+        .cta-group .btn--register + .btn--icon:hover {
+            background: #c49595;
+            filter: brightness(0.98);
+            border-radius: 50%; /* arrow becomes a circle on hover */
+        }
 
         /* ===== LAYOUT ===== */
         .section {
@@ -225,15 +247,23 @@
             color: var(--text-inverse);
         }
         .section--dark .btn--primary,
-        .hero .btn--primary,
         .footer .btn--primary {
             background: var(--text-inverse);
             color: var(--artsy-hero);
         }
         .section--dark .btn--primary:hover:not(:disabled),
-        .hero .btn--primary:hover:not(:disabled),
         .footer .btn--primary:hover:not(:disabled) {
             background: #fff;
+            color: var(--artsy-hero);
+        }
+
+        /* Hero primary CTA uses warm cream #f6e5b8 */
+        .hero .btn--primary {
+            background: #f6e5b8;
+            color: var(--artsy-hero);
+        }
+        .hero .btn--primary:hover:not(:disabled) {
+            background: #f1da9f;
             color: var(--artsy-hero);
         }
         .section--dark .btn--secondary,
@@ -243,16 +273,30 @@
             color: var(--text-inverse);
         }
         .section--dark .btn--icon,
-        .hero .btn--icon,
         .footer .btn--icon {
             background: var(--text-inverse);
             color: var(--artsy-hero);
         }
         .section--dark .btn--icon:hover:not(:disabled),
-        .hero .btn--icon:hover:not(:disabled),
         .footer .btn--icon:hover:not(:disabled) {
             background: #fff;
             color: var(--artsy-hero);
+        }
+
+        /* Hero arrow button matches hero primary CTA color */
+        .hero .btn--icon {
+            background: #f6e5b8;
+            color: var(--artsy-hero);
+        }
+        .hero .btn--icon:hover:not(:disabled) {
+            background: #f1da9f;
+            color: var(--artsy-hero);
+            border-radius: 50%; /* hero arrow becomes a circle on hover */
+        }
+        /* When hovering hero text button, arrow also becomes a circle */
+        .hero .btn--primary:hover + .btn--icon {
+            background: #f1da9f;
+            border-radius: 50%;
         }
         .other-way .standalone-line,
         .other-way .text-block--body,
@@ -634,7 +678,7 @@
             padding: var(--space-block);
             border: 1px solid var(--border-soft);
             border-radius: var(--radius-card);
-            background: var(--artsy-light);
+            background: var(--artsy-organic-accent); /* #cbe1e1 box on organic background */
             max-width: var(--max-text);
             margin: var(--space-block) 0;
         }
@@ -675,6 +719,19 @@
             left: 0;
             color: var(--accent);
             font-size: 0.7em;
+        }
+
+        /* Organic accent list (Format block) */
+        .training__format-list {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-xs) 0 var(--space-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .training__format-list li {
+            /* use default bullet styling from .training__format-card li; keep transparent list items */
         }
 
         /* ===== 8. WHO IS THIS FOR (Photos row + testimonials below) ===== */
@@ -1330,7 +1387,7 @@
             </div>
             <div class="training__format-card">
                 <h3 class="text-block--meta" style="margin-bottom: var(--space-xs);">Format</h3>
-                <ul>
+                <ul class="training__format-list">
                     <li>2 Online Modules (4 sessions at 2 standard times)</li>
                     <li>2-day integration retreat (in-person)</li>
                     <li>8 to a maximum of 20 participants</li>

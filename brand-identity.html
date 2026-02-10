@@ -14,7 +14,7 @@
             --mid-neutral: #B59A8A;
             --accent-warmth: #A07175;
             --dark-anchor: #4A2E32;
-            --organic: #9FAFA3;
+            --organic: #dceaea;
             --text-primary: #4A2E32;
             --text-secondary: #8F5A5E;
             --inverse: #E6D6C7;
@@ -124,6 +124,83 @@
             font-size: 15px;
             color: var(--mid-neutral);
             font-style: italic;
+        }
+
+        /* CTA examples (synced with landing_designed.html) */
+        .cta-example-wrapper {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .cta-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 46px;
+            min-height: 46px;
+            padding: 12px 22px;
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: none;
+            text-decoration: none;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background-color 250ms ease-out;
+        }
+        .btn--primary {
+            background: #f6e5b8;
+            color: var(--dark-anchor);
+        }
+        .btn--primary:hover {
+            background: #f1da9f;
+        }
+        .btn--secondary {
+            background: #D0A5A5;
+            color: var(--text-primary);
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+        .btn--secondary:hover {
+            background: #c49595;
+        }
+        .btn--icon {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 0;
+            background: #f6e5b8;
+            color: var(--dark-anchor);
+        }
+        .btn--icon svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.5;
+        }
+        .cta-group.hero-example .btn--icon {
+            background: #f6e5b8;
+        }
+        .cta-group.hero-example .btn--primary:hover + .btn--icon,
+        .cta-group.hero-example .btn--icon:hover {
+            background: #f1da9f;
+            border-radius: 50%;
+        }
+        .cta-group.pink-example .btn--icon {
+            background: #D0A5A5;
+            color: var(--dark-anchor);
+        }
+        .cta-group.pink-example .btn--secondary:hover + .btn--icon,
+        .cta-group.pink-example .btn--icon:hover {
+            background: #c49595;
+            border-radius: 50%;
         }
 
         .guideline table {
@@ -609,7 +686,7 @@
                     <tr><td>Mid neutral</td><td>—</td><td>#B59A8A</td><td><span class="swatch" style="background:#B59A8A"></span></td></tr>
                     <tr><td>Accent warmth</td><td>—</td><td>#A07175</td><td><span class="swatch" style="background:#A07175"></span></td></tr>
                     <tr><td>Dark anchor</td><td>—</td><td>#4A2E32</td><td><span class="swatch" style="background:#4A2E32"></span></td></tr>
-                    <tr><td>Organic accent</td><td>—</td><td>#9FAFA3</td><td><span class="swatch" style="background:#9FAFA3"></span></td></tr>
+                    <tr><td>Organic accent</td><td>—</td><td>#DCEAEA</td><td><span class="swatch" style="background:#DCEAEA"></span></td></tr>
                 </tbody>
             </table>
             <p class="guideline-p"><strong>3.2 Text Colors</strong></p>
@@ -647,7 +724,24 @@
                 <li>Tone: inviting, not urgent (“Continue reading” not “Act now”)</li>
                 <li>Motion: ease-out 250–300ms, hover = subtle shade change</li>
             </ul>
-            <div class="placeholder-block">[Insert CTA examples]</div>
+            <div class="cta-example-wrapper">
+                <div class="cta-group hero-example">
+                    <a href="#" class="btn btn--primary">Example primary CTA</a>
+                    <a href="#" class="btn btn--icon" aria-label="Continue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="cta-group pink-example">
+                    <a href="#" class="btn btn--secondary">Example secondary CTA</a>
+                    <a href="#" class="btn btn--icon" aria-label="Continue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
             <h2 class="guideline-h2">6. Motion & Interaction</h2>
             <ul class="guideline-p">
