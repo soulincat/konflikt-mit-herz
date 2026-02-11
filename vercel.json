@@ -7,6 +7,10 @@
     {
       "source": "/landing-page",
       "destination": "/landing-page.html"
+    },
+    {
+      "source": "/landing-designed",
+      "destination": "/landing_designed.html"
     }
   ],
   "headers": [

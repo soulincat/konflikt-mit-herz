@@ -66,6 +66,38 @@
             color: var(--text-primary);
             background: var(--artsy-light);
             -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+        /* Vintage film grain/noise overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, transparent 0px, transparent 1px, rgba(0,0,0,0.02) 2px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0px, transparent 0px, transparent 1px, rgba(0,0,0,0.02) 2px),
+                repeating-linear-gradient(45deg, rgba(0,0,0,0.015) 0px, transparent 0px, transparent 2px, rgba(0,0,0,0.015) 3px);
+            background-size: 300% 300%, 250% 250%, 400% 400%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+            opacity: 0.3;
+            animation: grain 8s steps(10) infinite;
+        }
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            20% { transform: translate(-15%, 5%); }
+            30% { transform: translate(7%, -25%); }
+            40% { transform: translate(-5%, 25%); }
+            50% { transform: translate(-15%, 10%); }
+            60% { transform: translate(15%, 0%); }
+            70% { transform: translate(0%, 15%); }
+            80% { transform: translate(3%, 35%); }
+            90% { transform: translate(-10%, 10%); }
         }
 
         /* ===== TYPOGRAPHY (TextBlock variants) ===== */
@@ -87,11 +119,12 @@
             margin-bottom: var(--space-sm);
         }
         .text-block--body {
-            font-family: var(--font-serif);
+            font-family: var(--font-sans);
             font-size: 1.0625rem;
             line-height: 1.7;
             max-width: var(--max-text);
             color: var(--text-primary);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .text-block--body p { margin-bottom: var(--space-paragraph); }
         .text-block--body p:last-child { margin-bottom: 0; }
@@ -197,9 +230,116 @@
             border-radius: 50%; /* arrow becomes a circle on hover */
         }
 
+        /* ===== STICKY NAVIGATION ===== */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            transition: transform 300ms ease-out, opacity 300ms ease-out;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .main-nav.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .main-nav__brand {
+            justify-self: center;
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        .main-nav__brand:hover {
+            color: var(--accent);
+        }
+        .main-nav__links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-self: start;
+        }
+        .lang-toggle {
+            justify-self: end;
+        }
+        .main-nav__link {
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        .main-nav__link:hover {
+            color: var(--accent);
+        }
+        .lang-toggle__btn {
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: opacity var(--transition), color var(--transition);
+        }
+        .lang-toggle__btn:hover {
+            color: var(--accent);
+            opacity: 1 !important;
+        }
+        .lang-toggle__btn.active {
+            opacity: 1;
+            font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 16px 16px;
+            }
+            .main-nav__brand {
+                font-size: 16px;
+            }
+            .main-nav__links {
+                gap: 20px;
+                font-size: 13px;
+            }
+            .lang-toggle__btn {
+                font-size: 13px;
+            }
+        }
+
         /* ===== LAYOUT ===== */
         .section {
             padding: var(--space-lg) 24px;
+            transition: background-color 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(40px);
+            will-change: opacity, transform, background-color;
+        }
+        body {
+            transition: background-color 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .section.visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        .hero.section {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
         @media (max-width: 768px) {
             .section { padding: 80px 20px; }
@@ -209,17 +349,113 @@
         }
 
         /* Section backgrounds — Artsy palette (landing-page.html theme 3) */
-        .hero { background: var(--artsy-hero); }
-        .welcome { background: var(--artsy-light); }
+        .hero { 
+            background: var(--artsy-hero);
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .welcome {
+            position: relative;
+            background: var(--artsy-light);
+            overflow: hidden;
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .welcome::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('soulful academy background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.8; /* 80% opaque */
+            pointer-events: none;
+            z-index: 0;
+        }
+        .welcome .container {
+            position: relative;
+            z-index: 1;
+        }
         .recognition { background: var(--artsy-mid); }
-        .other-way { background: var(--artsy-main); }
-        .companions { background: var(--artsy-warm); }
-        .approach { background: var(--artsy-light); }
-        .training { background: var(--artsy-organic); }
+        .other-way { 
+            background: var(--artsy-main);
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .other-way::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('plastered wall.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .other-way .container {
+            position: relative;
+            z-index: 1;
+        }
+        .companions {
+            position: relative;
+            background: url('team.jpg') center center / cover no-repeat;
+            overflow: hidden;
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s ease-out;
+        }
+        .approach { 
+            background: var(--artsy-light);
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .approach::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('paper.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .approach .container {
+            position: relative;
+            z-index: 1;
+        }
+        .training {
+            position: relative;
+            background: var(--artsy-organic);
+            overflow: hidden;
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         .who-testimonials { background: var(--artsy-light); }
         .structure { background: var(--artsy-mid); }
         .takeaways { background: var(--artsy-light); }
-        .investment { background: var(--artsy-mid); }
+        .investment { 
+            background: var(--artsy-mid);
+            position: relative;
+            overflow: hidden;
+        }
+        .investment::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('plastered wall.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .investment .container {
+            position: relative;
+            z-index: 1;
+        }
         .changes { background: var(--artsy-mid); }
         .faqs { background: var(--artsy-light); }
         .footer { background: var(--artsy-main); }
@@ -326,11 +562,28 @@
             text-align: center;
             padding: var(--space-lg) 24px;
         }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('hero_shadow.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.5; /* 50% transparent = 50% visible */
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
         .cursor-light {
             position: absolute;
             width: 600px;
             height: 600px;
             border-radius: 50%;
+            z-index: 1;
             background: radial-gradient(
                 circle,
                 rgba(255, 255, 255, 0.15) 0%,
@@ -367,7 +620,7 @@
             margin-bottom: 48px;
         }
         .hero__desc {
-            font-family: var(--font-serif);
+            font-family: var(--font-sans);
             font-size: 1.0625rem;
             line-height: 1.7;
             max-width: 42ch;
@@ -391,11 +644,24 @@
         .recognition {
             background: #F8F4F0; /* warm off-white, not pure white */
             padding: 120px 24px 120px;
+            position: relative;
+            overflow: visible;
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @media (max-width: 768px) {
             .recognition { padding: 88px 20px 88px; }
         }
-        .recognition__inner { max-width: 640px; margin: 0 auto; text-align: center; }
+        .recognition__inner { max-width: 640px; margin: 0 auto; text-align: center; position: relative; z-index: 1; overflow: visible; }
+        /* Background image overlay for result area - spans full viewport width */
+        .recognition__result-area {
+            position: relative;
+            z-index: 2;
+        }
+        .recognition__result-label,
+        .recognition__result-text {
+            position: relative;
+            z-index: 1;
+        }
         .recognition__intro {
             font-family: var(--font-serif);
             font-size: clamp(1.75rem, 4vw, 2.25rem);
@@ -413,6 +679,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 1;
+            overflow: visible;
         }
         @media (max-width: 768px) {
             .recognition__stepper { min-height: 82vh; }
@@ -445,9 +713,64 @@
             visibility: hidden;
             pointer-events: none;
         }
-        .recognition__panel .recognition__content { text-align: left; width: 100%; }
+        .recognition__panel .recognition__content { 
+            text-align: left; 
+            width: 100%; 
+            position: relative;
+            padding: 60px 40px;
+            padding-bottom: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .recognition__content-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 768px) {
+            .recognition__content-columns {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+        .recognition__column {
+            position: relative;
+            z-index: 1;
+        }
+        .recognition__column--left {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-paragraph);
+        }
+        .recognition__column--right {
+            display: flex;
+            flex-direction: column;
+        }
+        .recognition__panel .recognition__content > * {
+            position: relative;
+            z-index: 1;
+        }
+        .recognition__content-image {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-height: 200px;
+            height: auto;
+            object-fit: cover;
+            object-position: bottom;
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
         .recognition__beat {
             font-family: var(--font-serif);
+            font-style: italic;
             font-size: 1.0625rem;
             line-height: 1.65;
             color: var(--text-primary);
@@ -457,23 +780,33 @@
         @media (max-width: 768px) {
             .recognition__beat { margin-bottom: 55px; font-size: 1rem; }
         }
+        .recognition__result-area {
+            position: relative;
+            z-index: 2;
+        }
         .recognition__result-label {
             margin-top: 56px;
             margin-bottom: 24px;
-            font-family: var(--font-sans);
+            font-family: var(--font-serif);
+            font-style: italic;
             font-size: 0.9375rem;
             font-weight: 500;
             letter-spacing: 0.02em;
             color: var(--text-primary);
+            position: relative;
+            z-index: 1;
         }
         @media (max-width: 768px) {
             .recognition__result-label { margin-top: 62px; }
         }
         .recognition__result-text {
             font-family: var(--font-serif);
+            font-style: italic;
             font-size: 1.0625rem;
             line-height: 1.7;
             color: var(--text-primary);
+            position: relative;
+            z-index: 1;
         }
         .recognition__nav {
             display: flex;
@@ -481,10 +814,19 @@
             justify-content: center;
             gap: 24px;
             margin-top: 48px;
+            position: relative;
+            z-index: 1;
+        }
+        .recognition__dots,
+        .recognition__next {
+            position: relative;
+            z-index: 1;
         }
         .recognition__dots {
             display: flex;
             gap: 12px;
+            position: relative;
+            z-index: 1;
         }
         .recognition__dot {
             width: 8px;
@@ -509,6 +851,8 @@
             cursor: pointer;
             padding: 8px 0;
             letter-spacing: 0.02em;
+            position: relative;
+            z-index: 1;
         }
         .recognition__next:hover { color: var(--accent); }
         .recognition__next:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
@@ -594,12 +938,7 @@
             text-align: left;
         }
         .companion__image {
-            width: 100%;
-            aspect-ratio: 1;
-            max-width: 280px;
-            background: var(--artsy-light);
-            border-radius: var(--radius-card);
-            margin-bottom: var(--space-sm);
+            display: none; /* remove individual photo boxes; use section background instead */
         }
         .companion__name { font-family: var(--font-serif); font-size: 1.375rem; margin-bottom: var(--space-xs); }
         .companion__role { margin-bottom: var(--space-sm); }
@@ -607,6 +946,26 @@
             text-align: center;
             max-width: var(--max-text-tight);
             margin: 0 auto;
+        }
+
+        /* Frosted overlay + stacking for companions (Who we are) */
+        .companions::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(230, 214, 199, 0.65),
+                    rgba(230, 214, 199, 0.55)
+                );
+            backdrop-filter: blur(6px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .companions .container {
+            position: relative;
+            z-index: 1;
         }
 
         /* ===== 6. APPROACH ===== */
@@ -639,10 +998,29 @@
         .approach__item {
             padding: var(--space-sm);
             background: var(--bg-card);
-            border-radius: var(--radius-card);
+            border-radius: 0;
             text-align: center;
             cursor: pointer;
             transition: background var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .approach__item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('paper_card.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .approach__item > * {
+            position: relative;
+            z-index: 1;
         }
         .approach__item:hover { background: var(--artsy-light); }
         .approach__item .dot {
@@ -658,6 +1036,7 @@
             font-size: 0.9375rem;
             font-weight: 500;
             color: var(--text-primary);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
         .approach__item-desc {
             font-size: 0.875rem;
@@ -665,6 +1044,7 @@
             margin-top: var(--space-xs);
             line-height: 1.5;
             display: none;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
         .approach__item.expanded .approach__item-desc { display: block; }
         .approach__outro {
@@ -676,7 +1056,7 @@
         /* ===== 7. TRAINING ===== */
         .training__format-card {
             padding: var(--space-block);
-            border: 1px solid var(--border-soft);
+            border: none;
             border-radius: var(--radius-card);
             background: var(--artsy-organic-accent); /* #cbe1e1 box on organic background */
             max-width: var(--max-text);
@@ -732,6 +1112,24 @@
         }
         .training__format-list li {
             /* use default bullet styling from .training__format-card li; keep transparent list items */
+        }
+
+        /* Water tile overlay for Safety + Clarity (training section) */
+        .training::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('water_tile.png');
+            background-repeat: repeat;
+            /* tile at ~native resolution for max “zoom” without pixel artifacts */
+            background-size: 512px 512px;
+            opacity: 0.1; /* ~90% transparent, still soft but more visible */
+            pointer-events: none;
+            z-index: 0;
+        }
+        .training .container {
+            position: relative;
+            z-index: 1;
         }
 
         /* ===== 8. WHO IS THIS FOR (Photos row + testimonials below) ===== */
@@ -881,6 +1279,12 @@
         /* ===== 9. STRUCTURE & CONTENT (3-phase journey, timeline) ===== */
         .structure {
             background: var(--artsy-light);
+            position: relative;
+            overflow: hidden;
+        }
+        .structure .container {
+            position: relative;
+            z-index: 1;
         }
         .structure__intro {
             text-align: center;
@@ -901,48 +1305,22 @@
             line-height: 1.65;
             color: var(--text-secondary);
         }
-        .structure__journey {
+        .structure__nav {
             max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 48px;
-            align-items: start;
-        }
-        @media (max-width: 900px) {
-            .structure__journey { grid-template-columns: 1fr; gap: 0; }
-        }
-        .structure__timeline {
-            position: sticky;
-            top: 120px;
+            margin: 0 auto var(--space-block);
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 8px;
-        }
-        @media (max-width: 900px) {
-            .structure__timeline { display: none; }
-        }
-        .structure__timeline-line {
-            position: absolute;
-            left: 50%;
-            top: 22px;
-            bottom: 22px;
-            width: 2px;
-            background: var(--border-soft);
-            transform: translateX(-50%);
-            pointer-events: none;
+            justify-content: center;
         }
         .structure__markers {
-            position: relative;
             display: flex;
-            flex-direction: column;
-            gap: 140px;
-            min-height: 412px;
+            flex-direction: row;
+            gap: 24px;
+            align-items: center;
+            justify-content: center;
         }
         .structure__marker {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             border: 2px solid var(--border-soft);
             background: var(--artsy-light);
@@ -950,32 +1328,60 @@
             align-items: center;
             justify-content: center;
             font-family: var(--font-sans);
-            font-size: 0.6875rem;
+            font-size: 0.875rem;
             font-weight: 600;
             letter-spacing: 0.04em;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: border-color 280ms ease-out, background 280ms ease-out, color 280ms ease-out;
+            transition: border-color 280ms ease-out, background 280ms ease-out, color 280ms ease-out, transform 280ms ease-out;
             z-index: 1;
         }
-        .structure__marker:hover { border-color: var(--accent); color: var(--text-primary); }
+        .structure__marker:hover { 
+            border-color: var(--accent); 
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
         .structure__marker.active {
             border-color: var(--accent);
             background: var(--accent);
             color: #fff;
+            transform: scale(1.15);
         }
         .structure__marker:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
-        .structure__modules { max-width: 680px; }
+        .structure__journey {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .structure__modules { 
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+        }
         .structure__module {
             min-height: 80vh;
             padding-bottom: 140px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            opacity: 0.3;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .structure__module.active {
+            opacity: 1;
+            transform: translateY(0);
         }
         .structure__module:last-child { padding-bottom: 80px; }
         @media (max-width: 768px) {
             .structure__module { min-height: auto; padding-bottom: 154px; }
+            .structure__markers {
+                gap: 16px;
+            }
+            .structure__marker {
+                width: 40px;
+                height: 40px;
+                font-size: 0.75rem;
+            }
         }
         .structure__module-header { margin-bottom: 60px; }
         .structure__module-title {
@@ -1083,10 +1489,28 @@
         .takeaways__card {
             padding: 24px;
             background: var(--bg-card);
-            border-radius: var(--radius-card);
+            border-radius: 0;
             font-family: var(--font-sans);
             font-size: 1rem;
             line-height: 1.6;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            color: #1a1a1a;
+            font-weight: 500;
+            z-index: 1;
+        }
+        .takeaways__card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('paper_card.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            z-index: 0;
+            pointer-events: none;
         }
         .takeaways__outro {
             text-align: center;
@@ -1109,22 +1533,54 @@
         .investment__card {
             padding: var(--space-block);
             background: var(--artsy-light);
-            border: 1px solid var(--border-soft);
-            border-radius: var(--radius-card);
+            border: none;
+            border-radius: 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .investment__card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('paper_card.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .investment__card > * {
+            position: relative;
+            z-index: 1;
+        }
+        .investment__card .text-block--meta {
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
         .investment__card--highlight {
             transform: scale(1.03);
-            border-color: var(--accent);
             background: var(--bg-card);
         }
         .investment__card-title {
             font-family: var(--font-serif);
             font-size: 1.25rem;
             margin-bottom: var(--space-sm);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
-        .investment__price { font-size: 1.5rem; font-weight: 600; margin-bottom: var(--space-xs); }
-        .investment__earlybird { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: var(--space-sm); }
+        .investment__price { 
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            margin-bottom: var(--space-xs);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+        .investment__earlybird { 
+            font-size: 0.9375rem; 
+            color: var(--text-secondary); 
+            margin-bottom: var(--space-sm);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
         .investment .cta-group { justify-content: center; margin-top: var(--space-lg); }
 
         /* ===== 12. WHAT THAT CHANGES ===== */
@@ -1161,6 +1617,24 @@
         .footer {
             padding: var(--space-lg) 24px var(--space-block);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('footer overlay.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .footer .container {
+            position: relative;
+            z-index: 1;
         }
         .footer__headline {
             font-family: var(--font-serif);
@@ -1187,20 +1661,66 @@
             font-style: italic;
             color: var(--text-secondary);
         }
+
+        /* ===== FLOATING REGISTER BUTTON ===== */
+        .floating-register {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 9998;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out, transform 0.3s ease-out;
+            pointer-events: auto;
+        }
+        .floating-register.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+        .floating-register .cta-group {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .floating-register {
+                bottom: 24px;
+                right: 24px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- STICKY NAVIGATION -->
+    <nav class="main-nav" aria-label="Main navigation" id="main-nav">
+        <ul class="main-nav__links">
+            <li><a href="#hero" class="main-nav__link" data-i18n="nav-home">Home</a></li>
+            <li><a href="#training" class="main-nav__link" data-i18n="nav-training">Training</a></li>
+            <li><a href="#who-for" class="main-nav__link" data-i18n="nav-who-for">Who For</a></li>
+            <li><a href="#structure" class="main-nav__link" data-i18n="nav-structure">Structure</a></li>
+            <li><a href="#contact" class="main-nav__link" data-i18n="nav-contact">Contact</a></li>
+        </ul>
+        <a href="#hero" class="main-nav__brand" data-i18n="nav-brand">Soulful Academy</a>
+        <div class="lang-toggle">
+            <button type="button" class="lang-toggle__btn" data-lang="en" aria-label="English">EN</button>
+            <button type="button" class="lang-toggle__btn" data-lang="de" aria-label="Deutsch">DE</button>
+        </div>
+    </nav>
+
     <!-- 1. HERO -->
     <section class="hero section" id="hero" aria-label="Hero">
         <div class="cursor-light" aria-hidden="true"></div>
         <div class="container" style="max-width: 760px;">
-            <p class="hero__brand">Soulful Academy</p>
-            <h1 class="hero__headline">Conflict School with Heart</h1>
-            <p class="hero__subline">Engage in conflicts – instead of fearing them.</p>
-            <p class="hero__desc">Learn conflict resolution skills with heart with us! A holistic live training for people who no longer want to avoid conflicts, but are ready to lead them clearly and with an open heart – in their professional lives as well as in their personal lives.</p>
-            <p class="hero__meta">Live Training · April 2026</p>
+            <p class="hero__brand" data-i18n="hero-brand">Soulful Academy</p>
+            <h1 class="hero__headline" data-i18n="hero-headline">Conflict School with Heart</h1>
+            <p class="hero__subline" data-i18n="hero-subline">Engage in conflicts – instead of fearing them.</p>
+            <p class="hero__desc" data-i18n="hero-desc">Learn conflict resolution skills with heart with us! A holistic live training for people who no longer want to avoid conflicts, but are ready to lead them clearly and with an open heart – in their professional lives as well as in their personal lives.</p>
+            <p class="hero__meta" data-i18n="hero-meta">Live Training · April 2026</p>
             <div class="cta-group">
-                <a href="#contact" class="btn btn--primary">Secure your spot</a>
+                <a href="#contact" class="btn btn--primary" data-i18n="hero-cta">Secure your spot</a>
                 <a href="#contact" class="btn btn--icon" aria-label="Continue to contact">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
@@ -1211,15 +1731,15 @@
     <!-- 2. WELCOME -->
     <section class="welcome section" id="welcome" aria-label="Welcome to Soulful Academy">
         <div class="container container--narrow">
-            <h2 class="text-block--section-title">Welcome to Soulful Academy</h2>
-            <p class="text-block--meta" style="margin-bottom: var(--space-sm);">Clarity + Grounding</p>
+            <h2 class="text-block--section-title" data-i18n="welcome-title">Welcome to Soulful Academy</h2>
+            <p class="text-block--meta" style="margin-bottom: var(--space-sm);" data-i18n="welcome-eyebrow">Clarity + Grounding</p>
             <div class="text-block--body">
-                <p>The Soulful Academy is a school for embodied conflict competence and conscious relationship culture.</p>
-                <p>We offer training and educational programs for individuals, groups and organizations – promoting self-efficacy, emotional clarity and connection.</p>
-                <p>Our aim is to empower people so they can express what they feel, need, and want – and stay connected with each other in the process. In both their personal and professional lives.</p>
+                <p data-i18n="welcome-p1">The Soulful Academy is a school for embodied conflict competence and conscious relationship culture.</p>
+                <p data-i18n="welcome-p2">We offer training and educational programs for individuals, groups and organizations – promoting self-efficacy, emotional clarity and connection.</p>
+                <p data-i18n="welcome-p3">Our aim is to empower people so they can express what they feel, need, and want – and stay connected with each other in the process. In both their personal and professional lives.</p>
             </div>
             <div class="cta-group">
-                <a href="#contact" class="btn btn--secondary">Join us now</a>
+                <a href="#contact" class="btn btn--secondary" data-i18n="welcome-cta">Join us now</a>
                 <a href="#contact" class="btn btn--icon" aria-label="Continue">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
@@ -1230,32 +1750,59 @@
     <!-- 3. RECOGNITION (stepper, one scenario at a time, paced beats) -->
     <section class="recognition section" id="recognition" aria-label="Recognition">
         <div class="recognition__inner">
-            <h2 class="recognition__intro">Does this sound familiar?</h2>
+            <h2 class="recognition__intro" data-i18n="recognition-title">Does this sound familiar?</h2>
 
             <div class="recognition__stepper">
                 <div class="recognition__panel active" data-scenario="1" role="tabpanel" id="recognition-panel-1" aria-labelledby="recognition-dot-1">
                     <div class="recognition__content">
-                        <p class="recognition__beat">You perceive tensions within your team that are disrupting you and the workflow.</p>
-                        <p class="recognition__beat">Although you feel that discussions are necessary, you hesitate, even though you bear a great responsibility.</p>
-                        <p class="recognition__result-label">The result:</p>
-                        <p class="recognition__result-text">Conflicts remain unresolved, burdening those involved, the team atmosphere, and the workflow. Short-term solutions are like a painkiller: when the effect wears off, the conflict returns.</p>
+                        <div class="recognition__content-columns">
+                            <div class="recognition__column recognition__column--left">
+                                <p class="recognition__beat" data-i18n="recognition-s1-b1">You perceive tensions within your team that are disrupting you and the workflow.</p>
+                                <p class="recognition__beat" data-i18n="recognition-s1-b2">Although you feel that discussions are necessary, you hesitate, even though you bear a great responsibility.</p>
+                            </div>
+                            <div class="recognition__column recognition__column--right">
+                                <div class="recognition__result-area">
+                                    <p class="recognition__result-label" data-i18n="recognition-result">The result:</p>
+                                    <p class="recognition__result-text" data-i18n="recognition-s1-result">Conflicts remain unresolved, burdening those involved, the team atmosphere, and the workflow. Short-term solutions are like a painkiller: when the effect wears off, the conflict returns.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="section3_story1.png" alt="" class="recognition__content-image" data-scenario-image="1">
                     </div>
                 </div>
                 <div class="recognition__panel" data-scenario="2" role="tabpanel" id="recognition-panel-2" aria-labelledby="recognition-dot-2">
                     <div class="recognition__content">
-                        <p class="recognition__beat">There's something you've been wanting to resolve for a long time.</p>
-                        <p class="recognition__beat">Although you've mentioned it several times, it's never been addressed.</p>
-                        <p class="recognition__beat">You repeatedly explode over minor things, which leads to escalation with the other person and drives you further apart.</p>
-                        <p class="recognition__result-label">As a result:</p>
-                        <p class="recognition__result-text">The drama takes over and relationships suffer cracks that are usually difficult to repair.</p>
+                        <div class="recognition__content-columns">
+                            <div class="recognition__column recognition__column--left">
+                                <p class="recognition__beat" data-i18n="recognition-s2-b1">There's something you've been wanting to resolve for a long time.</p>
+                                <p class="recognition__beat" data-i18n="recognition-s2-b2">Although you've mentioned it several times, it's never been addressed.</p>
+                                <p class="recognition__beat" data-i18n="recognition-s2-b3">You repeatedly explode over minor things, which leads to escalation with the other person and drives you further apart.</p>
+                            </div>
+                            <div class="recognition__column recognition__column--right">
+                                <div class="recognition__result-area">
+                                    <p class="recognition__result-label" data-i18n="recognition-result-as">As a result:</p>
+                                    <p class="recognition__result-text" data-i18n="recognition-s2-result">The drama takes over and relationships suffer cracks that are usually difficult to repair.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="section3_story1.png" alt="" class="recognition__content-image" data-scenario-image="2">
                     </div>
                 </div>
                 <div class="recognition__panel" data-scenario="3" role="tabpanel" id="recognition-panel-3" aria-labelledby="recognition-dot-3">
                     <div class="recognition__content">
-                        <p class="recognition__beat">You've noticed for a long time that you say yes far too often, even when it pushes you beyond your limits.</p>
-                        <p class="recognition__beat">You know it's time to stop – but how?</p>
-                        <p class="recognition__result-label">The result:</p>
-                        <p class="recognition__result-text">You lose more and more contact with yourself, your feelings and needs, which damages your self-confidence in the long run.</p>
+                        <div class="recognition__content-columns">
+                            <div class="recognition__column recognition__column--left">
+                                <p class="recognition__beat" data-i18n="recognition-s3-b1">You've noticed for a long time that you say yes far too often, even when it pushes you beyond your limits.</p>
+                                <p class="recognition__beat" data-i18n="recognition-s3-b2">You know it's time to stop – but how?</p>
+                            </div>
+                            <div class="recognition__column recognition__column--right">
+                                <div class="recognition__result-area">
+                                    <p class="recognition__result-label" data-i18n="recognition-result">The result:</p>
+                                    <p class="recognition__result-text" data-i18n="recognition-s3-result">You lose more and more contact with yourself, your feelings and needs, which damages your self-confidence in the long run.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="section3_story1.png" alt="" class="recognition__content-image" data-scenario-image="3">
                     </div>
                 </div>
             </div>
@@ -1266,18 +1813,18 @@
                     <button type="button" class="recognition__dot" role="tab" id="recognition-dot-2" aria-selected="false" aria-controls="recognition-panel-2" aria-label="Scenario 2" title="Scenario 2"><span aria-hidden="true"></span></button>
                     <button type="button" class="recognition__dot" role="tab" id="recognition-dot-3" aria-selected="false" aria-controls="recognition-panel-3" aria-label="Scenario 3" title="Scenario 3"><span aria-hidden="true"></span></button>
                 </div>
-                <button type="button" class="recognition__next" id="recognition-next">Next</button>
+                <button type="button" class="recognition__next" id="recognition-next" data-i18n="recognition-next">Next</button>
             </nav>
 
             <div class="recognition__reframe">
-                <p class="recognition__reframe-line">These aren't weaknesses, but survival strategies that once protected you.</p>
-                <p class="recognition__reframe-line">Today, they're outdated and can permanently damage your relationships.</p>
+                <p class="recognition__reframe-line" data-i18n="recognition-reframe1">These aren't weaknesses, but survival strategies that once protected you.</p>
+                <p class="recognition__reframe-line" data-i18n="recognition-reframe2">Today, they're outdated and can permanently damage your relationships.</p>
             </div>
 
             <div class="recognition__imagine-wrap">
-                <p class="recognition__imagine">Imagine if things could be different:</p>
+                <p class="recognition__imagine" data-i18n="recognition-imagine">Imagine if things could be different:</p>
                 <div class="recognition__banner">
-                    <p class="recognition__banner-text">Conflicts can also lead to greater connection, sovereignty, and inner peace.</p>
+                    <p class="recognition__banner-text" data-i18n="recognition-banner">Conflicts can also lead to greater connection, sovereignty, and inner peace.</p>
                 </div>
             </div>
         </div>
@@ -1286,20 +1833,20 @@
     <!-- 4. THE OTHER WAY -->
     <section class="other-way section" id="other-way" aria-label="The other way">
         <div class="container container--tight">
-            <p class="text-block--eyebrow">The other way</p>
-            <h2 class="text-block--section-title">Conflict resolution skills with heart</h2>
+            <p class="text-block--eyebrow" data-i18n="otherway-eyebrow">The other way</p>
+            <h2 class="text-block--section-title" data-i18n="otherway-title">Conflict resolution skills with heart</h2>
             <div class="text-block--body">
-                <p>Conflict competence with heart means...</p>
+                <p data-i18n="otherway-p1">Conflict competence with heart means...</p>
             </div>
-            <p class="standalone-line">to remain present and embodied in the conflict – instead of fleeing, destroying, or losing oneself.</p>
+            <p class="standalone-line" data-i18n="otherway-standalone">to remain present and embodied in the conflict – instead of fleeing, destroying, or losing oneself.</p>
             <div class="text-block--body">
-                <p>In our training courses, we teach an attitude combined with a practical toolset that combines self-leadership, clarity and compassion, and sustainably strengthens your conflict competence.</p>
-                <p>Do you want to gain a deeper understanding of how we think about conflict – and why integration is more than communication?</p>
+                <p data-i18n="otherway-p2">In our training courses, we teach an attitude combined with a practical toolset that combines self-leadership, clarity and compassion, and sustainably strengthens your conflict competence.</p>
+                <p data-i18n="otherway-p3">Do you want to gain a deeper understanding of how we think about conflict – and why integration is more than communication?</p>
             </div>
             <div class="download-card">
-                <p class="text-block--meta" style="margin-bottom: var(--space-xs);">If you don't have it yet, you can request it here:</p>
+                <p class="text-block--meta" style="margin-bottom: var(--space-xs);" data-i18n="otherway-download-label">If you don't have it yet, you can request it here:</p>
                 <div class="cta-group">
-                    <a href="#" class="btn btn--secondary">Download course paper (free)</a>
+                    <a href="#" class="btn btn--secondary" data-i18n="otherway-download-cta">Download course paper (free)</a>
                     <a href="#" class="btn btn--icon" aria-label="Download">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -1311,28 +1858,28 @@
     <!-- 5. COMPANIONS -->
     <section class="companions section" id="companions" aria-label="Your companions">
         <div class="container">
-            <p class="text-block--eyebrow" style="text-align: center;">Trust + Human connection</p>
-            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">Who we are</h2>
+            <p class="text-block--eyebrow" style="text-align: center;" data-i18n="companions-eyebrow">Trust + Human connection</p>
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);" data-i18n="companions-title">Who we are</h2>
             <div class="companions__grid">
                 <div class="companion">
                     <div class="companion__image" aria-hidden="true"></div>
                     <h3 class="companion__name">Isabel Kresse, MA</h3>
-                    <p class="companion__role text-block--meta">organizational consultant, mediator and trainer BM</p>
+                    <p class="companion__role text-block--meta" data-i18n="companion-isabel-role">organizational consultant, mediator and trainer BM</p>
                     <div class="text-block--body">
-                        <p>With nearly 30 years of experience, she is a recognized expert in managing complex, emotional conflict dynamics in organizations and relationships.</p>
+                        <p data-i18n="companion-isabel-desc">With nearly 30 years of experience, she is a recognized expert in managing complex, emotional conflict dynamics in organizations and relationships.</p>
                     </div>
                 </div>
                 <div class="companion">
                     <div class="companion__image" aria-hidden="true"></div>
                     <h3 class="companion__name">Ania Pilipenko, MA</h3>
-                    <p class="companion__role text-block--meta">Entrepreneur and psychosomatic consultant</p>
+                    <p class="companion__role text-block--meta" data-i18n="companion-ania-role">Entrepreneur and psychosomatic consultant</p>
                     <div class="text-block--body">
-                        <p>With over 15 years of experience in founding cooperative business models and an expert at the intersection of consciousness, creativity and body intelligence.</p>
+                        <p data-i18n="companion-ania-desc">With over 15 years of experience in founding cooperative business models and an expert at the intersection of consciousness, creativity and body intelligence.</p>
                     </div>
                 </div>
             </div>
             <div class="companions__joint text-block--body">
-                <p>Together we developed the Conflict Competence with Heart training – as the foundation of the Soulful Academy and as an expression of an attitude: to lead conflicts courageously, clearly and in a relationship-oriented way.</p>
+                <p data-i18n="companions-joint">Together we developed the Conflict Competence with Heart training – as the foundation of the Soulful Academy and as an expression of an attitude: to lead conflicts courageously, clearly and in a relationship-oriented way.</p>
             </div>
         </div>
     </section>
@@ -1340,72 +1887,72 @@
     <!-- 6. APPROACH -->
     <section class="approach section" id="approach" aria-label="Our approach">
         <div class="container">
-            <p class="text-block--eyebrow" style="text-align: center;">Clarity + Structure</p>
-            <h2 class="approach__header">The opposite of conflict is not peace, but cooperation.</h2>
+            <p class="text-block--eyebrow" style="text-align: center;" data-i18n="approach-eyebrow">Clarity + Structure</p>
+            <h2 class="approach__header" data-i18n="approach-header">The opposite of conflict is not peace, but cooperation.</h2>
             <div class="approach__intro text-block--body">
-                <p>Our training programs are based on an innovative and interdisciplinary approach that does not aim to resolve conflicts quickly, but rather integrates them sustainably as a tool for relationship and self-management.</p>
-                <p>It combines five levels that are effective in every conflict:</p>
+                <p data-i18n="approach-intro1">Our training programs are based on an innovative and interdisciplinary approach that does not aim to resolve conflicts quickly, but rather integrates them sustainably as a tool for relationship and self-management.</p>
+                <p data-i18n="approach-intro2">It combines five levels that are effective in every conflict:</p>
             </div>
             <div class="approach__grid" role="list">
                 <div class="approach__item" role="listitem" tabindex="0">
                     <div class="dot"></div>
-                    <div class="approach__item-title">Body & Regulation</div>
-                    <div class="approach__item-desc">Somatic foundations and self-regulation in tension.</div>
+                    <div class="approach__item-title" data-i18n="approach-level1-title">Body & Regulation</div>
+                    <div class="approach__item-desc" data-i18n="approach-level1-desc">Somatic foundations and self-regulation in tension.</div>
                 </div>
                 <div class="approach__item" role="listitem" tabindex="0">
                     <div class="dot"></div>
-                    <div class="approach__item-title">Emotion & Need Perception</div>
-                    <div class="approach__item-desc">Emotional intelligence and clarity about needs.</div>
+                    <div class="approach__item-title" data-i18n="approach-level2-title">Emotion & Need Perception</div>
+                    <div class="approach__item-desc" data-i18n="approach-level2-desc">Emotional intelligence and clarity about needs.</div>
                 </div>
                 <div class="approach__item" role="listitem" tabindex="0">
                     <div class="dot"></div>
-                    <div class="approach__item-title">Consciousness & inner order</div>
-                    <div class="approach__item-desc">Inner clarity and decision-making.</div>
+                    <div class="approach__item-title" data-i18n="approach-level3-title">Consciousness & inner order</div>
+                    <div class="approach__item-desc" data-i18n="approach-level3-desc">Inner clarity and decision-making.</div>
                 </div>
                 <div class="approach__item" role="listitem" tabindex="0">
                     <div class="dot"></div>
-                    <div class="approach__item-title">Decision & Responsibility</div>
-                    <div class="approach__item-desc">Taking responsibility and clear choices.</div>
+                    <div class="approach__item-title" data-i18n="approach-level4-title">Decision & Responsibility</div>
+                    <div class="approach__item-desc" data-i18n="approach-level4-desc">Taking responsibility and clear choices.</div>
                 </div>
                 <div class="approach__item" role="listitem" tabindex="0">
                     <div class="dot"></div>
-                    <div class="approach__item-title">Relationship & System</div>
-                    <div class="approach__item-desc">Systemic view and relationship dynamics.</div>
+                    <div class="approach__item-title" data-i18n="approach-level5-title">Relationship & System</div>
+                    <div class="approach__item-desc" data-i18n="approach-level5-desc">Systemic view and relationship dynamics.</div>
                 </div>
             </div>
-            <p class="approach__outro text-block--body">It is much more than theory; it is a transformative experience.</p>
+            <p class="approach__outro text-block--body" data-i18n="approach-outro">It is much more than theory; it is a transformative experience.</p>
         </div>
     </section>
 
     <!-- 7. TRAINING -->
     <section class="training section" id="training" aria-label="The training">
         <div class="container container--text">
-            <p class="text-block--eyebrow">Safety + Clarity</p>
-            <h2 class="text-block--section-title">Basic training – conflict competence with heart</h2>
+            <p class="text-block--eyebrow" data-i18n="training-eyebrow">Safety + Clarity</p>
+            <h2 class="text-block--section-title" data-i18n="training-title">Basic training – conflict competence with heart</h2>
             <div class="text-block--body">
-                <p>The training will be accompanied live by us and will take place in a group of a maximum of 20 participants. The selection process is careful and personal, in order to create a harmonious learning environment. We work based on experience and in a protected environment that allows for genuine immersion – at an appropriate pace and in a group. Depending on the professional context, the training may be recognized as further education.</p>
+                <p data-i18n="training-intro">The training will be accompanied live by us and will take place in a group of a maximum of 20 participants. The selection process is careful and personal, in order to create a harmonious learning environment. We work based on experience and in a protected environment that allows for genuine immersion – at an appropriate pace and in a group. Depending on the professional context, the training may be recognized as further education.</p>
             </div>
             <div class="training__format-card">
-                <h3 class="text-block--meta" style="margin-bottom: var(--space-xs);">Format</h3>
+                <h3 class="text-block--meta" style="margin-bottom: var(--space-xs);" data-i18n="training-format-title">Format</h3>
                 <ul class="training__format-list">
-                    <li>2 Online Modules (4 sessions at 2 standard times)</li>
-                    <li>2-day integration retreat (in-person)</li>
-                    <li>8 to a maximum of 20 participants</li>
-                    <li>Transfer tasks and peer groups</li>
-                    <li>Access to a curated selection of learning resources</li>
+                    <li data-i18n="training-format-1">2 Online Modules (4 sessions at 2 standard times)</li>
+                    <li data-i18n="training-format-2">2-day integration retreat (in-person)</li>
+                    <li data-i18n="training-format-3">8 to a maximum of 20 participants</li>
+                    <li data-i18n="training-format-4">Transfer tasks and peer groups</li>
+                    <li data-i18n="training-format-5">Access to a curated selection of learning resources</li>
                 </ul>
-                <p class="text-block--meta" style="margin-top: var(--space-sm);">Live support for all online and offline seminars by female founders – Isabel & Ania</p>
+                <p class="text-block--meta" style="margin-top: var(--space-sm);" data-i18n="training-format-note">Live support for all online and offline seminars by female founders – Isabel & Ania</p>
             </div>
-            <h3 class="text-block--meta" style="margin-bottom: var(--space-xs);">What it's about</h3>
+            <h3 class="text-block--meta" style="margin-bottom: var(--space-xs);" data-i18n="training-about-title">What it's about</h3>
             <div class="text-block--body">
-                <p>The training combines insights from psychology, neurobiology, mediation, somatic work, systemic counseling and elements of trauma work – and translates them into concrete, experiential practice. You learn:</p>
+                <p data-i18n="training-about-intro">The training combines insights from psychology, neurobiology, mediation, somatic work, systemic counseling and elements of trauma work – and translates them into concrete, experiential practice. You learn:</p>
             </div>
             <ul class="training__learn-grid">
-                <li>to maintain tension</li>
-                <li>To clarify emotions</li>
-                <li>To take responsibility</li>
-                <li>to use the right tool at the right moment</li>
-                <li>and to stay in contact – even when it gets difficult</li>
+                <li data-i18n="training-learn-1">to maintain tension</li>
+                <li data-i18n="training-learn-2">To clarify emotions</li>
+                <li data-i18n="training-learn-3">To take responsibility</li>
+                <li data-i18n="training-learn-4">to use the right tool at the right moment</li>
+                <li data-i18n="training-learn-5">and to stay in contact – even when it gets difficult</li>
             </ul>
         </div>
     </section>
@@ -1414,50 +1961,50 @@
     <section class="who-testimonials section" id="who-for" aria-label="Who is this training for">
         <div class="container">
             <header class="who-testimonials__intro">
-                <p class="who-testimonials__heading">Who is this training for?</p>
-                <h2 class="who-testimonials__headline">See yourself here.</h2>
+                <p class="who-testimonials__heading" data-i18n="who-for-heading">Who is this training for?</p>
+                <h2 class="who-testimonials__headline" data-i18n="who-for-headline">See yourself here.</h2>
             </header>
 
             <div class="who-testimonials__row">
                 <figure class="who-item">
                     <div class="who-item__photo-placeholder" aria-hidden="true"></div>
                     <figcaption>
-                        <p class="who-item__role">Leadership</p>
-                        <p class="who-item__quote">I used to avoid the tough conversations. The training didn't give me a script—it gave me a way to stay present. Now I can hold the tension without needing to fix it immediately.</p>
+                        <p class="who-item__role" data-i18n="who-role-1">Leadership</p>
+                        <p class="who-item__quote" data-i18n="who-quote-1">I used to avoid the tough conversations. The training didn't give me a script—it gave me a way to stay present. Now I can hold the tension without needing to fix it immediately.</p>
                     </figcaption>
                 </figure>
                 <figure class="who-item">
                     <div class="who-item__photo-placeholder" aria-hidden="true"></div>
                     <figcaption>
-                        <p class="who-item__role">Coach</p>
-                        <p class="who-item__quote">I knew the theory. What changed was feeling it in my body. The training helped me move from explaining conflict to embodying a different response.</p>
+                        <p class="who-item__role" data-i18n="who-role-2">Coach</p>
+                        <p class="who-item__quote" data-i18n="who-quote-2">I knew the theory. What changed was feeling it in my body. The training helped me move from explaining conflict to embodying a different response.</p>
                     </figcaption>
                 </figure>
                 <figure class="who-item">
                     <div class="who-item__photo-placeholder" aria-hidden="true"></div>
                     <figcaption>
-                        <p class="who-item__role">Relationships</p>
-                        <p class="who-item__quote">We kept having the same fight. I learned to stay in the conversation instead of leaving or attacking. It's not perfect, but we're still connected.</p>
+                        <p class="who-item__role" data-i18n="who-role-3">Relationships</p>
+                        <p class="who-item__quote" data-i18n="who-quote-3">We kept having the same fight. I learned to stay in the conversation instead of leaving or attacking. It's not perfect, but we're still connected.</p>
                     </figcaption>
                 </figure>
                 <figure class="who-item">
                     <div class="who-item__photo-placeholder" aria-hidden="true"></div>
                     <figcaption>
-                        <p class="who-item__role">Self-development</p>
-                        <p class="who-item__quote">I said yes to everything until I was empty. Here I learned to notice what I need and say it—without guilt. My relationship with myself shifted.</p>
+                        <p class="who-item__role" data-i18n="who-role-4">Self-development</p>
+                        <p class="who-item__quote" data-i18n="who-quote-4">I said yes to everything until I was empty. Here I learned to notice what I need and say it—without guilt. My relationship with myself shifted.</p>
                     </figcaption>
                 </figure>
             </div>
 
             <div class="who-testimonials__inclusion">
-                <p>And all people who want to understand their conflict patterns more deeply and change them.</p>
+                <p data-i18n="who-inclusion">And all people who want to understand their conflict patterns more deeply and change them.</p>
             </div>
 
             <div class="who-testimonials__requirements">
-                <p class="who-testimonials__requirements-line">Curiosity</p>
-                <p class="who-testimonials__requirements-line">Self-responsibility</p>
-                <p class="who-testimonials__requirements-line">Willingness to engage in self-discovery and to confront the topic of conflict</p>
-                <p class="who-testimonials__requirements-note">Otherwise, no further prior knowledge is required.</p>
+                <p class="who-testimonials__requirements-line" data-i18n="who-req-1">Curiosity</p>
+                <p class="who-testimonials__requirements-line" data-i18n="who-req-2">Self-responsibility</p>
+                <p class="who-testimonials__requirements-line" data-i18n="who-req-3">Willingness to engage in self-discovery and to confront the topic of conflict</p>
+                <p class="who-testimonials__requirements-note" data-i18n="who-req-note">Otherwise, no further prior knowledge is required.</p>
             </div>
         </div>
     </section>
@@ -1466,20 +2013,19 @@
     <section class="structure section" id="structure" aria-label="Structure and content">
         <div class="container">
             <div class="structure__intro">
-                <h2 class="structure__intro-title">Structure & Content</h2>
-                <p class="structure__intro-p">A three-phase learning journey: from grounding in self to relationship depth to embodied integration.</p>
+                <h2 class="structure__intro-title" data-i18n="structure-title">Structure & Content</h2>
+                <p class="structure__intro-p" data-i18n="structure-intro">A three-phase learning journey: from grounding in self to relationship depth to embodied integration.</p>
             </div>
 
-            <div class="structure__journey">
-                <aside class="structure__timeline" aria-hidden="true">
-                    <div class="structure__timeline-line" role="presentation"></div>
-                    <div class="structure__markers">
-                        <button type="button" class="structure__marker active" data-module="0" aria-label="Module I">I</button>
-                        <button type="button" class="structure__marker" data-module="1" aria-label="Module II">II</button>
-                        <button type="button" class="structure__marker" data-module="2" aria-label="Retreat">R</button>
-                    </div>
-                </aside>
+            <nav class="structure__nav" aria-label="Module navigation">
+                <div class="structure__markers">
+                    <button type="button" class="structure__marker active" data-module="0" aria-label="Module I">I</button>
+                    <button type="button" class="structure__marker" data-module="1" aria-label="Module II">II</button>
+                    <button type="button" class="structure__marker" data-module="2" aria-label="Retreat">III</button>
+                </div>
+            </nav>
 
+            <div class="structure__journey">
                 <div class="structure__modules">
                     <!-- Module I – Embodied Self-Leadership -->
                     <article class="structure__module" id="structure-module-0" data-module="0">
@@ -1592,12 +2138,6 @@
                 </div>
             </div>
 
-            <div class="cta-group">
-                <a href="#contact" class="btn btn--register">Register now</a>
-                <a href="#contact" class="btn btn--icon" aria-label="Continue">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-            </div>
         </div>
     </section>
 
@@ -1620,32 +2160,26 @@
     <!-- 11. INVESTMENT -->
     <section class="investment section" id="investment" aria-label="Investment">
         <div class="container">
-            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">Investment</h2>
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);" data-i18n="investment-title">Investment</h2>
             <div class="investment__cards">
                 <div class="investment__card investment__card--highlight">
-                    <h3 class="investment__card-title">Basic training overall process (recommended)</h3>
+                    <h3 class="investment__card-title" data-i18n="investment-card1-title">Basic training overall process (recommended)</h3>
                     <p class="investment__price">€1,999</p>
-                    <p class="investment__earlybird">Early bird: €1,699</p>
-                    <p class="text-block--meta" style="margin-top: var(--space-xs);">Online training + integration weekend. The complete learning and integration process.</p>
+                    <p class="investment__earlybird" data-i18n="investment-card1-earlybird">Early bird: €1,699</p>
+                    <p class="text-block--meta" style="margin-top: var(--space-xs);" data-i18n="investment-card1-desc">Online training + integration weekend. The complete learning and integration process.</p>
                 </div>
                 <div class="investment__card">
-                    <h3 class="investment__card-title">Basis Online-Training</h3>
+                    <h3 class="investment__card-title" data-i18n="investment-card2-title">Basis Online-Training</h3>
                     <p class="investment__price">€1,299</p>
-                    <p class="investment__earlybird">Early Bird: €1,099</p>
-                    <p class="text-block--meta" style="margin-top: var(--space-xs);">Two online modules, with live instruction.</p>
+                    <p class="investment__earlybird" data-i18n="investment-card2-earlybird">Early Bird: €1,099</p>
+                    <p class="text-block--meta" style="margin-top: var(--space-xs);" data-i18n="investment-card2-desc">Two online modules, with live instruction.</p>
                 </div>
                 <div class="investment__card">
-                    <h3 class="investment__card-title">Integration weekend</h3>
+                    <h3 class="investment__card-title" data-i18n="investment-card3-title">Integration weekend</h3>
                     <p class="investment__price">€750</p>
-                    <p class="investment__earlybird">plus accommodation and meals</p>
-                    <p class="text-block--meta" style="margin-top: var(--space-xs);">Only in combination with the basic online training or for alumni.</p>
+                    <p class="investment__earlybird" data-i18n="investment-card3-earlybird">plus accommodation and meals</p>
+                    <p class="text-block--meta" style="margin-top: var(--space-xs);" data-i18n="investment-card3-desc">Only in combination with the basic online training or for alumni.</p>
                 </div>
-            </div>
-            <div class="cta-group">
-                <a href="#contact" class="btn btn--register">Register now</a>
-                <a href="#contact" class="btn btn--icon" aria-label="Continue">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
             </div>
         </div>
     </section>
@@ -1653,52 +2187,52 @@
     <!-- 12. WHAT THAT CHANGES -->
     <section class="changes section" id="changes" aria-label="What that changes">
         <div class="container">
-            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">What that changes</h2>
-            <p class="text-block--body" style="margin-bottom: var(--space-sm);">With conflict competence with heart you will learn:</p>
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);" data-i18n="changes-title">What that changes</h2>
+            <p class="text-block--body" style="margin-bottom: var(--space-sm);" data-i18n="changes-intro">With conflict competence with heart you will learn:</p>
             <ul>
-                <li>Standing in conflict without losing yourself</li>
-                <li>To perceive feelings without being controlled by them.</li>
-                <li>To correctly identify your own needs and take good care of yourself.</li>
-                <li>to speak clearly without hurting anyone</li>
-                <li>Staying in a relationship – even when it gets difficult</li>
+                <li data-i18n="changes-item-1">Standing in conflict without losing yourself</li>
+                <li data-i18n="changes-item-2">To perceive feelings without being controlled by them.</li>
+                <li data-i18n="changes-item-3">To correctly identify your own needs and take good care of yourself.</li>
+                <li data-i18n="changes-item-4">to speak clearly without hurting anyone</li>
+                <li data-i18n="changes-item-5">Staying in a relationship – even when it gets difficult</li>
             </ul>
-            <p class="changes__outro">Conflicts are not avoided in this way, but transformed.</p>
+            <p class="changes__outro" data-i18n="changes-outro">Conflicts are not avoided in this way, but transformed.</p>
         </div>
     </section>
 
     <!-- 13. FAQs -->
     <section class="faqs section" id="faqs" aria-label="FAQs">
         <div class="container">
-            <p class="text-block--eyebrow" style="text-align: center;">Reassurance + Trust</p>
-            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);">FAQs</h2>
+            <p class="text-block--eyebrow" style="text-align: center;" data-i18n="faqs-eyebrow">Reassurance + Trust</p>
+            <h2 class="text-block--section-title" style="text-align: center; margin-bottom: var(--space-block);" data-i18n="faqs-title">FAQs</h2>
             <div class="accordion">
                 <div class="accordion__item">
-                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-1" id="faq-trigger-1">What exactly is conflict competence with heart?</button>
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-1" id="faq-trigger-1" data-i18n="faq-1-q">What exactly is conflict competence with heart?</button>
                     <div class="accordion__panel" id="faq-1" role="region" aria-labelledby="faq-trigger-1">
-                        <div class="accordion__panel-inner">It's an experience-based approach to conflict resolution. It understands conflicts not as problems that need to be solved, but as processes that require integration – in the body, in feelings, in thoughts, and in relationships.</div>
+                        <div class="accordion__panel-inner" data-i18n="faq-1-a">It's an experience-based approach to conflict resolution. It understands conflicts not as problems that need to be solved, but as processes that require integration – in the body, in feelings, in thoughts, and in relationships.</div>
                     </div>
                 </div>
                 <div class="accordion__item">
-                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-2" id="faq-trigger-2">Is the training more therapeutically or professionally oriented?</button>
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-2" id="faq-trigger-2" data-i18n="faq-2-q">Is the training more therapeutically or professionally oriented?</button>
                     <div class="accordion__panel" id="faq-2" role="region" aria-labelledby="faq-trigger-2">
-                        <div class="accordion__panel-inner">Both – and neither in the traditional sense. The training is not therapy, but rather an educational and self-discovery experience. The content is highly relevant to everyday life, relationships, organizations, and other professional contexts.</div>
+                        <div class="accordion__panel-inner" data-i18n="faq-2-a">Both – and neither in the traditional sense. The training is not therapy, but rather an educational and self-discovery experience. The content is highly relevant to everyday life, relationships, organizations, and other professional contexts.</div>
                     </div>
                 </div>
                 <div class="accordion__item">
-                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-3" id="faq-trigger-3">Do I need prior experience?</button>
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-3" id="faq-trigger-3" data-i18n="faq-3-q">Do I need prior experience?</button>
                     <div class="accordion__panel" id="faq-3" role="region" aria-labelledby="faq-trigger-3">
-                        <div class="accordion__panel-inner">No. The training is designed to appeal to people without prior experience as well as experts. What matters is the willingness to engage in self-reflection and participate in experience-based learning processes.</div>
+                        <div class="accordion__panel-inner" data-i18n="faq-3-a">No. The training is designed to appeal to people without prior experience as well as experts. What matters is the willingness to engage in self-reflection and participate in experience-based learning processes.</div>
                     </div>
                 </div>
                 <div class="accordion__item">
-                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-4" id="faq-trigger-4">Can this training be recognized as continuing education?</button>
+                    <button type="button" class="accordion__trigger" aria-expanded="false" aria-controls="faq-4" id="faq-trigger-4" data-i18n="faq-4-q">Can this training be recognized as continuing education?</button>
                     <div class="accordion__panel" id="faq-4" role="region" aria-labelledby="faq-trigger-4">
-                        <div class="accordion__panel-inner">Yes, depending on the professional context. We will gladly issue a certificate of participation or training certificate upon request.</div>
+                        <div class="accordion__panel-inner" data-i18n="faq-4-a">Yes, depending on the professional context. We will gladly issue a certificate of participation or training certificate upon request.</div>
                     </div>
                 </div>
             </div>
             <div class="cta-group">
-                <a href="#" class="btn btn--secondary">Download course paper (free)</a>
+                <a href="#" class="btn btn--secondary" data-i18n="faqs-download-cta">Download course paper (free)</a>
                 <a href="#" class="btn btn--icon" aria-label="Download">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
@@ -1706,20 +2240,30 @@
         </div>
     </section>
 
+    <!-- FLOATING REGISTER BUTTON -->
+    <div class="floating-register" id="floating-register">
+        <div class="cta-group">
+            <a href="#contact" class="btn btn--register" data-i18n="investment-cta">Register now</a>
+            <a href="#contact" class="btn btn--icon" aria-label="Continue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+
     <!-- 14. FOOTER -->
     <footer class="footer section" id="contact">
         <div class="container">
-            <p class="footer__headline">Come with us on the journey to radical soulfulness!</p>
+            <p class="footer__headline" data-i18n="footer-headline">Come with us on the journey to radical soulfulness!</p>
             <div class="cta-group" style="justify-content: center;">
-                <a href="#" class="btn btn--register">Register</a>
+                <a href="#" class="btn btn--register" data-i18n="footer-register">Register</a>
                 <a href="#" class="btn btn--icon" aria-label="Continue">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
             <div class="footer__links">
-                <a href="#">Contact</a> · <a href="#">Newsletter</a> · <a href="#">Imprint</a>
+                <a href="#" data-i18n="footer-contact">Contact</a> · <a href="#" data-i18n="footer-newsletter">Newsletter</a> · <a href="#" data-i18n="footer-imprint">Imprint</a>
             </div>
-            <p class="footer__stay">Stay: For all those who are ready to go deeper and enable real change.</p>
+            <p class="footer__stay" data-i18n="footer-stay">Stay: For all those who are ready to go deeper and enable real change.</p>
         </div>
     </footer>
 
@@ -1748,7 +2292,7 @@
                 });
             });
 
-            // Structure & Content: scroll-active module + timeline markers + expand deep dive
+            // Structure & Content: scroll-active module + horizontal markers + fade in/out animations
             (function() {
                 var section = document.getElementById('structure');
                 if (!section) return;
@@ -1756,30 +2300,69 @@
                 var markers = section.querySelectorAll('.structure__marker');
                 var expandBtns = section.querySelectorAll('.structure__expand-btn');
                 var deepDives = section.querySelectorAll('.structure__deep-dive');
+                var currentActiveIndex = 0;
 
                 function setActiveModule(index) {
+                    if (index === currentActiveIndex) return;
+                    
+                    // Update markers
                     markers.forEach(function(m, i) {
                         m.classList.toggle('active', i === index);
                     });
+                    
+                    // Fade out current module
+                    if (modules[currentActiveIndex]) {
+                        modules[currentActiveIndex].classList.remove('active');
+                    }
+                    
+                    // Fade in new module
+                    if (modules[index]) {
+                        setTimeout(function() {
+                            modules[index].classList.add('active');
+                        }, 100);
+                    }
+                    
+                    currentActiveIndex = index;
                 }
 
+                // Intersection Observer for detecting which module is in view
                 var observer = new IntersectionObserver(function(entries) {
                     entries.forEach(function(entry) {
-                        if (!entry.isIntersecting) return;
-                        var id = entry.target.getAttribute('data-module');
-                        if (id != null) setActiveModule(parseInt(id, 10));
+                        if (entry.isIntersecting) {
+                            var id = entry.target.getAttribute('data-module');
+                            if (id != null) {
+                                var index = parseInt(id, 10);
+                                setActiveModule(index);
+                            }
+                        }
                     });
-                }, { rootMargin: '-30% 0px -30% 0px', threshold: 0 });
-                modules.forEach(function(mod) { observer.observe(mod); });
+                }, { 
+                    rootMargin: '-20% 0px -20% 0px', 
+                    threshold: [0, 0.3, 0.6, 1.0]
+                });
+                
+                modules.forEach(function(mod) { 
+                    observer.observe(mod);
+                });
 
+                // Initialize first module as active
+                if (modules[0]) {
+                    modules[0].classList.add('active');
+                }
+
+                // Marker click handlers
                 markers.forEach(function(marker) {
                     marker.addEventListener('click', function() {
                         var idx = parseInt(marker.getAttribute('data-module'), 10);
                         var mod = section.querySelector('#structure-module-' + idx);
-                        if (mod) mod.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if (mod) {
+                            mod.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            setActiveModule(idx);
+                        }
                     });
                 });
 
+                // Expand button handlers
                 expandBtns.forEach(function(btn, i) {
                     var expandLabel = i === 2 ? 'Explore full retreat content' : 'Explore full module content';
                     btn.addEventListener('click', function() {
@@ -1809,7 +2392,25 @@
                 var total = panels.length;
                 var current = 0;
                 var duration = 250;
-
+                
+                // Update image per scenario (currently using same image, but can be changed per scenario)
+                function updateScenarioImage(scenarioIndex) {
+                    // Map scenario index to image (you can change these to different images per scenario)
+                    var imageMap = {
+                        0: 'section3_story1.png', // Scenario 1
+                        1: 'section3_story1.png', // Scenario 2 (can be changed to different image)
+                        2: 'section3_story1.png'  // Scenario 3 (can be changed to different image)
+                    };
+                    
+                    var imageUrl = imageMap[scenarioIndex] || 'section3_story1.png';
+                    
+                    // Update img src on all content images
+                    var allImages = section.querySelectorAll('.recognition__content-image');
+                    allImages.forEach(function(img) {
+                        img.src = imageUrl;
+                    });
+                }
+                
                 function goTo(index) {
                     if (index < 0 || index >= total) return;
                     if (index === current) return;
@@ -1826,6 +2427,8 @@
                             d.setAttribute('aria-selected', i === index);
                         });
                         if (nextBtn) nextBtn.textContent = index < total - 1 ? 'Next' : 'Continue';
+                        // Update image for new scenario
+                        updateScenarioImage(index);
                     }, duration);
                 }
 
@@ -1838,6 +2441,213 @@
                         else section.querySelector('.recognition__reframe').scrollIntoView({ behavior: 'smooth', block: 'start' });
                     });
                 }
+                
+                // Initial image setup for first scenario
+                updateScenarioImage(0);
+            })();
+            
+            // Floating Register button - visible all the time except in hero section
+            (function() {
+                var floatingBtn = document.getElementById('floating-register');
+                if (!floatingBtn) return;
+                
+                var heroSection = document.getElementById('hero');
+                if (!heroSection) return;
+                
+                var hasPassedHero = false;
+                
+                function updateButtonVisibility() {
+                    var heroRect = heroSection.getBoundingClientRect();
+                    var heroBottom = heroRect.bottom;
+                    
+                    // Once we've passed the hero section, keep button visible
+                    if (heroBottom < 0 && !hasPassedHero) {
+                        hasPassedHero = true;
+                        floatingBtn.classList.remove('hidden');
+                    } else if (heroBottom >= 0 && hasPassedHero) {
+                        // If we scroll back to hero, hide it
+                        hasPassedHero = false;
+                        floatingBtn.classList.add('hidden');
+                    } else if (!hasPassedHero && heroBottom < window.innerHeight) {
+                        // Still in hero section
+                        floatingBtn.classList.add('hidden');
+                    }
+                }
+                
+                // Check on scroll
+                window.addEventListener('scroll', updateButtonVisibility, { passive: true });
+                
+                // Initial check
+                updateButtonVisibility();
+            })();
+            
+            // Section fade-in, snap-to-section, and smooth color blend animations on scroll
+            (function() {
+                var sections = document.querySelectorAll('.section');
+                if (!sections.length) return;
+                
+                var currentSnappedSection = null;
+                var isSnapping = false;
+                var scrollTimeout = null;
+                var lastScrollY = window.scrollY;
+                var scrollDirection = 'down';
+                
+                // Get section background colors from CSS variables or computed styles
+                function getSectionBackgroundColor(section) {
+                    // Try to get from CSS variable first
+                    var sectionClass = Array.from(section.classList).find(function(cls) {
+                        return cls !== 'section' && cls !== 'visible';
+                    });
+                    
+                    if (sectionClass) {
+                        var computedStyle = window.getComputedStyle(section);
+                        var bgColor = computedStyle.backgroundColor;
+                        if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+                            return bgColor;
+                        }
+                    }
+                    
+                    // Fallback to computed background
+                    var computedStyle = window.getComputedStyle(section);
+                    return computedStyle.backgroundColor || 'var(--artsy-light)';
+                }
+                
+                // Snap to section
+                function snapToSection(section) {
+                    if (isSnapping || currentSnappedSection === section) return;
+                    
+                    isSnapping = true;
+                    var previousSection = currentSnappedSection;
+                    currentSnappedSection = section;
+                    
+                    // Snap scroll position to section top immediately
+                    var sectionTop = section.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({
+                        top: sectionTop,
+                        behavior: 'auto'
+                    });
+                    
+                    // Get background colors
+                    var newBgColor = getSectionBackgroundColor(section);
+                    
+                    // Apply smooth background color transition
+                    setTimeout(function() {
+                        // Update body background color smoothly
+                        document.body.style.transition = 'background-color 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        document.body.style.backgroundColor = newBgColor;
+                        
+                        // Also update section backgrounds smoothly
+                        sections.forEach(function(s) {
+                            if (s !== section && previousSection && s === previousSection) {
+                                // Transition previous section out
+                                s.style.transition = 'background-color 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                            }
+                        });
+                        
+                        section.style.transition = 'background-color 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        
+                        isSnapping = false;
+                    }, 100);
+                }
+                
+                // Check scroll position and snap when section reaches 80% visibility
+                function checkScrollPosition() {
+                    if (isSnapping) return;
+                    
+                    var windowHeight = window.innerHeight;
+                    var scrollY = window.scrollY;
+                    
+                    // Determine scroll direction
+                    scrollDirection = scrollY > lastScrollY ? 'down' : 'up';
+                    lastScrollY = scrollY;
+                    
+                    // Only snap when scrolling down
+                    if (scrollDirection !== 'down') return;
+                    
+                    sections.forEach(function(section) {
+                        var rect = section.getBoundingClientRect();
+                        var sectionTop = rect.top;
+                        var sectionHeight = rect.height;
+                        var sectionBottom = sectionTop + sectionHeight;
+                        
+                        // Calculate visibility: how much of the section is in viewport
+                        var viewportTop = 0;
+                        var viewportBottom = windowHeight;
+                        var visibleTop = Math.max(viewportTop, sectionTop);
+                        var visibleBottom = Math.min(viewportBottom, sectionBottom);
+                        var visibleHeight = Math.max(0, visibleBottom - visibleTop);
+                        var visibilityRatio = visibleHeight / sectionHeight;
+                        
+                        // If section is at least 80% visible and top is near or above viewport top, snap to it
+                        if (visibilityRatio >= 0.8 && sectionTop <= windowHeight * 0.2 && sectionTop >= -windowHeight * 0.1) {
+                            snapToSection(section);
+                        }
+                    });
+                }
+                
+                // Throttled scroll handler
+                function handleScroll() {
+                    if (scrollTimeout) {
+                        cancelAnimationFrame(scrollTimeout);
+                    }
+                    scrollTimeout = requestAnimationFrame(function() {
+                        checkScrollPosition();
+                    });
+                }
+                
+                // Intersection Observer for fade-in animations
+                var observerOptions = {
+                    root: null,
+                    rootMargin: '0px 0px -10% 0px',
+                    threshold: 0.1
+                };
+                
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
+                            // Add visible class to trigger fade-in
+                            entry.target.classList.add('visible');
+                            
+                            // Animate child elements with stagger
+                            setTimeout(function() {
+                                var children = entry.target.querySelectorAll('.text-block--section-title, .text-block--body p, .text-block--meta, .text-block--eyebrow');
+                                children.forEach(function(child, index) {
+                                    if (child.style.opacity !== '1') {
+                                        child.style.opacity = '0';
+                                        child.style.transform = 'translateY(20px)';
+                                        child.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                                        
+                                        setTimeout(function() {
+                                            child.style.opacity = '1';
+                                            child.style.transform = 'translateY(0)';
+                                        }, index * 100);
+                                    }
+                                });
+                            }, 50);
+                        }
+                    });
+                }, observerOptions);
+                
+                sections.forEach(function(section) {
+                    // Make hero section visible immediately
+                    if (section.classList.contains('hero')) {
+                        section.classList.add('visible');
+                        currentSnappedSection = section;
+                        var bgColor = getSectionBackgroundColor(section);
+                        document.body.style.backgroundColor = bgColor;
+                        document.body.style.transition = 'background-color 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    } else {
+                        observer.observe(section);
+                    }
+                });
+                
+                // Listen to scroll events
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                
+                // Initial check after a short delay to ensure DOM is ready
+                setTimeout(function() {
+                    checkScrollPosition();
+                }, 100);
             })();
         })();
     </script>
@@ -1871,6 +2681,270 @@
                 requestAnimationFrame(animateLight);
             }
             animateLight();
+        })();
+    </script>
+    <script>
+        // Language toggle: show both languages, switch on click
+        (function() {
+            var langBtns = document.querySelectorAll('.lang-toggle__btn');
+            var currentLang = 'en';
+            
+            function switchLanguage(lang) {
+                if (currentLang === lang) return; // Already on this language
+                currentLang = lang;
+                
+                // Update button states (visual feedback)
+                langBtns.forEach(function(btn) {
+                    var btnLang = btn.getAttribute('data-lang');
+                    if (btnLang === lang) {
+                        btn.classList.add('active');
+                        btn.style.opacity = '1';
+                    } else {
+                        btn.classList.remove('active');
+                        btn.style.opacity = '0.5';
+                    }
+                });
+                
+                // Update all translatable content
+                document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                    var key = el.getAttribute('data-i18n');
+                    if (translations[key] && translations[key][lang]) {
+                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                            el.value = translations[key][lang];
+                        } else {
+                            el.textContent = translations[key][lang];
+                        }
+                    }
+                });
+                
+                // Update HTML lang attribute
+                document.documentElement.setAttribute('lang', lang);
+            }
+            
+            // Initialize: set EN as active
+            langBtns.forEach(function(btn) {
+                var btnLang = btn.getAttribute('data-lang');
+                if (btnLang === 'en') {
+                    btn.classList.add('active');
+                    btn.style.opacity = '1';
+                } else {
+                    btn.style.opacity = '0.5';
+                }
+                btn.addEventListener('click', function() {
+                    var targetLang = btn.getAttribute('data-lang');
+                    switchLanguage(targetLang);
+                });
+            });
+        })();
+        
+        // Translation data
+        var translations = {
+            'nav-brand': { en: 'Soulful Academy', de: 'Soulful Academy' },
+            'nav-home': { en: 'Home', de: 'Start' },
+            'nav-training': { en: 'Training', de: 'Das Training' },
+            'nav-who-for': { en: 'Who For', de: 'Für wen' },
+            'nav-structure': { en: 'Structure', de: 'Struktur' },
+            'nav-contact': { en: 'Contact', de: 'Kontakt' },
+            'hero-brand': { en: 'Soulful Academy', de: 'Soulful Academy' },
+            'hero-headline': { en: 'Conflict School with Heart', de: 'Konflikt-Schule mit Herz' },
+            'hero-subline': { en: 'Engage in conflicts – instead of fearing them.', de: 'Konflikte führen – statt sie zu fürchten.' },
+            'hero-desc': { en: 'Learn conflict resolution skills with heart with us! A holistic live training for people who no longer want to avoid conflicts, but are ready to lead them clearly and with an open heart – in their professional lives as well as in their personal lives.', de: 'Lerne mit uns Konfliktkompetenz mit Herz! Ein ganzheitliches Live-Training für Menschen, die nicht länger Konflikten ausweichen, sondern bereit sind, sie klar und mit offenem Herzen zu führen – im Beruf wie im Leben.' },
+            'hero-meta': { en: 'Live Training · April 2026', de: 'Live Training · April 2026' },
+            'hero-cta': { en: 'Secure your spot', de: 'Platz sichern' },
+            'welcome-title': { en: 'Welcome to Soulful Academy', de: 'Willkommen bei der Soulful Academy' },
+            'welcome-eyebrow': { en: 'Clarity + Grounding', de: 'Klarheit + Verankerung' },
+            'welcome-p1': { en: 'The Soulful Academy is a school for embodied conflict competence and conscious relationship culture.', de: 'Die Soulful Academy ist eine Schule für verkörperte Konfliktkompetenz und bewusste Beziehungskultur.' },
+            'welcome-p2': { en: 'We offer training and educational programs for individuals, groups and organizations – promoting self-efficacy, emotional clarity and connection.', de: 'Wir bieten Trainings und Bildungsprogramme für Einzelpersonen, Gruppen und Organisationen an – die Selbstwirksamkeit, emotionale Klarheit und Verbindung fördern.' },
+            'welcome-p3': { en: 'Our aim is to empower people so they can express what they feel, need, and want – and stay connected with each other in the process. In both their personal and professional lives.', de: 'Unser Anliegen ist, Menschen zu stärken, damit sie sagen können, was sie fühlen, brauchen und wollen – und dabei miteinander in Verbindung bleiben. Im privaten und beruflichen Umfeld.' },
+            'welcome-cta': { en: 'Join us now', de: 'Jetzt mitmachen' },
+            'recognition-title': { en: 'Does this sound familiar?', de: 'Kommt dir das bekannt vor?' },
+            'recognition-s1-b1': { en: 'You perceive tensions within your team that are disrupting you and the workflow.', de: 'Du nimmst Spannungen in Deinem Team wahr, die Dich und den Workflow stören.' },
+            'recognition-s1-b2': { en: 'Although you feel that discussions are necessary, you hesitate, even though you bear a great responsibility.', de: 'Obwohl Du spürst, dass Gespräche nötig wären, zögerst Du, dabei trägst Du große Verantwortung.' },
+            'recognition-result': { en: 'The result:', de: 'Folge:' },
+            'recognition-s1-result': { en: 'Conflicts remain unresolved, burdening those involved, the team atmosphere, and the workflow. Short-term solutions are like a painkiller: when the effect wears off, the conflict returns.', de: 'Konflikte bleiben ungelöst und belasten die Beteiligten, die Teamatmosphäre und den Workflow. Kurzfristige Lösungen gleichen einer Schmerztablette: Wenn die Wirkung nachlässt, kommt der Konflikt zurück.' },
+            'recognition-s2-b1': { en: 'There\'s something you\'ve been wanting to resolve for a long time.', de: 'Schon lange beschäftigt Dich ein Thema, das Du klären möchtest.' },
+            'recognition-s2-b2': { en: 'Although you\'ve mentioned it several times, it\'s never been addressed.', de: 'Obwohl Du es mehrfach erwähnt hast, bekommt es keinen Raum.' },
+            'recognition-s2-b3': { en: 'You repeatedly explode over minor things, which leads to escalation with the other person and drives you further apart.', de: 'Immer wieder explodierst Du bei Kleinigkeiten, was zu Eskalation mit der anderen Person führt und Euch weiter auseinander bringt.' },
+            'recognition-result-as': { en: 'As a result:', de: 'Folge:' },
+            'recognition-s2-result': { en: 'The drama takes over and relationships suffer cracks that are usually difficult to repair.', de: 'Das Drama übernimmt die Führung und die Beziehungen erleiden Risse, die meistens schwer zu beseitigen sind.' },
+            'recognition-s3-b1': { en: 'You\'ve noticed for a long time that you say yes far too often, even when it pushes you beyond your limits.', de: 'Schon lange merkst Du, dass Du viel zu oft Ja sagst, obwohl es über Deine Grenzen geht.' },
+            'recognition-s3-b2': { en: 'You know it\'s time to stop – but how?', de: 'Du weißt, es ist an der Zeit, damit aufzuhören - aber Wie?' },
+            'recognition-s3-result': { en: 'You lose more and more contact with yourself, your feelings and needs, which damages your self-confidence in the long run.', de: 'Du verlierst immer mehr Kontakt zu Dir selbst, Deinen Gefühlen und Bedürfnissen, was langfristig Deinem Selbstbewusstsein schadet.' },
+            'recognition-next': { en: 'Next', de: 'Weiter' },
+            'recognition-reframe1': { en: 'These aren\'t weaknesses, but survival strategies that once protected you.', de: 'All das sind keine Schwächen, sondern Überlebensstrategien, die dich einmal geschützt haben.' },
+            'recognition-reframe2': { en: 'Today, they\'re outdated and can permanently damage your relationships.', de: 'Heute haben sie ausgedient und können dauerhaft Deinen Beziehungen schaden.' },
+            'recognition-imagine': { en: 'Imagine if things could be different:', de: 'Stell Dir vor, es geht auch anders:' },
+            'recognition-banner': { en: 'Conflicts can also lead to greater connection, sovereignty, and inner peace.', de: 'Konflikte können auch zu mehr Verbundenheit, Souveränität und innerem Frieden führen können.' },
+            'otherway-eyebrow': { en: 'The other way', de: 'DER ANDERE WEG' },
+            'otherway-title': { en: 'Conflict resolution skills with heart', de: 'Konfliktkompetenz mit Herz' },
+            'otherway-p1': { en: 'Conflict competence with heart means...', de: 'Konfliktkompetenz mit Herz bedeutet,' },
+            'otherway-standalone': { en: 'to remain present and embodied in the conflict – instead of fleeing, destroying, or losing oneself.', de: 'im Konflikt präsent und verkörpert zu bleiben – statt zu fliehen, zu zerstören oder sich zu verlieren.' },
+            'otherway-p2': { en: 'In our training courses, we teach an attitude combined with a practical toolset that combines self-leadership, clarity and compassion, and sustainably strengthens your conflict competence.', de: 'In unseren Trainings vermitteln wir eine Haltung, kombiniert mit einem praktischen Toolset, die Selbstführung, Klarheit und Mitgefühl verbindet und deine Konfliktkompetenz nachhaltig stärkt.' },
+            'otherway-p3': { en: 'Do you want to gain a deeper understanding of how we think about conflict – and why integration is more than communication?', de: 'Du willst tiefer verstehen, wie wir Konflikt denken – und warum Integration mehr ist als Kommunikation?' },
+            'otherway-download-label': { en: 'If you don\'t have it yet, you can request it here:', de: 'Falls Du es noch nicht hast, kannst Du es hier anfordern:' },
+            'otherway-download-cta': { en: 'Download course paper (free)', de: 'Kurs-Paper herunterladen (kostenlos)' },
+            'companions-eyebrow': { en: 'Trust + Human connection', de: 'Vertrauen + Menschliche Verbindung' },
+            'companions-title': { en: 'Who we are', de: 'Deine Begleiterinnen' },
+            'companion-isabel-role': { en: 'organizational consultant, mediator and trainer BM', de: 'Organisationsberaterin, Mediatorin und Ausbilderin BM' },
+            'companion-isabel-desc': { en: 'With nearly 30 years of experience, she is a recognized expert in managing complex, emotional conflict dynamics in organizations and relationships.', de: 'Mit nahezu 30 Jahren Erfahrung anerkannte Expertin für Bewältigung komplexer, emotionaler Konfliktdynamiken in Organisationen und Beziehungen.' },
+            'companion-ania-role': { en: 'Entrepreneur and psychosomatic consultant', de: 'Unternehmerin und psycho-somatische Beraterin' },
+            'companion-ania-desc': { en: 'With over 15 years of experience in founding cooperative business models and an expert at the intersection of consciousness, creativity and body intelligence.', de: 'mit über 15 Jahren Erfahrung in der Gründung kooperativer Businessmodelle und -Expertin an der Schnittstelle von Bewusstsein, Kreativität und Körper-Intelligenz.' },
+            'companions-joint': { en: 'Together we developed the Conflict Competence with Heart training – as the foundation of the Soulful Academy and as an expression of an attitude: to lead conflicts courageously, clearly and in a relationship-oriented way.', de: 'Gemeinsam haben wir das Training Konfliktkompetenz mit Herz entwickelt - als Fundament der Soulful Academy und als Ausdruck einer Haltung: Konflikte mutig, klar und beziehungsorientiert zu führen.' },
+            'approach-eyebrow': { en: 'Clarity + Structure', de: 'Klarheit + Struktur' },
+            'approach-header': { en: 'The opposite of conflict is not peace, but cooperation.', de: 'Das Gegenteil von Konflikt ist nicht Frieden, sondern Kooperation.' },
+            'approach-intro1': { en: 'Our training programs are based on an innovative and interdisciplinary approach that does not aim to resolve conflicts quickly, but rather integrates them sustainably as a tool for relationship and self-management.', de: 'Unsere Trainings basieren auf dem innovativen und interdisziplinären Ansatz, der Konflikte nicht schnell lösen will, sondern nachhaltig als Beziehungs- und Selbst-Führungshilfe integriert.' },
+            'approach-intro2': { en: 'It combines five levels that are effective in every conflict:', de: 'Er verbindet fünf Ebenen, die in jedem Konflikt wirksam sind:' },
+            'approach-level1-title': { en: 'Body & Regulation', de: 'Körper & Regulation' },
+            'approach-level1-desc': { en: 'Somatic foundations and self-regulation in tension.', de: 'Somatische Grundlagen und Selbstregulation in Spannung.' },
+            'approach-level2-title': { en: 'Emotion & Need Perception', de: 'Emotion & Bedürfniswahrnehmung' },
+            'approach-level2-desc': { en: 'Emotional intelligence and clarity about needs.', de: 'Emotionale Intelligenz und Klarheit über Bedürfnisse.' },
+            'approach-level3-title': { en: 'Consciousness & inner order', de: 'Bewusstsein & innere Ordnung' },
+            'approach-level3-desc': { en: 'Inner clarity and decision-making.', de: 'Innere Klarheit und Entscheidungsfindung.' },
+            'approach-level4-title': { en: 'Decision & Responsibility', de: 'Entscheidung & Verantwortung' },
+            'approach-level4-desc': { en: 'Taking responsibility and clear choices.', de: 'Verantwortung übernehmen und klare Entscheidungen treffen.' },
+            'approach-level5-title': { en: 'Relationship & System', de: 'Beziehung & System' },
+            'approach-level5-desc': { en: 'Systemic view and relationship dynamics.', de: 'Systemische Sicht und Beziehungsdynamiken.' },
+            'approach-outro': { en: 'It is much more than theory; it is a transformative experience.', de: 'Es ist viel mehr als Theorie, es ist eine transformative Erfahrung.' },
+            'training-eyebrow': { en: 'Safety + Clarity', de: 'Sicherheit + Klarheit' },
+            'training-title': { en: 'Basic training – conflict competence with heart', de: 'Basis-Training – Konfliktkompetenz mit Herz' },
+            'training-intro': { en: 'The training will be accompanied live by us and will take place in a group of a maximum of 20 participants. The selection process is careful and personal, in order to create a harmonious learning environment. We work based on experience and in a protected environment that allows for genuine immersion – at an appropriate pace and in a group. Depending on the professional context, the training may be recognized as further education.', de: 'Das Training wird live von uns begleitet und findet in einer Gruppe von maximal 20 Teilnehmenden statt. Die Auswahl erfolgt achtsam und persönlich, um einen stimmigen Lernraum zu ermöglichen. Wir arbeiten erfahrungsbasiert und in einem geschützten Rahmen, der echtes Eintauchen erlaubt - im angemessenen Tempo und in der Gruppe. Das Training kann – je nach beruflichem Kontext – als Fortbildung anerkannt werden.' },
+            'training-format-title': { en: 'Format', de: 'Format:' },
+            'training-format-1': { en: '2 Online Modules (4 sessions at 2 standard times)', de: '2 Online-Module (je 4 Sessions à 2 Std.)' },
+            'training-format-2': { en: '2-day integration retreat (in-person)', de: '2-tägiges Integrations-Retreat (Präsenz)' },
+            'training-format-3': { en: '8 to a maximum of 20 participants', de: '8 bis maximal 20 Teilnehmer:innen' },
+            'training-format-4': { en: 'Transfer tasks and peer groups', de: 'Transferaufgaben und Peer-Gruppen' },
+            'training-format-5': { en: 'Access to a curated selection of learning resources', de: 'Zugang zu einer kuratierten Auswahl der Lern-Ressourcen' },
+            'training-format-note': { en: 'Live support for all online and offline seminars by female founders – Isabel & Ania', de: 'Live-Begleitung aller on- und offline Seminare durch Gründerinnen -  Isabel & Ania' },
+            'training-about-title': { en: 'What it\'s about', de: 'Worum es geht' },
+            'training-about-intro': { en: 'The training combines insights from psychology, neurobiology, mediation, somatic work, systemic counseling and elements of trauma work – and translates them into concrete, experiential practice. You learn:', de: 'Das Training verbindet Erkenntnisse aus Psychologie,Neurobiologie, Mediation, somatischer Arbeit, systemischer Beratung und Elemente der Traumaarbeit – und übersetzt sie in konkrete, erfahrbare Praxis. Du lernst:' },
+            'training-learn-1': { en: 'to maintain tension', de: 'Spannung zu halten' },
+            'training-learn-2': { en: 'To clarify emotions', de: 'Emotionen zu klären' },
+            'training-learn-3': { en: 'To take responsibility', de: 'Verantwortung zu übernehmen' },
+            'training-learn-4': { en: 'to use the right tool at the right moment', de: 'das passende Tool im richtigen Moment einzusetzen' },
+            'training-learn-5': { en: 'and to stay in contact – even when it gets difficult', de: 'und im Kontakt zu bleiben – auch wenn es schwierig wird' },
+            'who-for-heading': { en: 'Who is this training for?', de: 'Für wen ist dieses Training:' },
+            'who-for-headline': { en: 'See yourself here.', de: 'Dieses Basis-Training richtet sich an:' },
+            'who-role-1': { en: 'Leadership', de: 'Menschen in Führungspositionen ( Projekte, Organisationen)' },
+            'who-quote-1': { en: 'I used to avoid the tough conversations. The training didn\'t give me a script—it gave me a way to stay present. Now I can hold the tension without needing to fix it immediately.', de: 'Menschen in Führungspositionen ( Projekte, Organisationen)' },
+            'who-role-2': { en: 'Coach', de: 'Berater:innen, Trainer:innen, Coaches' },
+            'who-quote-2': { en: 'I knew the theory. What changed was feeling it in my body. The training helped me move from explaining conflict to embodying a different response.', de: 'Berater:innen, Trainer:innen, Coaches' },
+            'who-role-3': { en: 'Relationships', de: 'Menschen in Beziehungen (Paare, Eltern, Co-Parents, Polyamouröse Beziehungen) und Singles!' },
+            'who-quote-3': { en: 'We kept having the same fight. I learned to stay in the conversation instead of leaving or attacking. It\'s not perfect, but we\'re still connected.', de: 'Menschen in Beziehungen (Paare, Eltern, Co-Parents, Polyamouröse Beziehungen) und Singles!' },
+            'who-role-4': { en: 'Self-development', de: 'Und alle Menschen, die ihre Konfliktmuster tiefer verstehen und verändern wollen.' },
+            'who-quote-4': { en: 'I said yes to everything until I was empty. Here I learned to notice what I need and say it—without guilt. My relationship with myself shifted.', de: 'Und alle Menschen, die ihre Konfliktmuster tiefer verstehen und verändern wollen.' },
+            'who-inclusion': { en: 'And all people who want to understand their conflict patterns more deeply and change them.', de: 'Und alle Menschen, die ihre Konfliktmuster tiefer verstehen und verändern wollen.' },
+            'who-req-1': { en: 'Curiosity', de: 'Neugier' },
+            'who-req-2': { en: 'Self-responsibility', de: 'Selbstverantwortung' },
+            'who-req-3': { en: 'Willingness to engage in self-discovery and to confront the topic of conflict', de: 'und die Bereitschaft zur Selbsterfahrung und der Auseinandersetzung mit dem Thema Konflikt' },
+            'who-req-note': { en: 'Otherwise, no further prior knowledge is required.', de: 'Ansonsten sind keine weiteren Vorkenntnisse erforderlich.' },
+            'structure-title': { en: 'Structure & Content', de: 'Die Struktur und Inhalte des Trainings' },
+            'structure-intro': { en: 'A three-phase learning journey: from grounding in self to relationship depth to embodied integration.', de: 'Eine dreiphasige Lernreise: von der Verankerung im Selbst zur Beziehungstiefe zur verkörperten Integration.' },
+            'investment-title': { en: 'Investment', de: 'Investition' },
+            'investment-card1-title': { en: 'Basic training overall process (recommended)', de: 'Basis-Training Gesamtprozess (empfohlen)' },
+            'investment-card1-earlybird': { en: 'Early bird: €1,699', de: 'Early Bird: 1.699 €' },
+            'investment-card1-desc': { en: 'Online training + integration weekend. The complete learning and integration process.', de: 'Online-Training + Integrations-Wochenende. Der vollständige Lern- und Integrationsprozess.' },
+            'investment-card2-title': { en: 'Basis Online-Training', de: 'Basis Online-Training' },
+            'investment-card2-earlybird': { en: 'Early Bird: €1,099', de: 'Early Bird: 1.099 €' },
+            'investment-card2-desc': { en: 'Two online modules, with live instruction.', de: 'Zwei Online-Module, live begleitet.' },
+            'investment-card3-title': { en: 'Integration weekend', de: 'Integrations-Wochenende' },
+            'investment-card3-earlybird': { en: 'plus accommodation and meals', de: 'zzgl. Unterkunft & Verpflegung' },
+            'investment-card3-desc': { en: 'Only in combination with the basic online training or for alumni.', de: 'Nur in Kombination mit dem Basis-Online Training oder für Alumni.' },
+            'investment-cta': { en: 'Register now', de: 'Jetzt anmelden' },
+            'changes-title': { en: 'What that changes', de: 'WAS DAS VERÄNDERT' },
+            'changes-intro': { en: 'With conflict competence with heart you will learn:', de: 'Mit Konfliktkompetenz mit Herz lernst du:' },
+            'changes-item-1': { en: 'Standing in conflict without losing yourself', de: 'In Konflikten stehen, ohne dich zu verlieren' },
+            'changes-item-2': { en: 'To perceive feelings without being controlled by them.', de: 'Gefühle wahrzunehmen, ohne von ihnen gesteuert zu werden' },
+            'changes-item-3': { en: 'To correctly identify your own needs and take good care of yourself.', de: 'Eigene Bedürfnisse richtig zu erkennen und gut für dich zu sorgen' },
+            'changes-item-4': { en: 'to speak clearly without hurting anyone', de: 'klar zu sprechen, ohne zu verletzen' },
+            'changes-item-5': { en: 'Staying in a relationship – even when it gets difficult', de: 'in Beziehung zu bleiben – auch wenn es schwierig wird' },
+            'changes-outro': { en: 'Conflicts are not avoided in this way, but transformed.', de: 'Konflikte werden so nicht vermieden, sondern verwandelt.' },
+            'faqs-eyebrow': { en: 'Reassurance + Trust', de: 'Beruhigung + Vertrauen' },
+            'faqs-title': { en: 'FAQs', de: 'FAQs' },
+            'faq-1-q': { en: 'What exactly is conflict competence with heart?', de: 'Was genau ist unser Ansatz für Konfliktkompetenz mit Herz?' },
+            'faq-1-a': { en: 'It\'s an experience-based approach to conflict resolution. It understands conflicts not as problems that need to be solved, but as processes that require integration – in the body, in feelings, in thoughts, and in relationships.', de: 'Es ein erfahrungsbasierter Ansatz zur Konfliktarbeit. Er versteht Konflikte nicht als Problem, das gelöst werden muss, sondern als Prozess, der Integration braucht – im Körper, im Fühlen, im Denken und in Beziehung.' },
+            'faq-2-q': { en: 'Is the training more therapeutically or professionally oriented?', de: 'Ist das Training eher therapeutisch oder beruflich ausgerichtet?' },
+            'faq-2-a': { en: 'Both – and neither in the traditional sense. The training is not therapy, but rather an educational and self-discovery experience. The content is highly relevant to everyday life, relationships, organizations, and other professional contexts.', de: 'Beides – und keines von beiden im klassischen Sinne. Das Training ist kein Therapieangebot, sondern eine Bildungs- und Selbsterfahrung. Die Inhalte sind zugleich hoch relevant für Alltag, Beziehungen, Organisationen und andere professionelle Kontexte.' },
+            'faq-3-q': { en: 'Do I need prior experience?', de: 'Brauche ich Vorerfahrung in Coaching, Mediation oder Selbsterfahrung?' },
+            'faq-3-a': { en: 'No. The training is designed to appeal to people without prior experience as well as experts. What matters is the willingness to engage in self-reflection and participate in experience-based learning processes.', de: 'Nein. Das Training ist so aufgebaut, dass es Menschen ohne Vorerfahrung genauso anspricht wie Fachpersonen. Entscheidend ist nicht das Vorwissen, sondern die Bereitschaft zur Selbstreflexion und zur Teilnahme an erfahrungsbasierten Lernprozessen.' },
+            'faq-4-q': { en: 'Can this training be recognized as continuing education?', de: 'Kann das Training als Fortbildung anerkannt werden?' },
+            'faq-4-a': { en: 'Yes, depending on the professional context. We will gladly issue a certificate of participation or training certificate upon request.', de: 'Ja, je nach beruflichem Kontext. Isabel Kresse ist lizensierte Mediatorin und Ausbilderin (BM) und darf ausbilden. Du bekommst in jedem Fall eine Teilnahmebestätigung.' },
+            'faqs-download-cta': { en: 'Download course paper (free)', de: 'HERUNTERLADEN' },
+            'footer-headline': { en: 'Come with us on the journey to radical soulfulness!', de: 'Komm mit uns auf die Reise zur radical Soulfulness!' },
+            'footer-register': { en: 'Register', de: 'Registrieren' },
+            'footer-contact': { en: 'Contact', de: 'Kontakt' },
+            'footer-newsletter': { en: 'Newsletter', de: 'Newsletter' },
+            'footer-imprint': { en: 'Imprint', de: 'Impressum' },
+            'footer-stay': { en: 'Stay: For all those who are ready to go deeper and enable real change.', de: 'Für alle, die bereit sind, tiefer zu gehen und echte Veränderung zu ermöglichen' }
+        };
+
+        // Nav scroll behavior: only show on scroll up or hover in top 5% area
+        (function() {
+            var nav = document.getElementById('main-nav');
+            if (!nav) return;
+            
+            var lastScrollY = window.scrollY;
+            var scrollTimeout = null;
+            var isHoveringTop = false;
+            
+            // Create hover zone for top 5% of viewport
+            var hoverZone = document.createElement('div');
+            hoverZone.style.position = 'fixed';
+            hoverZone.style.top = '0';
+            hoverZone.style.left = '0';
+            hoverZone.style.right = '0';
+            hoverZone.style.height = '5vh';
+            hoverZone.style.zIndex = '999';
+            hoverZone.style.pointerEvents = 'auto';
+            hoverZone.style.cursor = 'default';
+            document.body.appendChild(hoverZone);
+            
+            function updateHoverZoneHeight() {
+                hoverZone.style.height = window.innerHeight * 0.05 + 'px';
+            }
+            
+            function updateNavVisibility() {
+                var scrollY = window.scrollY;
+                var isScrollingUp = scrollY < lastScrollY;
+                var isAtTop = scrollY <= 50;
+                
+                // Show nav only if: scrolling up, at top, or hovering top area
+                if (isScrollingUp || isAtTop || isHoveringTop) {
+                    nav.classList.remove('hidden');
+                } else {
+                    nav.classList.add('hidden');
+                }
+                
+                lastScrollY = scrollY;
+            }
+            
+            hoverZone.addEventListener('mouseenter', function() {
+                isHoveringTop = true;
+                nav.classList.remove('hidden');
+            });
+            
+            hoverZone.addEventListener('mouseleave', function() {
+                isHoveringTop = false;
+                updateNavVisibility();
+            });
+            
+            window.addEventListener('scroll', function() {
+                if (scrollTimeout) {
+                    cancelAnimationFrame(scrollTimeout);
+                }
+                scrollTimeout = requestAnimationFrame(function() {
+                    updateNavVisibility();
+                });
+            }, { passive: true });
+            
+            window.addEventListener('resize', updateHoverZoneHeight);
+            
+            // Initialize
+            updateHoverZoneHeight();
+            if (window.scrollY <= 50) {
+                nav.classList.remove('hidden');
+            } else {
+                nav.classList.add('hidden');
+            }
         })();
     </script>
 </body>
