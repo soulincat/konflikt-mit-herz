@@ -11,6 +11,10 @@
     {
       "source": "/landing-designed",
       "destination": "/landing_designed.html"
+    },
+    {
+      "source": "/landing_designed",
+      "destination": "/landing_designed.html"
     }
   ],
   "headers": [
